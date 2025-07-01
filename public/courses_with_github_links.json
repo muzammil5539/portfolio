@@ -1,0 +1,345 @@
+{
+  "specialization": "IBM AI Engineer Specialization",
+  "courses": [
+    {
+      "title": "Machine Learning with Python Course Overview",
+      "description": "",
+      "modules": [
+        {
+          "name": "Module 2",
+          "labs": [
+            {
+              "title": "Simple-Linear-Regression.ipynb",
+              "file": "module%202/Simple-Linear-Regression.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%202/Simple-Linear-Regression.ipynb"
+            },
+            {
+              "title": "Mulitple-Linear-Regression.ipynb",
+              "file": "module%202/Mulitple-Linear-Regression.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%202/Mulitple-Linear-Regression.ipynb"
+            },
+            {
+              "title": "Logistic_Regression.ipynb",
+              "file": "module%202%20Logistic%20Regression/Logistic_Regression.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%202%20Logistic%20Regression/Logistic_Regression.ipynb"
+            }
+          ],
+          "summary": "Regression models relationships between a continuous target variable and explanatory features, covering simple and multiple regression types.\n\nSimple regression uses a single independent variable to estimate a dependent variable, while multiple regression involves more than one independent variable.\n\nRegression is widely applicable, from forecasting sales and estimating maintenance costs to predicting rainfall and disease spread.\n\nIn simple linear regression, a best-fit line minimizes errors, measured by Mean Squared Error (MSE); this approach is known as Ordinary Least Squares (OLS).\n\nOLS regression is easy to interpret but sensitive to outliers, which can impact accuracy.\n\nMultiple linear regression extends simple linear regression by using multiple variables to predict outcomes and analyze variable relationships.\n\nAdding too many variables can lead to overfitting, so careful variable selection is necessary to build a balanced model.\n\nNonlinear regression models complex relationships using polynomial, exponential, or logarithmic functions when data does not fit a straight line.\n\nPolynomial regression can fit data but mayoverfit by capturing random noise rather than underlying patterns.\n\nLogistic regression is a probability predictor and binary classifier, suitable for binary targets and assessing feature impact.\n\nLogistic regression minimizes errors using log-loss and optimizes with gradient descent or stochastic gradient descent for efficiency.\n\nGradient descent is an iterative process to minimize the cost function, which is crucial for training logistic regression models."
+        },
+        {
+          "name": "Module 3",
+          "labs": [
+            {
+              "title": "Multi-class_Classification.ipynb",
+              "file": "module%203/Multi-class_Classification.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%203/Multi-class_Classification.ipynb"
+            },
+            {
+              "title": "Decision_trees.ipynb",
+              "file": "module%203/Decision_trees.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%203/Decision_trees.ipynb"
+            },
+            {
+              "title": "Regression_Trees_Taxi_Tip.ipynb",
+              "file": "module%203/Regression_Trees_Taxi_Tip.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%203/Regression_Trees_Taxi_Tip.ipynb"
+            },
+            {
+              "title": "decision_tree_svm_ccFraud.ipynb",
+              "file": "module%203/decision_tree_svm_ccFraud.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%203/decision_tree_svm_ccFraud.ipynb"
+            },
+            {
+              "title": "KNN_Classification.ipynb",
+              "file": "module%203/KNN_Classification.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%203/KNN_Classification.ipynb"
+            },
+            {
+              "title": "Random_ Forests _XGBoost.ipynb",
+              "file": "module%203/Random_%20Forests%20_XGBoost.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%203/Random_%20Forests%20_XGBoost.ipynb"
+            }
+          ],
+          "summary": "Classification is a supervised machine learning method used to predict labels on new data with applications in churn prediction, customer segmentation, loan default prediction, and multiclass drug prescriptions.\n\nBinary classifiers can be extended to multiclass classification using one-versus-all or one-versus-one strategies.\n\nA decision tree classifies data by testing features at each node, branching based on test results, and assigning classes at leaf nodes.\n\nDecision tree training involves selecting features that best split the data and pruning the tree to avoid overfitting.\n\nInformation gain and Gini impurity are used to measure the quality of splits in decision trees.\n\nRegression trees are similar to decision trees but predict continuous values by recursively splitting data to maximize information gain.\n\nMean Squared Error (MSE) is used to measure split quality in regression trees.\n\nK-Nearest Neighbors (k-NN) is a supervised algorithm used for classification and regression by assigning labels based on the closest labeled data points.\n\nTo optimize k-NN, test various k values and measure accuracy, considering class distribution and feature relevance.\n\nSupport Vector Machines (SVM) build classifiers by finding a hyperplane that maximizes the margin between two classes, effective in high-dimensional spaces but sensitive to noise and large datasets.\n\nThe bias-variance tradeoff affects model accuracy, and methods such as bagging, boosting, and random forests help manage bias and variance to improve model performance.\n\nRandom forests use bagging to train multiple decision trees on bootstrapped data, improving accuracy by reducing variance."
+        },
+        {
+          "name": "Module 4",
+          "labs": [
+            {
+              "title": "K-Means-Customer-Seg.ipynb",
+              "file": "module%204/K-Means-Customer-Seg.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%204/K-Means-Customer-Seg.ipynb"
+            },
+            {
+              "title": "Comparing_DBScan_HDBScan.ipynb",
+              "file": "module%204/Comparing_DBScan_HDBScan.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%204/Comparing_DBScan_HDBScan.ipynb"
+            },
+            {
+              "title": "PCA.ipynb",
+              "file": "module%204/PCA.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%204/PCA.ipynb"
+            },
+            {
+              "title": "tSNE_UMAP.ipynb",
+              "file": "module%204/tSNE_UMAP.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%204/tSNE_UMAP.ipynb"
+            }
+          ],
+          "summary": "Clustering is a machine learning technique used to group data based on similarity, with applications in customer segmentation and anomaly detection.\n\nK-means clustering partitions data into clusters based on the distance between data points and centroids but struggles with imbalanced or non-convex clusters.\n\nHeuristic methods such as silhouette analysis, the elbow method, and the Davies-Bouldin Index help assess k-means performance.\n\nDBSCAN is a density-based algorithm that creates clusters based on density and works well with natural, irregular patterns.\n\nHDBSCAN is a variant of DBSCAN that does not require parameters and uses cluster stability to find clusters.\n\nHierarchical clustering can be divisive (top-down) or agglomerative (bottom-up) and produces a dendrogram to visualize the cluster hierarchy.\n\nDimension reduction simplifies data structure, improves clustering outcomes, and is useful in tasks such as face recognition (using eigenfaces).\n\nClustering and dimension reduction work together to improve model performance by reducing noise and simplifying feature selection.\n\nPCA, a linear dimensionality reduction method, minimizes information loss while reducing dimensionality and noise in data.\n\nt-SNE and UMAP are other dimensionality reduction techniques that map high-dimensional data into lower-dimensional spaces for visualization and analysis."
+        },
+        {
+          "name": "Module 5",
+          "labs": [
+            {
+              "title": "Evaluating_Classification_Models_v1.ipynb",
+              "file": "module%205/Evaluating_Classification_Models_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%205/Evaluating_Classification_Models_v1.ipynb"
+            },
+            {
+              "title": "Evaluating_random_forest_v1.ipynb",
+              "file": "module%205/Evaluating_random_forest_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%205/Evaluating_random_forest_v1.ipynb"
+            },
+            {
+              "title": "Evaluating_k_means_clustering_v1.ipynb",
+              "file": "module%205/Evaluating_k_means_clustering_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%205/Evaluating_k_means_clustering_v1.ipynb"
+            },
+            {
+              "title": "Regularization_in_LinearRegression_v1.ipynb",
+              "file": "module%205/Regularization_in_LinearRegression_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%205/Regularization_in_LinearRegression_v1.ipynb"
+            },
+            {
+              "title": "ML_Pipelines_and_GridSearchCV.ipynb",
+              "file": "module%205/ML_Pipelines_and_GridSearchCV.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%205/ML_Pipelines_and_GridSearchCV.ipynb"
+            }
+          ],
+          "summary": "Supervised learning evaluation assesses a model's ability to predict outcomes for unseen data, often using a train/test split to estimate performance.\n\nKey metrics for classification evaluation include accuracy, confusion matrix, precision, recall, and the F1 score, which balances precision and recall.\n\nRegression model evaluation metrics include MAE, MSE, RMSE, R-squared, and explained variance to measure prediction accuracy.\n\nUnsupervised learning models are evaluated for pattern quality and consistency using metrics like Silhouette Score, Davies-Bouldin Index, and Adjusted Rand Index.\n\nDimensionality reduction evaluation involves Explained Variance Ratio, Reconstruction Error, and Neighborhood Preservation to assess data structure retention.\n\nModel validation, including dividing data into training, validation, and test sets, helps prevent overfitting by tuning hyperparameters carefully.\n\nCross-validation methods, especially K-fold and stratified cross-validation, support robust model validation without overfitting to test data.\n\nRegularization techniques, such as ridge (L2) and lasso (L1) regression, help prevent overfitting by adding penalty terms to linear regression models.\n\nData leakage occurs when training data includes information unavailable in real-world data, which is preventable by separating data properly and mindful feature selection.\n\nCommon modeling pitfalls include misinterpreting feature importance, ignoring class imbalance, and relying excessively on automated processes without causal analysis.\n\nFeature importance assessments should consider redundancy, scale sensitivity, and avoid misinterpretation, as well as inappropriate assumptions about causation."
+        },
+        {
+          "name": "Module 6",
+          "labs": [
+            {
+              "title": "Practice_Project_v1.ipynb",
+              "file": "module%206/Practice_Project_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%206/Practice_Project_v1.ipynb"
+            },
+            {
+              "title": "FinalProject_AUSWeather.ipynb",
+              "file": "module%206/FinalProject_AUSWeather.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/1 - Machine Learning with Python/module%206/FinalProject_AUSWeather.ipynb"
+            }
+          ],
+          "summary": ""
+        }
+      ]
+    },
+    {
+      "title": "Introduction to Deep Learning & Neural Networks with Keras Course Overview",
+      "description": "",
+      "modules": [
+        {
+          "name": "Module 1",
+          "labs": [
+            {
+              "title": "Artificial Neural Networks.ipynb",
+              "file": "module%201/Artificial%20Neural%20Networks.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%201/Artificial%20Neural%20Networks.ipynb"
+            }
+          ],
+          "summary": "Deep learning is one of the hottest subjects in data science.\n\nColor restoration applications can automatically convert a grayscale image into a colored image.\n\nSpeech enactment applications can synthesize audio clips with lip movements in videos, extracting audio from one video and syncing its lip movements with the audio from another video.\n\nHandwriting generation applications can rewrite a provided message in highly realistic cursive handwriting in a wide variety of styles.\n\nDeep learning algorithms are largely inspired by the way neurons and neural networks function and process data in the brain.\n\nThe main body of a neuron is the soma, and th extensive network of arms that stick out of the body are called dendrites. The long arm that sticks out of the soma in the other direction is called the axon.\n\nWhiskers at the end of the axon are called the synapses.\n\nDendrites receive electrical impulses that carry information from synapses of other adjoining neurons. Dendrites carry the impulses to the soma.\n\nIn the nucleus, electrical impulses are processed by combining them, and then they are passed on to the axon. The axon carries the processed information to the synapses, and the output of this neuron becomes the input to thousands of other neurons.\n\nLearning in the brain occurs by repeatedly activating certain neural connections over others, and this reinforces those connections.\n\nAn artificial neuron behaves in the same way as a biological neuron.\n\nThe first layer that feeds input into the neural network is the input layer.\n\nThe set of nodes that provide network output is the output layer.\n\nAny sets of nodes in between the input and output layers are the hidden layers.\n\nForward propagation is the process through which data passes through layers of neurons in a neural network from the input layer to the output layer.\n\nGiven a neural network with weights and biases, you can compute the network output for any given input."
+        },
+        {
+          "name": "Module 2",
+          "labs": [
+            {
+              "title": "DL0101EN-2-1-Activation_functions_and_Vanishing-py-v1 01.ipynb",
+              "file": "module%202/DL0101EN-2-1-Activation_functions_and_Vanishing-py-v1%200__1__.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%202/DL0101EN-2-1-Activation_functions_and_Vanishing-py-v1%200__1__.ipynb"
+            },
+            {
+              "title": "DL0101EN-2-1-Backpropagation-py-v1 0.ipynb",
+              "file": "module%202/DL0101EN-2-1-Backpropagation-py-v1%200.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%202/DL0101EN-2-1-Backpropagation-py-v1%200.ipynb"
+            }
+          ],
+          "summary": "Gradient descent is an iterative optimization algorithm for finding the minimum of a function.\n\nA large learning rate can lead to big steps and miss the minimum point.\n\nA small learning rate can result in extremely small steps and cause the algorithm to take a long time to find the minimum point.\n\nNeural networks train and optimize their weights and biases by initializing them to random values. Subsequently, we repeat the following process in a loop.\n\nFirst, we calculate the network output using forward propagation. Second, we calculate the error between the ground truth and the estimated or predicted output of the network. Third, we update the weights and the biases through backpropagation. Last, we repeat the previous three steps until the number of iterations or epochs is reached or the error between the ground truth and the predicted output is below a predefined threshold.\n\nThe vanishing gradient problem is caused by the problem with the sigmoid activation function, which prevents neural networks from booming sooner.\n\nIn a very simple network of two neurons only, the gradients are small, but more importantly, the error gradient with respect to w1 is very small.\n\nWhen we do backpropagation, we keep multiplying factors that are less than one by each other, so their gradients tend to get smaller and smaller as we keep moving backward in the network.\n\nNeurons in the earlier layers of the network learn very slowly compared to the neurons in the later layers.\n\nAs the earlier layers are the slowest to train, the training process takes too long, and prediction accuracy is compromised.\n\nWe don't use the sigmoid or similar functions as activation functions since they are prone to vanishing gradient problems.\n\nActivation functions perform a major role in training a neural network.\n\nYou can use seven activation functions to build a neural network.\n\nSigmoid functions are one of the most widely used activation functions in the hidden layers of a neural network.\n\nHyperbolic tangent function is a scaled version of the sigmoid function, but it is symmetric over the origin.\n\nThe ReLU function is the most widely used activation function when designing networks today, and its main advantage is that it doesn’t activate all neurons at the same time.\n\nSoftmax function is ideally used in the output layer of the classifier, where we are trying to get the probabilities to define the class of each input."
+        },
+        {
+          "name": "Module 3",
+          "labs": [
+            {
+              "title": "DL0101EN-3-1-Regression-with-Keras-py-v1 0\\__2_.ipynb",
+              "file": "module%203/DL0101EN-3-1-Regression-with-Keras-py-v1%200__2_.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%203/DL0101EN-3-1-Regression-with-Keras-py-v1%200__2_.ipynb"
+            },
+            {
+              "title": "DL0101EN-3-2-Classification-with-Keras-py-v1 0\\_\\_1.ipynb",
+              "file": "module%203/DL0101EN-3-2-Classification-with-Keras-py-v1%200__1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%203/DL0101EN-3-2-Classification-with-Keras-py-v1%200__1.ipynb"
+            }
+          ],
+          "summary": "TensorFlow, PyTorch, and Keras are the most popular deep learning libraries.\n\nTensorFlow is used in the production of deep learning models and has a very large community of users.\n\nPyTorch is based on the Torch framework in Lua and supports machine learning algorithms running on GPUs. It is preferred over TensorFlow in academic research settings.\n\nPyTorch and TensorFlow are not easy to use and have a steep learning curve.\n\nKeras is a high-level API for building deep learning models. It has gained favor due to its ease of use and syntactic simplicity, facilitating fast development.\n\nKeras can build a very complex deep learning network with only a few lines of code. It normally runs on top of a low-level library, such as TensorFlow.\n\nBefore using the Keras library, you need to prepare your data and organize it in the correct format.\n\nYou can build and train a neural network with only a few lines of code in Keras.\n\nA data set can be divided into predictors and a target.\n\nWhen you’re using Keras to solve classification problems, you need to transform the target column into an array with binary values.\n\nYou can use the 'to_categorical' function from the Keras utilities package to transform a data set column into an array of binary values.\n\nYou can use Keras code to build a classification model."
+        },
+        {
+          "name": "Module 4",
+          "labs": [
+            {
+              "title": "DL0101EN_4_1_Convolutional_Neural_Networks_with_Keras_py_v1.ipynb",
+              "file": "module%204/DL0101EN_4_1_Convolutional_Neural_Networks_with_Keras_py_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%204/DL0101EN_4_1_Convolutional_Neural_Networks_with_Keras_py_v1.ipynb"
+            },
+            {
+              "title": "DL0101EN-4-1-Transformers-with-Keras-py-v1.ipynb",
+              "file": "module%204/DL0101EN-4-1-Transformers-with-Keras-py-v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%204/DL0101EN-4-1-Transformers-with-Keras-py-v1.ipynb"
+            }
+          ],
+          "summary": "A neural network with one hidden layer is considered a shallow neural network.\n\nA network with many hidden layers and a large number of neurons in each layer is considered a deep neural network.\n\nShallow neural networks only take vectors as input.\n\nDeep neural networks can take raw data, such as images and text, as input.\n\nThe sudden boom in the deep learning field can be attributed to three main factors: advancements in the field, data availability, and greater computational power.\n\nConvolutional neural networks make the explicit assumption that the inputs are images.\n\nConvolutional neural networks are best for solving problems related to image recognition, object detection, and other computer vision applications.\n\nThe input to a convolutional neural network is mostly an (n x m x 1) for grayscale images or an (n x m x 3) for colored images.\n\nIn the convolutional layer, we define filters and compute the convolution between the defined filters and each of the three images.\n\nA convolutional layer also consists of ReLUs, which filter the output of the convolutional step, passing only positive values and turning any negative values to 0.\n\nThe pooling layer is added to reduce the spatial dimensions of the data propagating through the network.\n\nThe two types of pooling widely used in convolutional neural networks are max pooling and average pooling.\n\nIn the fully connected layer, we flatten the output of the last convolutional layer and connect every node of the current layer with every other node of the next layer.\n\nNeural networks and deep learning models see data points as independent instances.\n\nRecurrent Neural Networks, or RNNs, don't just take new input but also take the output from the previous data point as input.\n\nRNNs are good at modeling patterns and sequences of data, such as texts, genomes, handwriting, and stock markets.\n\nA popular type of RNN is the long short-term memory model (LSTM).\n\nLSTMs are used for applications such as image generation, handwriting generation, automatic image captioning, and automatic video descriptions.\n\nAutoencoding is a data compression algorithm where the compression and decompression functions are learned automatically from data.\n\nAutoencoders are data-specific.\n\nApplications of autoencoders include data denoising and dimensionality reduction for data visualization.\n\nAutoencoding can take an image as an input, use an encoder to find the optimal compressed representation of the input image, and then use a decoder to restore the original image.\n\nA popular type of autoencoder is restricted Boltzmann machines.\n\nApplications of restricted Boltzmann machines include fixing imbalanced data sets, estimating missing data set values, and automatic feature extraction."
+        },
+        {
+          "name": "Module 5",
+          "labs": [
+            {
+              "title": "Final_Project_Classification_and_Captioning_v1.ipynb",
+              "file": "module%205/Final_Project_Classification_and_Captioning_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/2 - Introduction to Deep Learning & Neural Networks with Keras/module%205/Final_Project_Classification_and_Captioning_v1.ipynb"
+            }
+          ],
+          "summary": "The final project combines computer vision techniques with natural language processing to create a comprehensive AI system for aircraft damage assessment.\n\nFeature extraction using pre-trained VGG16 enables effective transfer learning for aircraft damage classification without training a model from scratch.\n\nBinary classification techniques can be applied to real-world problems like damage detection, where distinguishing between different types of damage (dent vs crack) is crucial for safety.\n\nThe BLIP (Bootstrapping Language-Image Pretraining) model demonstrates the power of multimodal AI, combining vision and language understanding for image captioning and summarization.\n\nCustom Keras layers provide flexibility to integrate external pre-trained models and specialized functionality into TensorFlow/Keras workflows.\n\nImage preprocessing and data augmentation techniques are essential for preparing datasets and improving model generalization in computer vision tasks.\n\nModel evaluation metrics and visualization techniques help assess performance and understand model behavior on test data.\n\nThe integration of classification and captioning models showcases how multiple AI techniques can work together to provide comprehensive analysis and interpretation of visual data."
+        }
+      ]
+    },
+    {
+      "title": "Deep Learning with Keras and Tensorflow Course Overview",
+      "description": "",
+      "modules": [
+        {
+          "name": "Module 1",
+          "labs": [
+            {
+              "title": "M01L01Lab Implementing the Functional API in Keras.ipynb",
+              "file": "module%201/M01L01_Lab_%20Implementing%20the%20Functional%20API%20in%20Keras.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%201/M01L01_Lab_%20Implementing%20the%20Functional%20API%20in%20Keras.ipynb"
+            },
+            {
+              "title": "M01L02_Lab_Creating_Custom_Layers_and_Models.ipynb",
+              "file": "module%201/M01L02_Lab_Creating_Custom_Layers_and_Models.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%201/M01L02_Lab_Creating_Custom_Layers_and_Models.ipynb"
+            }
+          ],
+          "summary": "• Keras is a high-level neural networks API written in Python and capable of running on top of TensorFlow, Theano, and CNTK.\n• Keras is widely used in industry and academia for various applications, from image and speech recognition to recommendation systems and natural language processing.\n• Keras Functional API offers advantages like flexibility, clarity, and reusability.\n• You can use Keras Functional API to develop models in diverse fields such as healthcare, finance, and autonomous driving.\n• Keras Functional API enables you to define layers and connect them in a graph of layers.\n• The Functional API can handle models with multiple inputs and outputs.\n• Another powerful feature of the Functional API is shared layers, which are helpful when you want to apply the same transformation to multiple inputs.\n• Creating custom layers in Keras allows you to tailor your models to specific needs, implement novel research ideas, and optimize performance for unique tasks.\n• By practicing and experimenting with custom layers, you’ll better understand how neural networks work and enhance your innovation ability.\n• TensorFlow 2.x is a powerful and flexible platform for machine learning with features such as eager execution, high-level APIs, and a rich ecosystem of tools.\n• Understanding these features and capabilities will help you build and deploy machine learning models more effectively, whether working on research, prototyping, or production applications."
+        },
+        {
+          "name": "Module 2",
+          "labs": [
+            {
+              "title": "Lab_Practical_Application_of_Transpose_Convolution_v1.ipynb",
+              "file": "module%202/Lab_Practical_Application_of_Transpose_Convolution_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%202/Lab_Practical_Application_of_Transpose_Convolution_v1.ipynb"
+            },
+            {
+              "title": "M02L02_Lab_Transfer_Learning_Implementation.ipynb",
+              "file": "module%202/M02L02_Lab_Transfer_Learning_Implementation.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%202/M02L02_Lab_Transfer_Learning_Implementation.ipynb"
+            },
+            {
+              "title": "M2L1Lab%20Advanced%20Data%20Augmentation%20with%20Keras.ipynb",
+              "file": "module%202/M2L1_Lab_%20Advanced%20Data%20Augmentation%20with%20Keras.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%202/M2L1_Lab_%20Advanced%20Data%20Augmentation%20with%20Keras.ipynb"
+            }
+          ],
+          "summary": "• Using advanced techniques to develop convolutional neural networks (CNNs) using Keras can enhance deep learning models and significantly improve performance on complete tasks.\n• Incorporating various data augmentation techniques using Keras can improve the performance and generalization ability of models.\n• Transfer learning using pre-trained models in Keras improves training time and performance.\n• Pre-trained models in Keras allow you to build high-performing models even with limited computational resources and data.\n• Transfer learning involves fine tuning of pre-trained models when you do not have enough data to train a deep-learning model.\n• Fine tuning pre-trained models allows you to adapt the model to a specific task, leading to even better performance.\n• TensorFlow is a powerful library that enables image manipulation tasks, such as classification, data augmentations, and more advanced techniques.\n• TensorFlow’s high-level APIs simplify the implementation of complete image-processing tasks.\n• Transpose convolution is helpful in image generation, super-resolution, and semantic segmentation applications.\n• It performs the inverse convolution operation, effectively up-sampling the input image to a larger higher resolution size.\n• It works by inserting zeros between elements of the input feature map and then applying the convolution operation."
+        },
+        {
+          "name": "Module 3",
+          "labs": [
+            {
+              "title": "M03L02_Lab_Implementing_Transformers_for_Text_Genera_v1.ipynb",
+              "file": "module%203/M03L02_Lab_Implementing_Transformers_for_Text_Genera_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%203/M03L02_Lab_Implementing_Transformers_for_Text_Genera_v1.ipynb"
+            },
+            {
+              "title": "REVIEW_Lab_Building_Advanced_Transformers_v1.ipynb",
+              "file": "module%203/REVIEW_Lab_Building_Advanced_Transformers_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%203/REVIEW_Lab_Building_Advanced_Transformers_v1.ipynb"
+            }
+          ],
+          "summary": "• The transformer model consists of two main parts: the encoder and the decoder.\n• Both the encoder and decoder are composed of layers that include self-attention mechanisms and feedforward neural networks.\n• Transformers have become a cornerstone in deep learning, especially in natural language processing.\n• Understanding and implementing transformers will enable you to build powerful models for various tasks.\n• Sequential data is characterized by its order and the dependency of each element on previous elements.\n• Transformers address the limitations of recurrent neural networks (RNNs) and long short-term memory networks (LSTMs) by using self-attention mechanisms, which allow the model to attend to all positions in the input sequence simultaneously.\n• Transformers’ versatile architecture makes them applicable to a wide range of domains, including computer vision, speech recognition, and even reinforcement learning.\n• Vision transformers have shown that self-attention mechanisms can be applied to image data.\n• By converting audio signals into spectrograms, transformers can process the sequential nature of speech data.\n• Transformers have found applications in reinforcement learning, where they can be used to model complex dependencies in sequences of states and actions.\n• Time series data is a sequence of data points collected or recorded at successive points in time.\n• By leveraging the self-attention mechanism, transformers can effectively capture long-term dependencies in time series data, making them a powerful tool for forecasting.\n• The key components of the transformer model include an embedding layer, multiple transformer blocks, and a final dense layer for output prediction.\n• Sequential data is characterized by its temporal or sequential nature, meaning that the order in which data points appear is important.\n• TensorFlow provides several layers and tools specifically designed for sequential data. These include:\no RNNs\no LSTMs\no Gated recurrent units\no Convolutional layers for sequence data (Conv1D)\n• Text data requires specific preprocessing steps, such as tokenization and padding.\n• TensorFlow’s TextVectorization layer helps in converting text data into numerical format suitable for model training."
+        },
+        {
+          "name": "Module 4",
+          "labs": [
+            {
+              "title": "M04L01_Lab_Building_Autoencoders_v1.ipynb",
+              "file": "module%204/M04L01_Lab_Building_Autoencoders_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%204/M04L01_Lab_Building_Autoencoders_v1.ipynb"
+            },
+            {
+              "title": "M04L02_Lab_Implementing_Diffusion_Models_v1.ipynb",
+              "file": "module%204/M04L02_Lab_Implementing_Diffusion_Models_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%204/M04L02_Lab_Implementing_Diffusion_Models_v1.ipynb"
+            },
+            {
+              "title": "M04L03_Lab_Develop_GANs_using_Keras_v1.ipynb",
+              "file": "module%204/M04L03_Lab_Develop_GANs_using_Keras_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%204/M04L03_Lab_Develop_GANs_using_Keras_v1.ipynb"
+            }
+          ],
+          "summary": "• Unsupervised learning is a type of machine learning in which an algorithm finds patterns in data without labels or predefined outcomes.\n• Unsupervised learning can be broadly categorized into two types: clustering and dimensionality reduction.\n• Autoencoders consist of two main parts: encoder and decoder.\n• Generative adversarial networks (GANs) consist of two networks, the generator and the discriminator, which compete against each other in a zero-sum game.\n• Generator network generates new data instances that resemble the training data.\n• Discriminator network evaluates the authenticity of the generated data.\n• Autoencoders are versatile tools for various tasks, including data denoising, dimensionality reduction, and feature learning.\n• The basic architecture of an autoencoder includes three main components: encoder, bottleneck, and decoder.\n• There are different types of autoencoders: basic autoencoders, variational autoencoders (VAEs), and convolutional autoencoders.\n• Diffusion models are powerful tools for generative tasks, capable of producing high-quality data samples and enhancing image quality.\n• They are probabilistic models that generate data by iteratively refining a noisy initial sample.\n• The process is akin to simulating the physical process of diffusion, where particles spread out from regions of high concentration to regions of low concentration.\n• Diffusion models work by defining a forward process and a reverse process.\n• GANs are a revolutionary type of neural network architecture designed for generating synthetic data that closely resembles real data.\n• GANs consist of two main components: a generator and a discriminator.\n• These two networks are trained simultaneously through a process of adversarial training.\n• This adversarial training loop continues until the generator produces data that the discriminator can no longer distinguish from real data.\n• Unsupervised learning is a powerful approach for discovering hidden patterns in data, and TensorFlow provides robust tools to facilitate these tasks.\n• Common applications include clustering, dimensionality reduction, and anomaly detection.\n• These applications are widely used in various domains such as customer segmentation, image compression, and fraud detection."
+        },
+        {
+          "name": "Module 5",
+          "labs": [
+            {
+              "title": "M05L01_Lab_Custom_Training_Loops_in_Keras_v1.ipynb",
+              "file": "module%205/M05L01_Lab_Custom_Training_Loops_in_Keras_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%205/M05L01_Lab_Custom_Training_Loops_in_Keras_v1.ipynb"
+            },
+            {
+              "title": "M05L02_Lab_Hyperparameter_Tuning_with_Keras_Tuner_v1.ipynb",
+              "file": "module%205/M05L02_Lab_Hyperparameter_Tuning_with_Keras_Tuner_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%205/M05L02_Lab_Hyperparameter_Tuning_with_Keras_Tuner_v1.ipynb"
+            }
+          ],
+          "summary": "• Advanced Keras techniques include custom training loops, specialized layers, advanced callback functions, and model optimization with TensorFlow.\n• These techniques will help you create more flexible and efficient deep learning models.\n• A custom training loop consists of a data set, model, optimizer, and the loss function.\n• To implement the custom training loop, you iterate over the data set, compute the loss, and apply gradients to update the model’s weights.\n• Some of the benefits of custom training loops include custom loss functions and metrics, advanced logging and monitoring, flexibility for research, and integration with custom operations and layers.\n• Hyperparameters are the variables that govern the training process of a model.\n• Examples include the learning rate, batch size, and the number of layers or units in a neural network.\n• Keras Tuner is a library that helps automate the process of hyperparameter tuning.\n• You can define a model with hyperparameters, configure the search, run the hyperparameter search, analyze the results, and train the optimized model.\n• Various techniques for model optimization include weight initialization, learning rate scheduling, batch normalization, mixed precision training, model pruning, and quantization.\n• These techniques can significantly improve the performance, efficiency, and scalability of your deep learning models.\n• TensorFlow includes several optimization tools such as mixed precision training, model pruning, quantization, and the TensorFlow Model Optimization Toolkit."
+        },
+        {
+          "name": "Module 6",
+          "labs": [
+            {
+              "title": "M06L01_Lab_Implementing Q-Learning in Keras.ipynb",
+              "file": "module%206/M06L01_Lab_Implementing%20Q-Learning%20in%20Keras.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%206/M06L01_Lab_Implementing%20Q-Learning%20in%20Keras.ipynb"
+            },
+            {
+              "title": "M06L02_Lab_Building a Deep Q-Network with Keras.ipynb",
+              "file": "module%206/M06L02_Lab_Building%20a%20Deep%20Q-Network%20with%20Keras.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%206/M06L02_Lab_Building%20a%20Deep%20Q-Network%20with%20Keras.ipynb"
+            }
+          ],
+          "summary": "• The key innovations of deep Q-networks (DQNs) include experience replay and target networks, which help stabilize training and improve performance.\n• The steps to implement DQNs include initializing the environment, building the Q-network and target network, implementing experience replay, training the Q-network, and evaluating the agent.\n• Reinforcement learning is a powerful tool for training agents to make decisions in complex environments, and Q-learning is one of the foundational algorithms in this field.\n• The essence of Q-learning lies in the Q-value function Q(s, a).\n• The Q-values are updated iteratively using the Bellman equation, which incorporates both the immediate reward and the estimated future rewards.\n• Bellman Equation is:\nQ(s, a) = r + γ \\* max(Q(s', a'))\n\nwhere:\n- s is the current state\n- a is the action taken\n- r is the immediate reward received\n- s' is the next state\n- γ (gamma) is the discount factor, which determines the importance of future rewards\n\n• The Q-values are updated iteratively using the Bellman equation, which incorporates both the immediate reward and the estimated future rewards."
+        },
+        {
+          "name": "Module 7",
+          "labs": [
+            {
+              "title": "Practice_Project_Fruit_Classification_Using_TF.ipynb",
+              "file": "module%207/Practice_Project_Fruit_Classification_Using_TF.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%207/Practice_Project_Fruit_Classification_Using_TF.ipynb"
+            },
+            {
+              "title": "Final_Proj_Classify_Waste_Products_Using_TL_FT_v1.ipynb",
+              "file": "module%207/Final_Proj_Classify_Waste_Products_Using_TL_FT_v1.ipynb",
+              "link": "https://github.com/muzammil5539/IBM-AI-Engineer-Specialization/blob/main/3 - Deep Learning with Keras and Tensorflow/module%207/Final_Proj_Classify_Waste_Products_Using_TL_FT_v1.ipynb"
+            }
+          ],
+          "summary": "• The practice project on fruit classification using TensorFlow provides hands-on experience in building and training a convolutional neural network (CNN) for image classification tasks.\n• The final project on classifying waste products using transfer learning and fine-tuning allows you to apply advanced techniques to a real-world problem.\n• Both projects reinforce the concepts learned throughout the course and provide practical applications of deep learning techniques."
+        }
+      ]
+    }
+  ]
+}

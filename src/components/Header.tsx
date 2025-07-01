@@ -13,6 +13,7 @@ export default function Header() {
     { name: "Experience", href: "#experience" },
     { name: "Skills", href: "#skills" },
     { name: "Contact", href: "#contact" },
+    { name: "Certification Journey", href: "/certification-journey" },
   ];
 
   return (
