@@ -68,21 +68,21 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className={`py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
+      className={`py-16 md:py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
     >
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <h2
-            className={`text-4xl font-bold mb-4 ${
+            className={`text-3xl sm:text-4xl md:text-4xl font-bold mb-4 ${
               isDarkMode ? "text-white" : "text-gray-800"
             }`}
           >
             Get in Touch
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
+          <div className="w-20 md:w-24 h-1 bg-blue-600 mx-auto"></div>
           <p
-            className={`text-xl mt-6 mb-0 max-w-2xl mx-auto ${
+            className={`text-base sm:text-xl mt-6 mb-0 max-w-2xl mx-auto ${
               isDarkMode ? "text-gray-300" : "text-gray-600"
             }`}
           >
@@ -92,14 +92,14 @@ export default function Contact() {
         </div>
         <div className="max-w-2xl mx-auto">
           <div
-            className={`rounded-lg p-8 shadow-lg ${
+            className={`rounded-lg p-4 sm:p-8 shadow-lg ${
               isDarkMode
                 ? "bg-gray-800 shadow-gray-900/30"
                 : "bg-white shadow-gray-200/50"
             }`}
           >
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {/* Name Field */}
                 <div>
                   <label
@@ -218,7 +218,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={state.submitting}
-                  className="px-12 py-4 rounded-lg font-bold text-lg transition-all duration-300 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {state.submitting ? (
                     <span className="flex items-center gap-3 justify-center">
@@ -247,7 +247,7 @@ export default function Contact() {
               </div>
               {/* Form Note */}
               <p
-                className={`text-center text-sm mt-4 ${
+                className={`text-center text-xs sm:text-sm mt-4 ${
                   isDarkMode ? "text-gray-400" : "text-gray-500"
                 }`}
               >

@@ -53,21 +53,21 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className={`py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
+      className={`py-16 md:py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
     >
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <h2
-            className={`text-4xl font-bold mb-4 ${
+            className={`text-3xl sm:text-4xl md:text-4xl font-bold mb-4 ${
               isDarkMode ? "text-white" : "text-gray-800"
             }`}
           >
             Featured Projects
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
+          <div className="w-20 md:w-24 h-1 bg-blue-600 mx-auto"></div>
           <p
-            className={`text-xl mt-6 mb-0 max-w-2xl mx-auto ${
+            className={`text-base sm:text-xl mt-6 mb-0 max-w-2xl mx-auto ${
               isDarkMode ? "text-gray-300" : "text-gray-600"
             }`}
           >
@@ -77,7 +77,7 @@ export default function Projects() {
           </p>
         </div>
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
             <ProjectCard
               key={index}
