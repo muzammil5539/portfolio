@@ -92,10 +92,10 @@ export default function Contact() {
         </div>
         <div className="max-w-2xl mx-auto">
           <div
-            className={`rounded-lg p-4 sm:p-8 shadow-lg ${
+            className={`rounded-xl p-4 sm:p-8 shadow-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-3xl ${
               isDarkMode
-                ? "bg-gray-800 shadow-gray-900/30"
-                : "bg-white shadow-gray-200/50"
+                ? "bg-gray-800/80 shadow-gray-900/50 border-gray-700/50 hover:bg-gray-800/90"
+                : "bg-white/80 shadow-gray-200/50 border-gray-200/50 hover:bg-white/90"
             }`}
           >
             <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
@@ -116,11 +116,11 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
+                    className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm ${
                       isDarkMode
-                        ? "bg-gray-900 border-gray-700 text-white"
-                        : "bg-gray-50 border-gray-300 text-gray-800"
-                    } focus:border-blue-600 focus:outline-none`}
+                        ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
+                        : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
+                    } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
                     placeholder="Your full name"
                     required
                   />
@@ -141,11 +141,11 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
+                    className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm ${
                       isDarkMode
-                        ? "bg-gray-900 border-gray-700 text-white"
-                        : "bg-gray-50 border-gray-300 text-gray-800"
-                    } focus:border-blue-600 focus:outline-none`}
+                        ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
+                        : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
+                    } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
                     placeholder="your.email@example.com"
                     required
                   />
@@ -173,11 +173,11 @@ export default function Contact() {
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
                   }
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
+                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm ${
                     isDarkMode
-                      ? "bg-gray-900 border-gray-700 text-white"
-                      : "bg-gray-50 border-gray-300 text-gray-800"
-                  } focus:border-blue-600 focus:outline-none`}
+                      ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
+                      : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
+                  } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
                   placeholder="e.g., AI Project Collaboration"
                   required
                 />
@@ -198,11 +198,11 @@ export default function Contact() {
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })
                   }
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 ${
+                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm resize-none ${
                     isDarkMode
-                      ? "bg-gray-900 border-gray-700 text-white"
-                      : "bg-gray-50 border-gray-300 text-gray-800"
-                  } focus:border-blue-600 focus:outline-none resize-none`}
+                      ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
+                      : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
+                  } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
                   placeholder="Tell me about your project, ideas, or just say hello! I'm excited to hear from you..."
                   required
                 ></textarea>
@@ -218,7 +218,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={state.submitting}
-                  className="w-full sm:w-auto px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed btn-3d transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
                 >
                   {state.submitting ? (
                     <span className="flex items-center gap-3 justify-center">
