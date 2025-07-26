@@ -21,8 +21,8 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed w-full backdrop-blur-md shadow-lg z-50 transition-all duration-300 ${
-        isDarkMode ? "bg-gray-900/80 text-white border-b border-gray-800/50" : "bg-white/80 text-gray-800 border-b border-gray-200/50"
+      className={`fixed w-full shadow-lg z-50 transition-all duration-300 ${
+        isDarkMode ? "bg-gray-900/95 text-white border-b border-gray-800/50" : "bg-white/95 text-gray-800 border-b border-gray-200/50"
       }`}
     >
       <nav className="container mx-auto px-6 py-4">
@@ -124,8 +124,7 @@ export default function Header() {
               <a
                 href="/Muzammil Nawaz Khan Resume.pdf"
                 download
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 btn-3d
-                  transform hover:scale-105 border-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent hover:shadow-lg
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 border-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent hover:shadow-lg
                   ${
                     isDarkMode
                       ? "hover:from-blue-700 hover:to-purple-700"

@@ -25,33 +25,36 @@ const CertificationHeader: React.FC<CertificationHeaderProps> = ({
     {/* Top Row - Logo and Controls */}
     <div className="flex items-center justify-between w-full md:w-auto">
       <div className="flex items-center gap-3">
-        <svg
-          className={`w-6 h-6 md:w-8 md:h-8 ${
-            isDarkMode ? "text-blue-400" : "text-blue-600"
-          }`}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 14l9-5-9-5-9 5 9 5z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 14l6.16-3.422A12.083 12.083 0 0121 13.5c0 4.418-4.03 8-9 8s-9-3.582-9-8c0-1.61.586-3.105 1.84-4.422L12 14z"
-          />
-        </svg>
+        {/* Enhanced Tech Icon */}
+        <div className={`relative p-2 rounded-lg ${isDarkMode ? 'bg-blue-900/50' : 'bg-blue-50'}`}>
+          <svg
+            className={`w-6 h-6 md:w-8 md:h-8 ${
+              isDarkMode ? "text-blue-400" : "text-blue-600"
+            }`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+          {/* Subtle glow effect */}
+          <div className={`absolute inset-0 rounded-lg opacity-20 ${isDarkMode ? 'bg-blue-400' : 'bg-blue-600'} blur-sm -z-10`}></div>
+        </div>
         <div className="hidden sm:block">
           <h1
-            className={`text-lg md:text-2xl lg:text-3xl font-extrabold leading-tight ${
+            className={`text-lg md:text-2xl lg:text-3xl font-bold leading-tight ${
               isDarkMode ? "text-white" : "text-gray-800"
             }`}
           >
-            IBM AI Engineering Certification
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              IBM AI Engineering
+            </span>
+            <span className={isDarkMode ? "text-gray-300" : "text-gray-600"}> Certification</span>
           </h1>
         </div>
       </div>
@@ -163,7 +166,9 @@ const CertificationHeader: React.FC<CertificationHeaderProps> = ({
             isDarkMode ? "text-white" : "text-gray-800"
           }`}
         >
-          IBM AI Engineering
+          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            IBM AI Engineering
+          </span>
         </h1>
         <span
           className={`text-xs font-medium tracking-wide ${
