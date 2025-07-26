@@ -64,3 +64,43 @@ export default function Skills() {
     </section>
   );
 }
+                    {category}
+                  </h3>
+                </div>
+
+                {/* Skills Tags with Animation */}
+                <div className="flex flex-wrap gap-2">
+                  {skills.map((skill, skillIndex) => (
+                    <span
+                      key={skill}
+                      className={`px-3 py-2 text-xs sm:text-sm rounded-full font-medium
+                        transition-all duration-500 transform hover:scale-110 cursor-default
+                        ${isDarkMode
+                          ? "bg-gradient-to-r from-gray-700 to-gray-600 text-gray-200 border border-gray-600 hover:border-blue-500/50"
+                          : "bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 border border-gray-200 hover:border-blue-400/50"
+                        }
+                        ${isVisible ? 'animate-bounce-in' : 'opacity-0'}`}
+                      style={{ 
+                        animationDelay: `${(index * 200) + (skillIndex * 100)}ms`,
+                        boxShadow: isDarkMode 
+                          ? '0 4px 15px rgba(0,0,0,0.2)' 
+                          : '0 4px 15px rgba(0,0,0,0.1)'
+                      }}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Bottom Accent Line */}
+                <div 
+                  className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-b-xl`}
+                ></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
