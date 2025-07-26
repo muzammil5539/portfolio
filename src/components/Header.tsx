@@ -1,11 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { useTheme } from "@/context/ThemeContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isDarkMode, toggleTheme } = useTheme();
 
   const navItems = [
     { name: "About", href: "#about" },
