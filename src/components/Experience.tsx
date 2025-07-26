@@ -32,21 +32,18 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className={`py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
+      className="py-16 bg-white"
     >
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2
-            className={`text-4xl font-bold mb-4 ${
-              isDarkMode ? "text-white" : "text-gray-800"
-            }`}
-          >
+      <div className="container mx-auto px-6 max-w-6xl">
+        {/* Academic Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2 uppercase tracking-wide">
             Professional Experience
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
+          <div className="w-20 h-0.5 bg-blue-900 mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 max-w-5xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {experiences.map((exp, index) => (
             <ExperienceCard key={index} {...exp} />
           ))}
