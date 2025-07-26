@@ -5,13 +5,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --accent-primary: #3b82f6;
-  --accent-secondary: #6366f1;
-  --accent-tertiary: #8b5cf6;
-  --surface: #1e293b;
-  --surface-elevated: #334155;
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --accent-primary: #1e3a8a;
+  --accent-secondary: #374151;
+  --accent-tertiary: #6b7280;
+  --surface: #f8fafc;
+  --surface-elevated: #ffffff;
+  --border: #e5e7eb;
+  --text-muted: #6b7280;
 }
 
 @theme inline {
@@ -21,10 +23,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ffffff;
+    --background: #ffffff;
+    --foreground: #1a1a1a;
   }
 }
 
@@ -35,112 +37,82 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: 'Georgia', 'Times New Roman', serif;
   overflow-x: hidden;
+  line-height: 1.6;
 }
 
-/* Removed excessive 3D and neon effects for professional look */
-
-/* Modern Card Effects - Professional & Clean */
+/* Academic-style clean card effects */
 .card-3d {
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   position: relative;
-  overflow: hidden;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
 }
 
 .card-3d:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Removed excessive neon effects for professional appearance */
-
-/* Professional Button Effects */
+/* Academic button styling */
 .btn-3d {
   position: relative;
   transition: all 0.2s ease;
-  overflow: hidden;
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
 }
 
 .btn-3d:hover {
+  background: var(--accent-secondary);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Clean Glassmorphism Effects - Minimal */
+/* Simple academic card styling */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .glass-card-dark {
-  background: rgba(31, 41, 55, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Professional Gradient Backgrounds */
+/* Academic color scheme */
 .gradient-bg-primary {
-  background: linear-gradient(135deg, 
-    #3b82f6 0%, 
-    #6366f1 50%, 
-    #8b5cf6 100%);
+  background: var(--accent-primary);
 }
 
 .gradient-bg-hero {
-  background: linear-gradient(135deg, 
-    rgba(59, 130, 246, 0.05) 0%, 
-    rgba(99, 102, 241, 0.05) 50%, 
-    rgba(139, 92, 246, 0.05) 100%);
+  background: var(--surface);
 }
 
-/* Clean Text Effects */
+/* Academic text styling */
 .text-shimmer {
-  background: linear-gradient(45deg, 
-    var(--accent-primary), 
-    var(--accent-secondary), 
-    var(--accent-tertiary));
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 4s ease-in-out infinite;
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
-@keyframes shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Simple Floating Animation */
-@keyframes float-smooth {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-.float-smooth {
-  animation: float-smooth 6s ease-in-out infinite;
-}
-
-/* Removed overly complex animations and effects */
-
-/* Professional gradient text */
+/* Simple gradient text for academic look */
 .gradient-text {
-  background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
-/* Removed scanlines and excessive effects */
-
-/* Enhanced Animation Classes */
+/* Simple fade-in animation for academic style */
 @keyframes fade-in {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
@@ -148,61 +120,34 @@ body {
   }
 }
 
-@keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3) translateY(20px);
-  }
-  50% {
-    transform: scale(1.05) translateY(0);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
+  animation: fade-in 0.3s ease-out forwards;
 }
 
-.animate-bounce-in {
-  animation: bounce-in 0.6s ease-out forwards;
-}
-
-/* Animation Delays */
+/* Remove complex animations */
 .animation-delay-200 { animation-delay: 200ms; }
 .animation-delay-400 { animation-delay: 400ms; }
 .animation-delay-600 { animation-delay: 600ms; }
-.animation-delay-800 { animation-delay: 800ms; }
-.animation-delay-1000 { animation-delay: 1000ms; }
-.animation-delay-2000 { animation-delay: 2000ms; }
 
-/* Responsive 3D */
+/* Academic responsive design */
 @media (max-width: 768px) {
   .card-3d:hover {
-    transform: translateY(-4px) scale(1.01);
+    transform: translateY(-1px);
   }
   
   .btn-3d:hover {
-    transform: translateY(-1px);
+    transform: none;
   }
 }
 
-/* Accessibility */
+/* Accessibility - minimal animations */
 @media (prefers-reduced-motion: reduce) {
-  .float-smooth,
-  .float-3d,
-  .rotate-3d,
-  .pulse-3d,
-  .animate-fade-in,
-  .animate-bounce-in {
+  .animate-fade-in {
     animation: none;
   }
   
   .card-3d:hover,
-  .btn-3d:hover,
-  .nav-3d:hover {
+  .btn-3d:hover {
     transform: none;
   }
 }

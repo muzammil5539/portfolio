@@ -14,134 +14,64 @@ export default function Header() {
     { name: "Skills", href: "#skills" },
     { name: "Contact", href: "#contact" },
     {
-      name: "IBM AI Engineering Professional Certificate",
+      name: "Certifications",
       href: "/certification-journey",
     },
   ];
 
   return (
-    <header
-      className={`fixed w-full shadow-lg z-50 transition-all duration-300 ${
-        isDarkMode ? "bg-gray-900/95 text-white border-b border-gray-800/50" : "bg-white/95 text-gray-800 border-b border-gray-200/50"
-      }`}
-    >
-      <nav className="container mx-auto px-6 py-4">
+    <header className="fixed w-full bg-white border-b-2 border-gray-200 shadow-sm z-50">
+      <nav className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
+          {/* Academic-style logo */}
           <Link href="/" className="group">
-            <div className="flex items-center gap-1 transition-transform duration-300 group-hover:scale-105">
-              <span
-                className="text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent transition-all duration-300"
-                style={{ fontFamily: "Arial Black, sans-serif" }}
-              >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-900 text-white rounded-sm flex items-center justify-center font-bold text-lg">
                 M
-              </span>
+              </div>
               <div className="flex flex-col">
-                <span
-                  className={`text-xl font-medium transition-colors duration-300 ${
-                    isDarkMode ? "text-white group-hover:text-blue-300" : "text-gray-800 group-hover:text-blue-600"
-                  }`}
-                >
-                  uzammil
+                <span className="text-xl font-bold text-gray-900 tracking-tight">
+                  Muzammil Nawaz Khan
                 </span>
-                <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  AI Engineer
+                <span className="text-sm text-gray-600 font-medium uppercase tracking-wide">
+                  Computer Engineering Student
                 </span>
               </div>
             </div>
           </Link>
 
-          <div className="flex items-center gap-8">
-            {/* Theme Toggle */}
-            <div className="relative">
-              <button
-                onClick={toggleTheme}
-                className={`w-16 h-8 rounded-full p-[2px] transition-all duration-300 ease-in-out relative overflow-hidden
-                ${isDarkMode ? "bg-gray-700" : "bg-blue-100"}`}
-                aria-label="Toggle theme"
-              >
-                {/* Sun Icon */}
-                <svg
-                  viewBox="0 0 24 24"
-                  className={`w-5 h-5 absolute left-[4px] top-[6px] transition-all duration-500 transform z-20 ${
-                    isDarkMode
-                      ? "opacity-0 rotate-90 translate-y-2"
-                      : "opacity-100"
-                  }`}
-                  fill="currentColor"
-                >
-                  <circle cx="12" cy="12" r="5" className="text-yellow-500" />
-                  <path
-                    className="text-yellow-500"
-                    d="M12 2v2m0 16v2M4 12H2m20 0h-2m-2.83-7.17l-1.42 1.42M6.25 6.25L4.83 4.83m12.92 12.92l1.42 1.42M6.25 17.75l-1.42 1.42"
-                  />
-                </svg>
-
-                {/* Moon Icon */}
-                <svg
-                  viewBox="0 0 24 24"
-                  className={`w-5 h-5 absolute right-[4px] top-[6px] transition-all duration-500 transform z-20 ${
-                    isDarkMode
-                      ? "opacity-100"
-                      : "opacity-0 -rotate-90 -translate-y-2"
-                  }`}
-                  fill="currentColor"
-                >
-                  <path
-                    className="text-yellow-300"
-                    d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 007.92 12.446A9 9 0 1112 3z"
-                  />
-                </svg>
-
-                {/* Toggle Knob */}
-                <div
-                  className={`w-6 h-6 rounded-full transform duration-500 ease-spring relative z-30
-                    ${
-                      isDarkMode
-                        ? "translate-x-8 bg-gray-800 shadow-moon"
-                        : "translate-x-0 bg-white shadow-sun"
-                    }`}
-                />
-              </button>
-            </div>
-
+          <div className="flex items-center gap-6">
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`relative py-2 group transition-all duration-300 ${
-                    isDarkMode
-                      ? "text-gray-300 hover:text-white"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
+            <div className="hidden md:flex items-center">
+              <nav className="flex items-center space-x-8">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-700 hover:text-blue-900 font-medium text-sm uppercase tracking-wide transition-colors duration-200 border-b-2 border-transparent hover:border-blue-900 pb-1"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+              <div className="ml-8 pl-8 border-l border-gray-300">
+                <a
+                  href="/Muzammil Nawaz Khan Resume.pdf"
+                  download
+                  className="bg-blue-900 text-white px-4 py-2 text-sm font-medium uppercase tracking-wide hover:bg-gray-800 transition-colors duration-200"
                 >
-                  <span className="relative z-10">{item.name}</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-                </Link>
-              ))}
-              <a
-                href="/Muzammil Nawaz Khan Resume.pdf"
-                download
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 border-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent hover:shadow-lg
-                  ${
-                    isDarkMode
-                      ? "hover:from-blue-700 hover:to-purple-700"
-                      : "hover:from-blue-700 hover:to-purple-700"
-                  }`}
-              >
-                Resume
-              </a>
+                  Resume
+                </a>
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden"
+              className="md:hidden p-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg
-                className="w-6 h-6"
+                className="w-6 h-6 text-gray-700"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -161,20 +91,12 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div
-            className={`md:hidden pt-4 pb-3 ${
-              isDarkMode ? "bg-gray-900" : "bg-white"
-            }`}
-          >
+          <div className="md:hidden pt-4 pb-3 border-t border-gray-200 mt-3">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`block py-2.5 px-4 rounded-lg transition-colors ${
-                  isDarkMode
-                    ? "text-gray-300 hover:text-white hover:bg-gray-800"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                }`}
+                className="block py-2 px-4 text-gray-700 hover:text-blue-900 hover:bg-gray-50 font-medium text-sm uppercase tracking-wide"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.name}
@@ -183,11 +105,7 @@ export default function Header() {
             <a
               href="/Muzammil Nawaz Khan Resume.pdf"
               download
-              className={`block py-2.5 px-4 rounded-lg transition-colors mt-2 border-t ${
-                isDarkMode
-                  ? "text-blue-400 hover:text-blue-300 hover:bg-gray-800 border-gray-800"
-                  : "text-blue-600 hover:text-blue-700 hover:bg-gray-50 border-gray-100"
-              }`}
+              className="block py-2 px-4 text-blue-900 hover:text-gray-800 hover:bg-gray-50 font-medium text-sm uppercase tracking-wide border-t border-gray-200 mt-2 pt-4"
               onClick={() => setIsMenuOpen(false)}
             >
               Download Resume
