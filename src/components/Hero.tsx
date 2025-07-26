@@ -20,7 +20,7 @@ export default function Hero() {
                   Muzammil Nawaz Khan
                 </h1>
                 <h2 className="text-xl md:text-2xl text-blue-900 font-semibold mb-2">
-                  Computer Engineering Student
+                  Computer Engineering Graduate
                 </h2>
                 <p className="text-lg text-gray-600 font-medium">
                   National University of Sciences and Technology (NUST)
@@ -74,7 +74,7 @@ export default function Hero() {
                 <div className="relative aspect-[4/5] w-full">
                   <Image
                     src="/portfolio.jpg"
-                    alt="Muzammil Nawaz Khan - Computer Engineering Student"
+                    alt="Muzammil Nawaz Khan - Computer Engineering Graduate"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover grayscale hover:grayscale-0 transition-all duration-300"

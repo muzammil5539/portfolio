@@ -32,7 +32,7 @@ export default function Header() {
                   Muzammil Nawaz Khan
                 </span>
                 <span className="text-sm text-gray-600 font-medium uppercase tracking-wide">
-                  Computer Engineering Student
+                  Computer Engineering Graduate
                 </span>
               </div>
             </div>
