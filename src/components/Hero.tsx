@@ -1,11 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "@/context/ThemeContext";
-import TypeWriter from "./TypeWriter";
 
 export default function Hero() {
-  const { isDarkMode } = useTheme();
 
   return (
     <section

@@ -1,9 +1,7 @@
 "use client";
-import { useTheme } from "@/context/ThemeContext";
 import ExperienceCard from "./ExperienceCard";
 
 export default function Experience() {
-  const { isDarkMode } = useTheme();
 
   const experiences = [
     {

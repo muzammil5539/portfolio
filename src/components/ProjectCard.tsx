@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { useTheme } from "@/context/ThemeContext";
 
 interface ProjectCardProps {
   title: string;
