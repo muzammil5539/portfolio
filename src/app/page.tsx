@@ -1,7 +1,7 @@
 import Enhanced3DHeader from "@/components/3d/components/Enhanced3DHeader";
 import Interactive3DHero from "@/components/3d/components/Interactive3DHero";
 import ProjectShowcase3D from "@/components/3d/components/ProjectShowcase3D";
-import Experience from "@/components/Experience";
+import Interactive3DTimeline from "@/components/3d/components/Interactive3DTimeline";
 import Skills3DGlobe from "@/components/3d/components/Skills3DGlobe";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -14,7 +14,7 @@ export default function Home() {
       <Enhanced3DHeader />
       <Interactive3DHero />
       <ProjectShowcase3D />
-      <Experience />
+      <Interactive3DTimeline />
       <Skills3DGlobe />
       <Contact />
       <Footer />

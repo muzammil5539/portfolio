@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollProgress } from '../hooks/use3d-animations';
+import { useReducedMotion, useKeyboardNavigation } from '../hooks/useAccessibility';
 
 const navItems = [
   { name: 'About', href: '#about' },
@@ -121,6 +122,9 @@ export default function Enhanced3DHeader() {
   const [activeSection, setActiveSection] = useState('about');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const scrollProgress = useScrollProgress();
+  const prefersReducedMotion = useReducedMotion();
+  
+  useKeyboardNavigation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -151,12 +155,14 @@ export default function Enhanced3DHeader() {
   return (
     <>
       {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 z-50 origin-left"
-        style={{ scaleX: scrollProgress }}
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: scrollProgress }}
-      />
+      {!prefersReducedMotion && (
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 z-50 origin-left"
+          style={{ scaleX: scrollProgress }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: scrollProgress }}
+        />
+      )}
       
       <motion.header
         className={`
@@ -166,9 +172,10 @@ export default function Enhanced3DHeader() {
             : 'bg-white/50 backdrop-blur-sm'
           }
         `}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+        initial={prefersReducedMotion ? {} : { y: -100 }}
+        animate={prefersReducedMotion ? {} : { y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        role="banner"
       >
         <nav className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
