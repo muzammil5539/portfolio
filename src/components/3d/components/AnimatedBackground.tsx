@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import { useScrollProgress } from '../hooks/use3d-animations';
 import { optimizeForDevice, isWebGLSupported } from '../utils/webgl-utils';
+import ClientOnly from '../utils/ClientOnly';
 
 function FloatingGeometry({ position, color, size }: { position: [number, number, number], color: string, size: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -122,27 +123,27 @@ function FallbackBackground() {
 }
 
 export default function AnimatedBackground() {
-  if (!isWebGLSupported()) {
-    return <FallbackBackground />;
-  }
-
-  const { antialias, pixelRatio } = optimizeForDevice();
-
   return (
-    <div className="fixed inset-0 pointer-events-none z-0">
-      <Canvas
-        camera={{ position: [0, 0, 10], fov: 60 }}
-        gl={{ 
-          antialias,
-          alpha: true,
-          powerPreference: "high-performance"
-        }}
-        dpr={pixelRatio}
-      >
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
-      </Canvas>
-    </div>
+    <ClientOnly fallback={<FallbackBackground />}>
+      {isWebGLSupported() ? (
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <Canvas
+            camera={{ position: [0, 0, 10], fov: 60 }}
+            gl={{ 
+              antialias: optimizeForDevice().antialias,
+              alpha: true,
+              powerPreference: optimizeForDevice().powerPreference as WebGLPowerPreference
+            }}
+            dpr={optimizeForDevice().pixelRatio}
+          >
+            <Suspense fallback={null}>
+              <Scene />
+            </Suspense>
+          </Canvas>
+        </div>
+      ) : (
+        <FallbackBackground />
+      )}
+    </ClientOnly>
   );
 }

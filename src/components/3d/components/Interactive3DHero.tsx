@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { useMouseParallax, useIntersectionObserver } from '../hooks/use3d-animations';
 import { motion } from 'framer-motion';
 import { optimizeForDevice, isWebGLSupported } from '../utils/webgl-utils';
+import ClientOnly from '../utils/ClientOnly';
 import Link from "next/link";
 import Image from "next/image";
 
@@ -261,31 +262,34 @@ export default function Interactive3DHero() {
             </motion.div>
           </motion.div>
 
-          {/* 3D Avatar */}
+          {/* 3D Avatar or Fallback */}
           <motion.div 
             className="flex-1 max-w-md order-1 md:order-2"
             initial={{ x: 100, opacity: 0 }}
             animate={isIntersecting ? { x: 0, opacity: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            {isWebGLSupported() ? (
-              <div className="h-96 w-full">
-                <Canvas
-                  camera={{ position: [0, 0, 8], fov: 50 }}
-                  gl={{ 
-                    antialias: optimizeForDevice().antialias,
-                    alpha: true 
-                  }}
-                  dpr={optimizeForDevice().pixelRatio}
-                >
-                  <Suspense fallback={null}>
-                    <Scene3D />
-                  </Suspense>
-                </Canvas>
-              </div>
-            ) : (
-              <Fallback3DHero />
-            )}
+            <ClientOnly fallback={<Fallback3DHero />}>
+              {isWebGLSupported() ? (
+                <div className="h-96 w-full">
+                  <Canvas
+                    camera={{ position: [0, 0, 8], fov: 50 }}
+                    gl={{ 
+                      antialias: optimizeForDevice().antialias,
+                      alpha: true,
+                      powerPreference: optimizeForDevice().powerPreference as WebGLPowerPreference
+                    }}
+                    dpr={optimizeForDevice().pixelRatio}
+                  >
+                    <Suspense fallback={null}>
+                      <Scene3D />
+                    </Suspense>
+                  </Canvas>
+                </div>
+              ) : (
+                <Fallback3DHero />
+              )}
+            </ClientOnly>
           </motion.div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useIntersectionObserver } from '../hooks/use3d-animations';
 import { optimizeForDevice, isWebGLSupported } from '../utils/webgl-utils';
 import { useTheme } from '@/context/ThemeContext';
+import ClientOnly from '../utils/ClientOnly';
 
 const skillsData = {
   "AI & Machine Learning": {
@@ -296,49 +297,59 @@ export default function Skills3DGlobe() {
           </p>
         </motion.div>
 
-        {/* 3D Skills Globe */}
-        {isWebGLSupported() && isIntersecting ? (
-          <motion.div 
-            className="relative h-96 mb-8"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
+        {/* 3D Skills Globe or Fallback */}
+        <ClientOnly fallback={
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            animate={isIntersecting ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <Canvas
-              camera={{ position: [0, 0, 8], fov: 60 }}
-              gl={{ 
-                antialias: optimizeForDevice().antialias,
-                alpha: true 
-              }}
-              dpr={optimizeForDevice().pixelRatio}
-            >
-              <Suspense fallback={null}>
-                <SkillsGlobe3D 
-                  onSkillSelect={handleSkillSelect}
-                  selectedSkill={selectedSkill}
-                />
-              </Suspense>
-            </Canvas>
-            
-            <SkillDetailPanel 
-              selectedSkill={selectedSkill}
-              onClose={closeSkillDetail}
-            />
-            
-            <div className="absolute bottom-4 left-4 text-sm text-gray-500">
-              Click on skill orbs to explore • Drag to rotate view
-            </div>
+            <FallbackSkills />
           </motion.div>
-        ) : null}
-
-        {/* Fallback Skills Grid */}
-        <motion.div
-          initial={{ y: 40, opacity: 0 }}
-          animate={isIntersecting ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          <FallbackSkills />
-        </motion.div>
+        }>
+          {isWebGLSupported() && isIntersecting ? (
+            <motion.div 
+              className="relative h-96 mb-8"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
+              <Canvas
+                camera={{ position: [0, 0, 8], fov: 60 }}
+                gl={{ 
+                  antialias: optimizeForDevice().antialias,
+                  alpha: true,
+                  powerPreference: optimizeForDevice().powerPreference as WebGLPowerPreference
+                }}
+                dpr={optimizeForDevice().pixelRatio}
+              >
+                <Suspense fallback={null}>
+                  <SkillsGlobe3D 
+                    onSkillSelect={handleSkillSelect}
+                    selectedSkill={selectedSkill}
+                  />
+                </Suspense>
+              </Canvas>
+              
+              <SkillDetailPanel 
+                selectedSkill={selectedSkill}
+                onClose={closeSkillDetail}
+              />
+              
+              <div className="absolute bottom-4 left-4 text-sm text-gray-500">
+                Click on skill orbs to explore • Drag to rotate view
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ y: 40, opacity: 0 }}
+              animate={isIntersecting ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              <FallbackSkills />
+            </motion.div>
+          )}
+        </ClientOnly>
       </div>
     </section>
   );

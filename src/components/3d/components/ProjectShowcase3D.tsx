@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useIntersectionObserver } from '../hooks/use3d-animations';
 import { optimizeForDevice, isWebGLSupported } from '../utils/webgl-utils';
 import { useTheme } from '@/context/ThemeContext';
+import ClientOnly from '../utils/ClientOnly';
 import Image from 'next/image';
 
 const projects = [
@@ -366,41 +367,51 @@ export default function ProjectShowcase3D() {
           </p>
         </motion.div>
 
-        {/* 3D Projects Showcase */}
-        {isWebGLSupported() && isIntersecting ? (
-          <motion.div 
-            className="relative h-96 mb-8"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
+        {/* 3D Projects Showcase or Fallback */}
+        <ClientOnly fallback={
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            animate={isIntersecting ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <Canvas
-              camera={{ position: [0, 0, 10], fov: 60 }}
-              gl={{ 
-                antialias: optimizeForDevice().antialias,
-                alpha: true 
-              }}
-              dpr={optimizeForDevice().pixelRatio}
-            >
-              <Suspense fallback={null}>
-                <Projects3DScene onProjectSelect={handleProjectSelect} />
-              </Suspense>
-            </Canvas>
-            
-            <div className="absolute bottom-4 left-4 text-sm text-gray-500">
-              Hover over project cards to flip • Click to view details
-            </div>
+            <FallbackProjects />
           </motion.div>
-        ) : null}
-
-        {/* Fallback Projects Grid */}
-        <motion.div
-          initial={{ y: 40, opacity: 0 }}
-          animate={isIntersecting ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          <FallbackProjects />
-        </motion.div>
+        }>
+          {isWebGLSupported() && isIntersecting ? (
+            <motion.div 
+              className="relative h-96 mb-8"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
+              <Canvas
+                camera={{ position: [0, 0, 10], fov: 60 }}
+                gl={{ 
+                  antialias: optimizeForDevice().antialias,
+                  alpha: true,
+                  powerPreference: optimizeForDevice().powerPreference as WebGLPowerPreference
+                }}
+                dpr={optimizeForDevice().pixelRatio}
+              >
+                <Suspense fallback={null}>
+                  <Projects3DScene onProjectSelect={handleProjectSelect} />
+                </Suspense>
+              </Canvas>
+              
+              <div className="absolute bottom-4 left-4 text-sm text-gray-500">
+                Hover over project cards to flip • Click to view details
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ y: 40, opacity: 0 }}
+              animate={isIntersecting ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              <FallbackProjects />
+            </motion.div>
+          )}
+        </ClientOnly>
       </div>
 
       {/* Project Detail Modal */}
