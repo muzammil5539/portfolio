@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useMemo, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Sphere, Box, Torus, Stars, Sparkles, Icosahedron, Octahedron, MeshDistortMaterial } from '@react-three/drei';
+import { Float, Sphere, Box, Torus, Stars, Sparkles, Icosahedron, Octahedron, MeshDistortMaterial, Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import Scene3D from './Scene3D';
 import { useMousePosition, useWebGLSupport, useReducedMotion } from './hooks';
@@ -46,7 +46,9 @@ function ParticleField({ mousePosition }: { mousePosition: { x: number; y: numbe
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          args={[positions, 3]}
+          count={particlesCount}
+          array={positions}
+          itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
@@ -300,6 +302,7 @@ export default function Interactive3DHero() {
                 <p className="text-lg text-blue-100 font-medium">
                   National University of Sciences and Technology (NUST)
                 </p>
+              </div>
               </div>
 
               {/* Enhanced Academic Focus Areas */}
