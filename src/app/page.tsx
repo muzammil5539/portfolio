@@ -1,6 +1,6 @@
 "use client";
 import Header from "@/components/Header";
-import { Interactive3DHero, SkillsGlobe3D, ProjectShowcase3D, AnimatedBackground, Interactive3DTimeline } from "@/components/3d";
+import { Interactive3DHero, SkillsGlobe3D, ProjectShowcase3D, AnimatedBackground, Interactive3DTimeline, Contact3D } from "@/components/3d";
 import { useWebGLSupport } from "@/components/3d/hooks";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
@@ -77,7 +77,11 @@ export default function Home() {
         <SkillsGlobe3D />
       </Enhanced3DSection>
 
-      <Contact />
+      {/* Enhanced 3D Contact Section */}
+      <Enhanced3DSection fallback={<Contact />}>
+        <Contact3D />
+      </Enhanced3DSection>
+
       <Footer />
     </>
   );
