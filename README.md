@@ -1,6 +1,6 @@
-# Personal Portfolio Website [https://muzammil-nawaz-khan.vercel.app/ or https://happy-island-0382bdc1e.2.azurestaticapps.net/]
+# [Personal Portfolio Website](https://muzammil-nawaz-khan.vercel.app/)
 
-A modern, responsive portfolio website built with Next.js 13, TypeScript, and Tailwind CSS. This portfolio showcases my projects, skills, and professional experience with a clean and interactive design.
+Visit the project at [Vercel](https://muzammil-nawaz-khan.vercel.app/) or [Azure Static Apps](https://happy-island-0382bdc1e.2.azurestaticapps.net/).A modern, responsive portfolio website built with Next.js 13, TypeScript, and Tailwind CSS. This portfolio showcases my projects, skills, and professional experience with a clean and interactive design.
 
 ## 🚀 Features
 
