@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 
-// const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Portfolio | Muzammil Nawaz Khan",
-  description: "Personal portfolio website of Muzammil Nawaz Khan AI Engineer",
+  title: "Muzammil Nawaz Khan | AI Engineer Portfolio",
+  description: "AI Engineer specializing in machine learning, deep learning, and computer vision. NUST graduate with expertise in neural networks and biomedical AI.",
 };
 
 export default function RootLayout({
@@ -16,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="font-sans">
+    <html lang="en" className="dark">
+      <body className="font-sans bg-ai-navy text-ai-text antialiased">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
