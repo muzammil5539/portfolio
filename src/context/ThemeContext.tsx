@@ -11,20 +11,20 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Default to dark mode for AI Engineer portfolio aesthetic
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     // Check for saved theme preference, default to dark mode
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       setIsDarkMode(savedTheme === "dark");
-    } else {
-      // Default to dark mode for this portfolio
-      setIsDarkMode(true);
-      localStorage.setItem("theme", "dark");
     }
+    setIsInitialized(true);
   }, []);
 
   useEffect(() => {
+    if (!isInitialized) return;
+    
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -32,7 +32,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
-  }, [isDarkMode]);
+  }, [isDarkMode, isInitialized]);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
