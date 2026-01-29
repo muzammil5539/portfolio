@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { useTheme } from "@/context/ThemeContext";
 
 interface CourseNavProps {
   courses: { title: string }[];
@@ -14,42 +16,60 @@ const CourseNav: React.FC<CourseNavProps> = ({
   setSelectedCourseIdx,
   setActiveModuleIdx,
   setShowLeftNav,
-}) => (
-  <nav className="flex-1 flex flex-col gap-6">
-    <div>
-      <h3 className="text-lg font-extrabold text-blue-700 dark:text-blue-300 mb-4 uppercase tracking-wider">
-        Courses
-      </h3>
-      <ul className="space-y-3">
-        {courses.map((course, idx) => (
-          <li key={course.title}>
-            <button
-              className={`w-full text-left px-5 py-3 rounded-xl font-bold transition-all duration-200 border-2 border-transparent group flex items-center gap-3 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
-                ${
+}) => {
+  const { isDarkMode } = useTheme();
+  
+  return (
+    <nav className="flex-1 flex flex-col gap-6">
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <div className={`w-2 h-2 rounded-full ${isDarkMode ? "bg-ai-cyan" : "bg-cyan-500"}`}></div>
+          <h3 className={`text-lg font-bold uppercase tracking-wider ${
+            isDarkMode ? "text-ai-text" : "text-gray-900"
+          }`}>
+            Courses
+          </h3>
+        </div>
+        <ul className="space-y-2">
+          {courses.map((course, idx) => (
+            <li key={course.title}>
+              <button
+                className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition-all duration-200 border-2 flex items-center gap-3 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                   idx === selectedCourseIdx
-                    ? "bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-200 border-blue-400 dark:border-blue-700 scale-105 shadow-lg"
-                    : "hover:bg-blue-50 dark:hover:bg-gray-800 text-blue-700 dark:text-blue-300 hover:border-blue-300 dark:hover:border-blue-700 hover:scale-105"
-                }`}
-              onClick={() => {
-                setSelectedCourseIdx(idx);
-                setActiveModuleIdx(null);
-                setShowLeftNav(false);
-              }}
-            >
-              <span
-                className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                  idx === selectedCourseIdx
-                    ? "bg-blue-700 dark:bg-blue-400"
-                    : "bg-blue-300 dark:bg-blue-700"
-                }`}
-              ></span>
-              {course.title}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </nav>
-);
+                    ? isDarkMode
+                      ? "bg-ai-charcoal text-ai-cyan border-ai-cyan/50 shadow-glow-cyan"
+                      : "bg-cyan-50 text-cyan-700 border-cyan-400 shadow-md"
+                    : isDarkMode
+                      ? "bg-transparent text-ai-text-muted border-transparent hover:text-ai-text hover:bg-ai-charcoal/50 hover:border-ai-slate/50"
+                      : "bg-transparent text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50 hover:border-gray-200"
+                } ${isDarkMode ? "focus:ring-ai-cyan" : "focus:ring-cyan-400"}`}
+                onClick={() => {
+                  setSelectedCourseIdx(idx);
+                  setActiveModuleIdx(null);
+                  setShowLeftNav(false);
+                }}
+              >
+                <span
+                  className={`inline-flex items-center justify-center w-6 h-6 rounded-lg text-xs font-bold ${
+                    idx === selectedCourseIdx
+                      ? isDarkMode
+                        ? "bg-ai-cyan text-ai-navy"
+                        : "bg-cyan-500 text-white"
+                      : isDarkMode
+                        ? "bg-ai-slate text-ai-text-muted"
+                        : "bg-gray-200 text-gray-600"
+                  }`}
+                >
+                  {idx + 1}
+                </span>
+                <span className="flex-1 truncate">{course.title}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  );
+};
 
 export default CourseNav;

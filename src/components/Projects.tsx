@@ -1,5 +1,6 @@
 "use client";
 import ProjectCard from "./ProjectCard";
+import { useTheme } from "@/context/ThemeContext";
 
 const projects = [
   {
@@ -47,28 +48,46 @@ const projects = [
 ];
 
 export default function Projects() {
+  const { isDarkMode } = useTheme();
+  
   return (
     <section
       id="projects"
-      className="py-20 md:py-28 bg-ai-navy-light relative overflow-hidden"
+      className={`py-20 md:py-28 relative overflow-hidden transition-colors duration-300 ${
+        isDarkMode ? "bg-ai-navy-light" : "bg-gray-50"
+      }`}
     >
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-20"></div>
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-ai-purple/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-ai-cyan/5 rounded-full blur-3xl"></div>
+      <div className={`absolute inset-0 bg-grid-pattern bg-grid ${isDarkMode ? "opacity-20" : "opacity-10"}`}></div>
+      <div className={`absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl ${
+        isDarkMode ? "bg-ai-purple/5" : "bg-purple-200/30"
+      }`}></div>
+      <div className={`absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-3xl ${
+        isDarkMode ? "bg-ai-cyan/5" : "bg-cyan-200/30"
+      }`}></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-ai-cyan"></div>
-            <span className="text-ai-cyan text-sm font-medium tracking-wider uppercase">Portfolio</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-ai-cyan"></div>
+            <div className={`h-px w-12 bg-gradient-to-r from-transparent ${
+              isDarkMode ? "to-ai-cyan" : "to-cyan-500"
+            }`}></div>
+            <span className={`text-sm font-medium tracking-wider uppercase ${
+              isDarkMode ? "text-ai-cyan" : "text-cyan-600"
+            }`}>Portfolio</span>
+            <div className={`h-px w-12 bg-gradient-to-l from-transparent ${
+              isDarkMode ? "to-ai-cyan" : "to-cyan-500"
+            }`}></div>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ai-text mb-4">
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${
+            isDarkMode ? "text-ai-text" : "text-gray-900"
+          }`}>
             Featured <span className="gradient-text">Projects</span>
           </h2>
-          <p className="text-ai-text-muted text-lg max-w-2xl mx-auto">
+          <p className={`text-lg max-w-2xl mx-auto ${
+            isDarkMode ? "text-ai-text-muted" : "text-gray-600"
+          }`}>
             Explore my portfolio of AI and machine learning projects, showcasing
             cutting-edge solutions in computer vision, deep learning, and data science.
           </p>

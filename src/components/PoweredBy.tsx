@@ -1,24 +1,40 @@
+"use client";
 import React from "react";
+import { useTheme } from "@/context/ThemeContext";
 
-const PoweredBy: React.FC = () => (
-  <div className="mt-auto pt-6 border-t border-blue-200/30 dark:border-blue-700/30 text-xs text-center">
-    <div className="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400">
-      <span>Powered by</span>
-      <div className="flex items-center gap-1">
-        <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-        <span className="text-blue-600 dark:text-blue-400 font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          AI
-        </span>
-      </div>
-      <span>&</span>
-      <div className="flex items-center gap-1">
-        <div className="w-2 h-2 bg-gray-800 dark:bg-white rounded-full"></div>
-        <span className="text-gray-800 dark:text-white font-semibold">
-          Next.js
-        </span>
+const PoweredBy: React.FC = () => {
+  const { isDarkMode } = useTheme();
+  
+  return (
+    <div className={`mt-auto pt-6 border-t text-xs text-center ${
+      isDarkMode ? "border-ai-slate/30" : "border-gray-200"
+    }`}>
+      <div className={`flex items-center justify-center gap-2 ${
+        isDarkMode ? "text-ai-text-dim" : "text-gray-500"
+      }`}>
+        <span>Powered by</span>
+        <div className="flex items-center gap-1">
+          <div className={`w-2 h-2 bg-gradient-to-r from-ai-cyan to-ai-purple rounded-full ${
+            isDarkMode ? "animate-pulse" : ""
+          }`}></div>
+          <span className={`font-semibold gradient-text`}>
+            AI
+          </span>
+        </div>
+        <span>&</span>
+        <div className="flex items-center gap-1">
+          <div className={`w-2 h-2 rounded-full ${
+            isDarkMode ? "bg-white" : "bg-gray-800"
+          }`}></div>
+          <span className={`font-semibold ${
+            isDarkMode ? "text-ai-text" : "text-gray-800"
+          }`}>
+            Next.js
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default PoweredBy;

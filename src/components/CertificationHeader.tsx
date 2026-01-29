@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 
@@ -15,46 +16,46 @@ const CertificationHeader: React.FC<CertificationHeaderProps> = ({
   setShowRightNav,
 }) => (
   <header
-    className={
-      `sticky top-0 z-30 w-full shadow-md border-b flex flex-col md:flex-row md:items-center md:justify-between px-4 md:px-8 py-3 md:py-4 ` +
-      (isDarkMode
-        ? "bg-gray-900/95 border-gray-700"
-        : "bg-white/95 border-gray-200")
-    }
+    className={`sticky top-0 z-30 w-full border-b backdrop-blur-lg flex flex-col md:flex-row md:items-center md:justify-between px-4 md:px-8 py-3 md:py-4 transition-colors duration-300 ${
+      isDarkMode
+        ? "bg-ai-navy/95 border-ai-charcoal/50"
+        : "bg-white/95 border-gray-200"
+    }`}
   >
     {/* Top Row - Logo and Controls */}
     <div className="flex items-center justify-between w-full md:w-auto">
       <div className="flex items-center gap-3">
         {/* Enhanced Tech Icon */}
-        <div className={`relative p-2 rounded-lg ${isDarkMode ? 'bg-blue-900/50' : 'bg-blue-50'}`}>
-          <svg
-            className={`w-6 h-6 md:w-8 md:h-8 ${
-              isDarkMode ? "text-blue-400" : "text-blue-600"
-            }`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-            />
-          </svg>
-          {/* Subtle glow effect */}
-          <div className={`absolute inset-0 rounded-lg opacity-20 ${isDarkMode ? 'bg-blue-400' : 'bg-blue-600'} blur-sm -z-10`}></div>
+        <div className="relative">
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+            isDarkMode 
+              ? "bg-gradient-to-br from-ai-cyan to-ai-blue" 
+              : "bg-gradient-to-br from-cyan-500 to-blue-600"
+          }`}>
+            <svg
+              className="w-5 h-5 text-white"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <div className={`absolute -inset-0.5 rounded-lg opacity-30 blur-sm ${
+            isDarkMode ? "bg-ai-cyan" : "bg-cyan-400"
+          }`}></div>
         </div>
         <div className="hidden sm:block">
-          <h1
-            className={`text-lg md:text-2xl lg:text-3xl font-bold leading-tight ${
-              isDarkMode ? "text-white" : "text-gray-800"
-            }`}
-          >
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              IBM AI Engineering
-            </span>
-            <span className={isDarkMode ? "text-gray-300" : "text-gray-600"}> Certification</span>
+          <h1 className={`text-lg md:text-xl lg:text-2xl font-bold leading-tight ${
+            isDarkMode ? "text-ai-text" : "text-gray-900"
+          }`}>
+            <span className="gradient-text">IBM AI Engineering</span>
+            <span className={isDarkMode ? "text-ai-text-muted" : "text-gray-600"}> Certification</span>
           </h1>
         </div>
       </div>
@@ -64,94 +65,53 @@ const CertificationHeader: React.FC<CertificationHeaderProps> = ({
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className={`w-10 h-5 rounded-full p-[2px] transition-all duration-300 ease-in-out relative overflow-hidden
-          ${isDarkMode ? "bg-gray-700" : "bg-blue-100"}`}
+          className={`relative w-12 h-6 rounded-full p-0.5 transition-all duration-300 ${
+            isDarkMode ? "bg-ai-charcoal border border-ai-slate" : "bg-gray-200 border border-gray-300"
+          }`}
           aria-label="Toggle theme"
         >
-          {/* Sun Icon */}
-          <svg
-            viewBox="0 0 24 24"
-            className={`w-3 h-3 absolute left-[2px] top-[3px] transition-all duration-500 transform z-20 ${
-              isDarkMode ? "opacity-0 rotate-90 translate-y-2" : "opacity-100"
-            }`}
-            fill="currentColor"
-          >
-            <circle cx="12" cy="12" r="5" className="text-yellow-500" />
-            <path
-              className="text-yellow-500"
-              d="M12 2v2m0 16v2M4 12H2m20 0h-2m-2.83-7.17l-1.42 1.42M6.25 6.25L4.83 4.83m12.92 12.92l1.42 1.42M6.25 17.75l-1.42 1.42"
-            />
-          </svg>
-
-          {/* Moon Icon */}
-          <svg
-            viewBox="0 0 24 24"
-            className={`w-3 h-3 absolute left-[2px] top-[3px] transition-all duration-500 transform z-20 ${
-              isDarkMode ? "opacity-100" : "opacity-0 -rotate-90 -translate-y-2"
-            }`}
-            fill="currentColor"
-          >
-            <path
-              className="text-blue-300"
-              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-            />
-          </svg>
-
           <div
-            className={`w-4 h-4 rounded-full transform duration-500 ease-spring relative z-30
-              ${
-                isDarkMode
-                  ? "translate-x-5 bg-gray-800 shadow-moon"
-                  : "translate-x-0 bg-white shadow-sun"
-              }`}
-          />
+            className={`w-5 h-5 rounded-full shadow-md transform transition-all duration-300 flex items-center justify-center ${
+              isDarkMode ? "translate-x-6 bg-ai-navy" : "translate-x-0 bg-white"
+            }`}
+          >
+            {isDarkMode ? (
+              <svg className="w-3 h-3 text-ai-cyan" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            ) : (
+              <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+              </svg>
+            )}
+          </div>
         </button>
 
         {/* Mobile nav toggles */}
         <button
-          className={`px-2 py-1 rounded border ${
+          className={`p-2 rounded-lg transition-colors ${
             isDarkMode
-              ? "bg-blue-900 text-blue-200 border-blue-700"
-              : "bg-blue-100 text-blue-700 border-blue-300"
+              ? "text-ai-text-muted hover:text-ai-cyan hover:bg-ai-charcoal"
+              : "text-gray-600 hover:text-cyan-600 hover:bg-gray-100"
           }`}
           onClick={() => setShowLeftNav((v) => !v)}
           aria-label="Toggle course navigation"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
         <button
-          className={`px-2 py-1 rounded border ${
+          className={`p-2 rounded-lg transition-colors ${
             isDarkMode
-              ? "bg-blue-900 text-blue-200 border-blue-700"
-              : "bg-blue-100 text-blue-700 border-blue-300"
+              ? "text-ai-text-muted hover:text-ai-cyan hover:bg-ai-charcoal"
+              : "text-gray-600 hover:text-cyan-600 hover:bg-gray-100"
           }`}
           onClick={() => setShowRightNav((v) => !v)}
           aria-label="Toggle module navigation"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 4v16M12 4v16M18 4v16"
-            />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 4v16M12 4v16M18 4v16" />
           </svg>
         </button>
       </div>
@@ -161,92 +121,71 @@ const CertificationHeader: React.FC<CertificationHeaderProps> = ({
     <div className="flex items-center justify-between mt-2 md:mt-0 md:gap-4">
       {/* Mobile Title */}
       <div className="sm:hidden">
-        <h1
-          className={`text-base font-bold leading-tight ${
-            isDarkMode ? "text-white" : "text-gray-800"
-          }`}
-        >
-          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            IBM AI Engineering
-          </span>
+        <h1 className={`text-base font-bold leading-tight ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
+          <span className="gradient-text">IBM AI Engineering</span>
         </h1>
-        <span
-          className={`text-xs font-medium tracking-wide ${
-            isDarkMode ? "text-blue-300" : "text-blue-600"
-          }`}
-        >
+        <span className={`text-xs font-medium tracking-wide ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
           Professional Certificate Journey
         </span>
       </div>
 
       {/* Desktop Subtitle */}
       <div className="hidden sm:block md:hidden lg:block">
-        <span
-          className={`text-sm font-medium tracking-wide ${
-            isDarkMode ? "text-blue-300" : "text-blue-600"
-          }`}
-        >
+        <span className={`text-sm font-medium tracking-wide ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
           Professional Certificate Journey
         </span>
       </div>
 
       {/* Desktop Controls */}
-      <div className="hidden md:flex gap-2 lg:gap-4 items-center">
+      <div className="hidden md:flex gap-3 lg:gap-4 items-center">
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className={`w-12 h-6 rounded-full p-[2px] transition-all duration-300 ease-in-out relative overflow-hidden
-          ${isDarkMode ? "bg-gray-700" : "bg-blue-100"}`}
+          className={`relative w-14 h-7 rounded-full p-1 transition-all duration-300 ${
+            isDarkMode ? "bg-ai-charcoal border border-ai-slate" : "bg-gray-200 border border-gray-300"
+          }`}
           aria-label="Toggle theme"
         >
           {/* Sun Icon */}
           <svg
-            viewBox="0 0 24 24"
-            className={`w-4 h-4 absolute left-[2px] top-[4px] transition-all duration-500 transform z-20 ${
-              isDarkMode ? "opacity-0 rotate-90 translate-y-2" : "opacity-100"
+            className={`absolute left-1.5 top-1.5 w-4 h-4 transition-all duration-300 ${
+              isDarkMode ? "opacity-0 scale-50" : "opacity-100 scale-100 text-amber-500"
             }`}
             fill="currentColor"
+            viewBox="0 0 20 20"
           >
-            <circle cx="12" cy="12" r="5" className="text-yellow-500" />
-            <path
-              className="text-yellow-500"
-              d="M12 2v2m0 16v2M4 12H2m20 0h-2m-2.83-7.17l-1.42 1.42M6.25 6.25L4.83 4.83m12.92 12.92l1.42 1.42M6.25 17.75l-1.42 1.42"
-            />
+            <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
           </svg>
-
           {/* Moon Icon */}
           <svg
-            viewBox="0 0 24 24"
-            className={`w-4 h-4 absolute left-[2px] top-[4px] transition-all duration-500 transform z-20 ${
-              isDarkMode ? "opacity-100" : "opacity-0 -rotate-90 -translate-y-2"
+            className={`absolute right-1.5 top-1.5 w-4 h-4 transition-all duration-300 ${
+              isDarkMode ? "opacity-100 scale-100 text-ai-cyan" : "opacity-0 scale-50"
             }`}
             fill="currentColor"
+            viewBox="0 0 20 20"
           >
-            <path
-              className="text-blue-300"
-              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-            />
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
           </svg>
-
+          {/* Toggle Ball */}
           <div
-            className={`w-5 h-5 rounded-full transform duration-500 ease-spring relative z-30
-              ${
-                isDarkMode
-                  ? "translate-x-6 bg-gray-800 shadow-moon"
-                  : "translate-x-0 bg-white shadow-sun"
-              }`}
+            className={`w-5 h-5 rounded-full shadow-md transform transition-all duration-300 ${
+              isDarkMode ? "translate-x-7 bg-ai-navy" : "translate-x-0 bg-white"
+            }`}
           />
         </button>
 
         <Link
           href="/"
-          className={`px-3 lg:px-4 py-2 rounded-lg font-semibold shadow transition-all border-2 text-sm lg:text-base ${
+          className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
             isDarkMode
-              ? "bg-gray-800 text-blue-200 hover:bg-blue-900 border-blue-700"
-              : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600"
+              ? "bg-gradient-to-r from-ai-cyan to-ai-blue text-ai-navy hover:shadow-glow-cyan"
+              : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg"
           }`}
         >
-          ← Back to Portfolio
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Portfolio
         </Link>
       </div>
 
@@ -254,13 +193,16 @@ const CertificationHeader: React.FC<CertificationHeaderProps> = ({
       <div className="md:hidden">
         <Link
           href="/"
-          className={`px-3 py-1.5 rounded-lg font-semibold shadow transition-all border text-sm ${
+          className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
             isDarkMode
-              ? "bg-gray-800 text-blue-200 hover:bg-blue-900 border-blue-700"
-              : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600"
+              ? "bg-gradient-to-r from-ai-cyan to-ai-blue text-ai-navy"
+              : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white"
           }`}
         >
-          ← Back
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back
         </Link>
       </div>
     </div>

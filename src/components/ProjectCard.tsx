@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useTheme } from "@/context/ThemeContext";
 
 interface ProjectCardProps {
   title: string;
@@ -14,14 +15,23 @@ export default function ProjectCard({
   technologies,
   image,
 }: ProjectCardProps) {
+  const { isDarkMode } = useTheme();
   const imageUrl = image.toLowerCase().endsWith(".tif")
     ? "/project-images/default-project.jpg"
     : image;
 
   return (
-    <div className="group relative bg-ai-charcoal border border-ai-slate/50 rounded-xl overflow-hidden transition-all duration-300 hover:border-ai-cyan/30 hover:shadow-glow-cyan">
+    <div className={`group relative rounded-xl overflow-hidden transition-all duration-300 hover:shadow-glow-cyan ${
+      isDarkMode 
+        ? "bg-ai-charcoal border border-ai-slate/50 hover:border-ai-cyan/30" 
+        : "bg-white border border-gray-200 hover:border-cyan-300 shadow-md hover:shadow-xl"
+    }`}>
       {/* Glow effect on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-ai-cyan/5 to-ai-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+        isDarkMode 
+          ? "bg-gradient-to-br from-ai-cyan/5 to-ai-purple/5" 
+          : "bg-gradient-to-br from-cyan-50/50 to-purple-50/50"
+      }`}></div>
       
       {/* Image Container */}
       <div className="relative h-48 w-full overflow-hidden">
@@ -34,18 +44,26 @@ export default function ProjectCard({
           loading="lazy"
         />
         {/* Image overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ai-charcoal via-transparent to-transparent"></div>
+        <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent ${
+          isDarkMode ? "from-ai-charcoal" : "from-white"
+        }`}></div>
       </div>
 
       {/* Content Container */}
       <div className="relative p-5">
         {/* Title */}
-        <h3 className="text-lg font-semibold text-ai-text mb-2 group-hover:text-ai-cyan transition-colors">
+        <h3 className={`text-lg font-semibold mb-2 transition-colors ${
+          isDarkMode 
+            ? "text-ai-text group-hover:text-ai-cyan" 
+            : "text-gray-900 group-hover:text-cyan-600"
+        }`}>
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-ai-text-muted text-sm leading-relaxed mb-4">
+        <p className={`text-sm leading-relaxed mb-4 ${
+          isDarkMode ? "text-ai-text-muted" : "text-gray-600"
+        }`}>
           {description}
         </p>
 
@@ -54,7 +72,11 @@ export default function ProjectCard({
           {technologies?.map((tech, index) => (
             <span
               key={index}
-              className="px-2.5 py-1 bg-ai-navy/80 text-ai-cyan text-xs font-medium rounded-md border border-ai-cyan/20"
+              className={`px-2.5 py-1 text-xs font-medium rounded-md border ${
+                isDarkMode 
+                  ? "bg-ai-navy/80 text-ai-cyan border-ai-cyan/20" 
+                  : "bg-cyan-50 text-cyan-700 border-cyan-200"
+              }`}
             >
               {tech}
             </span>

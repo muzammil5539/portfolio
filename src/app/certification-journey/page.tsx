@@ -57,10 +57,9 @@ const CertificationJourneyPage = () => {
 
   return (
     <div
-      className={
-        `min-h-screen flex flex-col transition-colors duration-300 ` +
-        (isDarkMode ? "bg-gray-900" : "bg-gray-50")
-      }
+      className={`min-h-screen flex flex-col transition-colors duration-300 ${
+        isDarkMode ? "bg-ai-navy" : "bg-gray-50"
+      }`}
     >
       <CertificationHeader
         isDarkMode={isDarkMode}
@@ -72,15 +71,11 @@ const CertificationJourneyPage = () => {
       <div className="flex-1 flex flex-col md:flex-row relative">
         {/* Left Navigation */}
         <aside
-          className={
-            `fixed md:static top-0 left-0 z-40 md:z-10 h-full md:h-auto w-72 min-w-[220px] max-w-xs p-6 flex flex-col gap-8 shadow-xl transition-transform duration-300 bg-opacity-95 md:bg-opacity-100 ` +
-            (isDarkMode
-              ? "bg-gray-800/95 border-gray-700 border-r text-blue-200"
-              : "bg-white/95 border-gray-200 border-r text-gray-800") +
-            (showLeftNav
-              ? " translate-x-0"
-              : " -translate-x-full md:translate-x-0")
-          }
+          className={`fixed md:static top-0 left-0 z-40 md:z-10 h-full md:h-auto w-72 min-w-[220px] max-w-xs p-6 flex flex-col gap-8 transition-transform duration-300 backdrop-blur-lg ${
+            isDarkMode
+              ? "bg-ai-charcoal/95 border-r border-ai-slate/50"
+              : "bg-white/95 border-r border-gray-200"
+          } ${showLeftNav ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
           style={{ minHeight: "100vh" }}
         >
           <CourseNav
@@ -96,23 +91,43 @@ const CertificationJourneyPage = () => {
         {/* Overlay for mobile nav */}
         {showLeftNav && (
           <div
-            className="fixed inset-0 z-30 bg-black/40 md:hidden"
+            className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm md:hidden"
             onClick={() => setShowLeftNav(false)}
             aria-label="Close navigation overlay"
           />
         )}
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-8 md:p-12 overflow-y-auto min-h-[calc(100vh-80px)]">
-          <section className="mb-14">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-700 dark:text-blue-300 mb-4">
+        <main className={`flex-1 p-4 sm:p-8 md:p-12 overflow-y-auto min-h-[calc(100vh-80px)] ${
+          isDarkMode ? "bg-ai-navy-light" : "bg-gray-50"
+        }`}>
+          {/* Background Elements */}
+          <div className={`fixed inset-0 bg-grid-pattern bg-grid pointer-events-none ${
+            isDarkMode ? "opacity-10" : "opacity-5"
+          }`}></div>
+          
+          <section className="mb-14 relative z-10">
+            <div className="flex items-center gap-3 mb-4">
+              <div className={`h-px w-8 bg-gradient-to-r from-transparent ${isDarkMode ? "to-ai-cyan" : "to-cyan-500"}`}></div>
+              <span className={`text-sm font-medium tracking-wider uppercase ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
+                Course {selectedCourseIdx + 1} of {data.courses.length}
+              </span>
+            </div>
+            
+            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-4 ${
+              isDarkMode ? "text-ai-text" : "text-gray-900"
+            }`}>
               {selectedCourse.title}
             </h2>
+            
             {selectedCourse.description && (
-              <p className="mb-4 text-gray-700 dark:text-blue-100/80 text-lg md:text-xl">
+              <p className={`mb-8 text-lg md:text-xl max-w-3xl ${
+                isDarkMode ? "text-ai-text-muted" : "text-gray-600"
+              }`}>
                 {selectedCourse.description}
               </p>
             )}
+            
             <div className="flex flex-col gap-8">
               {selectedCourse.modules.map((module, idx) => (
                 <ModuleCard
@@ -127,15 +142,28 @@ const CertificationJourneyPage = () => {
               ))}
             </div>
           </section>
-          <div className="mt-12 text-blue-700 dark:text-blue-300 text-lg">
-            <p>
-              Reference: <br />
+          
+          <div className={`mt-12 p-6 rounded-2xl border relative z-10 ${
+            isDarkMode 
+              ? "glass-card border-ai-slate/50" 
+              : "bg-white border-gray-200 shadow-md"
+          }`}>
+            <p className={`text-lg ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
+              <span className={`font-semibold ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>Reference:</span>
+              <br />
               <Link
                 href="https://www.coursera.org/programs/hec-pak-learning-program-j8ady/professional-certificates/ai-engineer?source=search"
-                className="underline hover:text-blue-900 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                className={`inline-flex items-center gap-2 mt-2 transition-colors ${
+                  isDarkMode 
+                    ? "text-ai-cyan hover:text-ai-text" 
+                    : "text-cyan-600 hover:text-cyan-800"
+                }`}
                 target="_blank"
               >
                 IBM AI Engineer Professional Certificate on Coursera
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
               </Link>
             </p>
           </div>
@@ -143,15 +171,11 @@ const CertificationJourneyPage = () => {
 
         {/* Right Modules Navigation */}
         <aside
-          className={
-            `fixed md:static top-0 right-0 z-40 md:z-10 h-full md:h-auto w-64 min-w-[180px] max-w-xs p-6 flex flex-col gap-4 shadow-xl transition-transform duration-300 bg-opacity-95 md:bg-opacity-100 ` +
-            (isDarkMode
-              ? "bg-gray-800/95 border-gray-700 border-l text-blue-200"
-              : "bg-white/95 border-gray-200 border-l text-gray-800") +
-            (showRightNav
-              ? " translate-x-0"
-              : " translate-x-full md:translate-x-0")
-          }
+          className={`fixed md:static top-0 right-0 z-40 md:z-10 h-full md:h-auto w-64 min-w-[180px] max-w-xs p-6 flex flex-col gap-4 transition-transform duration-300 backdrop-blur-lg ${
+            isDarkMode
+              ? "bg-ai-charcoal/95 border-l border-ai-slate/50"
+              : "bg-white/95 border-l border-gray-200"
+          } ${showRightNav ? "translate-x-0" : "translate-x-full md:translate-x-0"}`}
           style={{ minHeight: "100vh" }}
         >
           <ModuleNav
@@ -164,7 +188,7 @@ const CertificationJourneyPage = () => {
         {/* Overlay for mobile right nav */}
         {showRightNav && (
           <div
-            className="fixed inset-0 z-30 bg-black/40 md:hidden"
+            className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm md:hidden"
             onClick={() => setShowRightNav(false)}
             aria-label="Close navigation overlay"
           />
