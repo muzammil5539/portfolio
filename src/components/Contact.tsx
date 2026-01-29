@@ -1,10 +1,8 @@
 "use client";
-import { useTheme } from "@/context/ThemeContext";
 import { useForm, ValidationError } from "@formspree/react";
 import { useState } from "react";
 
 export default function Contact() {
-  const { isDarkMode } = useTheme();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,20 +15,15 @@ export default function Contact() {
     return (
       <section
         id="contact"
-        className={`py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
+        className="py-24 bg-ai-navy-light relative overflow-hidden"
       >
-        <div className="container mx-auto px-6 text-center">
+        <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-20"></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
           <div className="max-w-2xl mx-auto">
-            <div
-              className={`rounded-lg p-12 shadow-lg ${
-                isDarkMode
-                  ? "bg-gray-800 shadow-gray-900/30"
-                  : "bg-white shadow-gray-200/50"
-              }`}
-            >
-              <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+            <div className="glass-card p-12">
+              <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center rounded-full bg-ai-green/10 border border-ai-green/30">
                 <svg
-                  className="w-16 h-16 text-green-400"
+                  className="w-10 h-10 text-ai-green"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -38,23 +31,15 @@ export default function Contact() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={3}
+                    strokeWidth={2}
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
               </div>
-              <h2
-                className={`text-4xl font-bold mb-4 ${
-                  isDarkMode ? "text-white" : "text-gray-800"
-                }`}
-              >
+              <h2 className="text-3xl font-bold text-ai-text mb-4">
                 Message Sent!
               </h2>
-              <p
-                className={`text-lg ${
-                  isDarkMode ? "text-gray-300" : "text-gray-600"
-                }`}
-              >
+              <p className="text-ai-text-muted text-lg">
                 Thank you for reaching out! Your message has been successfully
                 sent. I&apos;ll get back to you shortly.
               </p>
@@ -68,45 +53,41 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className={`py-16 md:py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
+      className="py-20 md:py-28 bg-ai-navy-light relative overflow-hidden"
     >
-      <div className="container mx-auto px-4 md:px-6">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-20"></div>
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-ai-purple/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-ai-cyan/5 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2
-            className={`text-3xl sm:text-4xl md:text-4xl font-bold mb-4 ${
-              isDarkMode ? "text-white" : "text-gray-800"
-            }`}
-          >
-            Get in Touch
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-ai-cyan"></div>
+            <span className="text-ai-cyan text-sm font-medium tracking-wider uppercase">Contact</span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-ai-cyan"></div>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ai-text mb-4">
+            Get in <span className="gradient-text">Touch</span>
           </h2>
-          <div className="w-20 md:w-24 h-1 bg-blue-600 mx-auto"></div>
-          <p
-            className={`text-base sm:text-xl mt-6 mb-0 max-w-2xl mx-auto ${
-              isDarkMode ? "text-gray-300" : "text-gray-600"
-            }`}
-          >
+          <p className="text-ai-text-muted text-lg max-w-2xl mx-auto">
             Ready to collaborate on cutting-edge AI projects? Let&apos;s connect
             and build the future of technology together.
           </p>
         </div>
+
         <div className="max-w-2xl mx-auto">
-          <div
-            className={`rounded-xl p-4 sm:p-8 shadow-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-3xl ${
-              isDarkMode
-                ? "bg-gray-800/80 shadow-gray-900/50 border-gray-700/50 hover:bg-gray-800/90"
-                : "bg-white/80 shadow-gray-200/50 border-gray-200/50 hover:bg-white/90"
-            }`}
-          >
-            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+          <div className="glass-card p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {/* Name Field */}
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium mb-2 text-blue-600"
+                    className="block text-sm font-medium mb-2 text-ai-text"
                   >
-                    Name <span className="text-pink-500">*</span>
+                    Name <span className="text-ai-cyan">*</span>
                   </label>
                   <input
                     type="text"
@@ -116,11 +97,7 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm ${
-                      isDarkMode
-                        ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
-                        : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
-                    } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
+                    className="w-full px-4 py-3 bg-ai-navy border border-ai-slate rounded-lg text-ai-text placeholder-ai-text-dim focus:border-ai-cyan focus:outline-none focus:ring-1 focus:ring-ai-cyan/50 transition-all"
                     placeholder="Your full name"
                     required
                   />
@@ -129,9 +106,9 @@ export default function Contact() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium mb-2 text-blue-600"
+                    className="block text-sm font-medium mb-2 text-ai-text"
                   >
-                    Email <span className="text-pink-500">*</span>
+                    Email <span className="text-ai-cyan">*</span>
                   </label>
                   <input
                     type="email"
@@ -141,11 +118,7 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm ${
-                      isDarkMode
-                        ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
-                        : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
-                    } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
+                    className="w-full px-4 py-3 bg-ai-navy border border-ai-slate rounded-lg text-ai-text placeholder-ai-text-dim focus:border-ai-cyan focus:outline-none focus:ring-1 focus:ring-ai-cyan/50 transition-all"
                     placeholder="your.email@example.com"
                     required
                   />
@@ -153,7 +126,7 @@ export default function Contact() {
                     prefix="Email"
                     field="email"
                     errors={state.errors}
-                    className="text-pink-500 text-sm mt-2"
+                    className="text-red-400 text-sm mt-2"
                   />
                 </div>
               </div>
@@ -161,9 +134,9 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="subject"
-                  className="block text-sm font-medium mb-2 text-blue-600"
+                  className="block text-sm font-medium mb-2 text-ai-text"
                 >
-                  Subject <span className="text-pink-500">*</span>
+                  Subject <span className="text-ai-cyan">*</span>
                 </label>
                 <input
                   type="text"
@@ -173,11 +146,7 @@ export default function Contact() {
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
                   }
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm ${
-                    isDarkMode
-                      ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
-                      : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
-                  } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
+                  className="w-full px-4 py-3 bg-ai-navy border border-ai-slate rounded-lg text-ai-text placeholder-ai-text-dim focus:border-ai-cyan focus:outline-none focus:ring-1 focus:ring-ai-cyan/50 transition-all"
                   placeholder="e.g., AI Project Collaboration"
                   required
                 />
@@ -186,9 +155,9 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium mb-2 text-blue-600"
+                  className="block text-sm font-medium mb-2 text-ai-text"
                 >
-                  Message <span className="text-pink-500">*</span>
+                  Message <span className="text-ai-cyan">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -198,19 +167,15 @@ export default function Contact() {
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })
                   }
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 backdrop-blur-sm resize-none ${
-                    isDarkMode
-                      ? "bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-900/70"
-                      : "bg-gray-50/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:bg-white/70"
-                  } focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
-                  placeholder="Tell me about your project, ideas, or just say hello! I'm excited to hear from you..."
+                  className="w-full px-4 py-3 bg-ai-navy border border-ai-slate rounded-lg text-ai-text placeholder-ai-text-dim focus:border-ai-cyan focus:outline-none focus:ring-1 focus:ring-ai-cyan/50 transition-all resize-none"
+                  placeholder="Tell me about your project, ideas, or just say hello..."
                   required
                 ></textarea>
                 <ValidationError
                   prefix="Message"
                   field="message"
                   errors={state.errors}
-                  className="text-pink-500 text-sm mt-2"
+                  className="text-red-400 text-sm mt-2"
                 />
               </div>
               {/* Submit Button */}
@@ -218,15 +183,15 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={state.submitting}
-                  className="w-full sm:w-auto px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed btn-3d transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-ai-cyan to-ai-blue text-ai-navy px-8 py-4 font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {state.submitting ? (
-                    <span className="flex items-center gap-3 justify-center">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      Transmitting...
-                    </span>
+                    <>
+                      <div className="w-5 h-5 border-2 border-ai-navy/30 border-t-ai-navy rounded-full animate-spin"></div>
+                      Sending...
+                    </>
                   ) : (
-                    <span className="flex items-center gap-3 justify-center">
+                    <>
                       Send Message
                       <svg
                         className="w-5 h-5"
@@ -241,17 +206,13 @@ export default function Contact() {
                           d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                         />
                       </svg>
-                    </span>
+                    </>
                   )}
                 </button>
               </div>
               {/* Form Note */}
-              <p
-                className={`text-center text-xs sm:text-sm mt-4 ${
-                  isDarkMode ? "text-gray-400" : "text-gray-500"
-                }`}
-              >
-                All fields marked with <span className="text-pink-500">*</span>{" "}
+              <p className="text-center text-xs sm:text-sm text-ai-text-dim mt-4">
+                All fields marked with <span className="text-ai-cyan">*</span>{" "}
                 are required. Your data is encrypted and secure.
               </p>
             </form>

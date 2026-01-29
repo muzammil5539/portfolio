@@ -9,13 +9,18 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // Default to dark mode for AI Engineer portfolio aesthetic
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
+    // Check for saved theme preference, default to dark mode
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       setIsDarkMode(savedTheme === "dark");
+    } else {
+      // Default to dark mode for this portfolio
+      setIsDarkMode(true);
+      localStorage.setItem("theme", "dark");
     }
   }, []);
 

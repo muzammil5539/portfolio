@@ -1,6 +1,5 @@
 "use client";
 import ProjectCard from "./ProjectCard";
-import { useTheme } from "@/context/ThemeContext";
 
 const projects = [
   {
@@ -48,34 +47,33 @@ const projects = [
 ];
 
 export default function Projects() {
-  const { isDarkMode } = useTheme();
-
   return (
     <section
       id="projects"
-      className={`py-16 md:py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
+      className="py-20 md:py-28 bg-ai-navy-light relative overflow-hidden"
     >
-      <div className="container mx-auto px-4 md:px-6">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-20"></div>
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-ai-purple/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-ai-cyan/5 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2
-            className={`text-3xl sm:text-4xl md:text-4xl font-bold mb-4 ${
-              isDarkMode ? "text-white" : "text-gray-800"
-            }`}
-          >
-            Featured Projects
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-ai-cyan"></div>
+            <span className="text-ai-cyan text-sm font-medium tracking-wider uppercase">Portfolio</span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-ai-cyan"></div>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ai-text mb-4">
+            Featured <span className="gradient-text">Projects</span>
           </h2>
-          <div className="w-20 md:w-24 h-1 bg-blue-600 mx-auto"></div>
-          <p
-            className={`text-base sm:text-xl mt-6 mb-0 max-w-2xl mx-auto ${
-              isDarkMode ? "text-gray-300" : "text-gray-600"
-            }`}
-          >
+          <p className="text-ai-text-muted text-lg max-w-2xl mx-auto">
             Explore my portfolio of AI and machine learning projects, showcasing
-            cutting-edge solutions in computer vision, deep learning, and data
-            science.
+            cutting-edge solutions in computer vision, deep learning, and data science.
           </p>
         </div>
+
         {/* Projects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
