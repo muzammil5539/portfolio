@@ -84,10 +84,13 @@ export default function Experience() {
 
         {/* Timeline */}
         <div className="max-w-6xl mx-auto relative">
-          {/* Timeline line */}
-          <div className={`absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 transform md:-translate-x-1/2 ${
-            isDarkMode ? "bg-ai-cyan/40" : "bg-gray-300"
-          }`}></div>
+          {/* Timeline line - visible vertical line connecting experience items */}
+          <div 
+            className={`absolute left-4 md:left-1/2 w-1 transform md:-translate-x-1/2 z-0 ${
+              isDarkMode ? "bg-cyan-400" : "bg-gray-300"
+            }`}
+            style={{ top: '10px', bottom: '10px' }}
+          ></div>
 
           {experiences.map((exp, index) => (
             <div key={index} className="relative mb-16 last:mb-0">
