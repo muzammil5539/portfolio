@@ -90,7 +90,7 @@ export default function Experience() {
           {experiences.map((exp, index) => (
             <div key={index} className="relative mb-16 last:mb-0">
               {/* Timeline dot */}
-              <div className={`absolute left-4 md:left-1/2 w-5 h-5 border-4 rounded-full transform -translate-x-1/2 shadow-glow-cyan z-10 ${
+              <div className={`absolute left-4 md:left-1/2 w-5 h-5 border-2 rounded-full transform -translate-x-1/2 shadow-glow-cyan z-10 ${
                 isDarkMode ? "bg-ai-charcoal border-ai-cyan" : "bg-white border-cyan-500"
               }`}></div>
               
