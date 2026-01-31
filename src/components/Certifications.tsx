@@ -51,7 +51,7 @@ export default function Certifications() {
           </p>
         </div>
 
-        {/* Certificates Grid */}
+        {/* Certificates Grid - Responsive: 1 col mobile, 2 col tablet, 3 col desktop */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {certificates.map((cert, index) => (
             <div
@@ -89,7 +89,7 @@ export default function Certifications() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                     <p className={`text-sm font-medium ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
-                      Click to view details
+                      Click to view certificate
                     </p>
                   </div>
                 </div>
@@ -151,7 +151,7 @@ export default function Certifications() {
                       : "bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg"
                   }`}
                 >
-                  View Certificate
+                  Open in New Tab
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
@@ -161,108 +161,87 @@ export default function Certifications() {
           ))}
         </div>
 
-        {/* Modal for Certificate Details */}
+        {/* Modal with PDF Viewer */}
         {selectedCert && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
             onClick={closeModal}
           >
             <div
-              className={`relative max-w-2xl w-full rounded-2xl overflow-hidden ${
+              className={`relative w-full max-w-5xl h-[90vh] rounded-2xl overflow-hidden flex flex-col ${
                 isDarkMode ? "bg-ai-charcoal border border-ai-slate/50" : "bg-white"
               }`}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
-              <button
-                onClick={closeModal}
-                className={`absolute top-4 right-4 z-10 p-2 rounded-full transition-colors ${
-                  isDarkMode 
-                    ? "bg-ai-navy hover:bg-ai-slate text-ai-cyan" 
-                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                }`}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-
-              <div className="p-8">
-                <h3 className={`text-2xl font-bold mb-4 ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
-                  {selectedCert.title}
-                </h3>
-
-                <div className="mb-4">
-                  <p className={`text-sm font-medium mb-1 ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
-                    Issuer
-                  </p>
-                  <p className={`${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
-                    {selectedCert.issuer}
+              {/* Modal Header */}
+              <div className={`flex items-center justify-between p-4 border-b ${
+                isDarkMode ? "border-ai-slate/30" : "border-gray-200"
+              }`}>
+                <div className="flex-1 min-w-0 pr-4">
+                  <h3 className={`text-lg font-bold truncate ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
+                    {selectedCert.title}
+                  </h3>
+                  <p className={`text-sm ${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>
+                    {selectedCert.issuer} • {selectedCert.date}
                   </p>
                 </div>
-
-                <div className="mb-4">
-                  <p className={`text-sm font-medium mb-1 ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
-                    Date
-                  </p>
-                  <p className={`${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
-                    {selectedCert.date}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => openPDF(selectedCert)}
+                    className={`p-2 rounded-lg transition-colors ${
+                      isDarkMode 
+                        ? "bg-ai-navy hover:bg-ai-slate text-ai-cyan" 
+                        : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    }`}
+                    title="Open in new tab"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={closeModal}
+                    className={`p-2 rounded-lg transition-colors ${
+                      isDarkMode 
+                        ? "bg-ai-navy hover:bg-ai-slate text-ai-cyan" 
+                        : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                    }`}
+                    title="Close"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
                 </div>
+              </div>
 
-                {selectedCert.credentialId && (
-                  <div className="mb-4">
-                    <p className={`text-sm font-medium mb-1 ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
-                      Credential ID
-                    </p>
-                    <p className={`font-mono text-sm ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
-                      {selectedCert.credentialId}
-                    </p>
-                  </div>
-                )}
+              {/* PDF Viewer using iframe */}
+              <div className={`flex-1 overflow-hidden ${isDarkMode ? "bg-gray-800" : "bg-gray-100"}`}>
+                <iframe
+                  src={selectedCert.pdfUrl}
+                  className="w-full h-full"
+                  title={selectedCert.title}
+                />
+              </div>
 
-                <div className="mb-6">
-                  <p className={`text-sm font-medium mb-2 ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
-                    Description
-                  </p>
-                  <p className={`${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>
-                    {selectedCert.description}
-                  </p>
+              {/* Modal Footer with skills */}
+              <div className={`p-4 border-t ${
+                isDarkMode ? "border-ai-slate/30" : "border-gray-200"
+              }`}>
+                <div className="flex flex-wrap gap-2">
+                  {selectedCert.skills.map((skill, idx) => (
+                    <span
+                      key={idx}
+                      className={`px-3 py-1 text-sm font-medium rounded-md ${
+                        isDarkMode 
+                          ? "bg-ai-navy text-ai-cyan border border-ai-cyan/20" 
+                          : "bg-cyan-50 text-cyan-700 border border-cyan-200"
+                      }`}
+                    >
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-
-                <div className="mb-6">
-                  <p className={`text-sm font-medium mb-3 ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
-                    Skills Covered
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedCert.skills.map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className={`px-3 py-1 text-sm font-medium rounded-md ${
-                          isDarkMode 
-                            ? "bg-ai-navy text-ai-cyan border border-ai-cyan/20" 
-                            : "bg-cyan-50 text-cyan-700 border border-cyan-200"
-                        }`}
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => openPDF(selectedCert)}
-                  className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
-                    isDarkMode
-                      ? "bg-gradient-to-r from-ai-cyan to-ai-blue text-ai-navy hover:shadow-glow-cyan"
-                      : "bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg"
-                  }`}
-                >
-                  Open Full Certificate
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </button>
               </div>
             </div>
           </div>
