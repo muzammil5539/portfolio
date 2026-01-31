@@ -150,7 +150,7 @@ export default function Hero() {
                 <div className={`absolute inset-0 bg-gradient-to-br rounded-2xl blur-2xl ${
                   isDarkMode ? "from-ai-cyan to-ai-purple opacity-20" : "from-cyan-300 to-purple-300 opacity-40"
                 }`}></div>
-                <div className={`relative rounded-2xl overflow-hidden border ${
+                <div className={`relative w-full h-full rounded-2xl overflow-hidden border ${
                   isDarkMode ? "glass-card border-ai-cyan/20" : "bg-white border-gray-200 shadow-xl"
                 }`}>
                   <Image
