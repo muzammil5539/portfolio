@@ -9,7 +9,7 @@ export default function Experience() {
     {
       title: "Junior AI Engineer",
       company: "CareCloud (MTBC) - Bagh, AJK",
-      date: "Nov 2023 - Present",
+      date: "July 2025 - Present",
       description: [
         "Developed Python scripts to interface with Hikvision NVR systems, successfully fetching raw logs of employee facial matches for processing",
         "Designed and implemented data cleaning rules to remove duplicate records and filter out non-attendance related movements, ensuring only valid check-ins were recorded",
@@ -85,7 +85,9 @@ export default function Experience() {
         {/* Timeline */}
         <div className="max-w-6xl mx-auto relative">
           {/* Timeline line */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-ai-cyan via-ai-blue to-ai-purple transform md:-translate-x-1/2"></div>
+          <div className={`absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 transform md:-translate-x-1/2 ${
+            isDarkMode ? "bg-ai-cyan/40" : "bg-gray-300"
+          }`}></div>
 
           {experiences.map((exp, index) => (
             <div key={index} className="relative mb-16 last:mb-0">

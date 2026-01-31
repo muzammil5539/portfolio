@@ -12,11 +12,8 @@ export default function Header() {
     { name: "Projects", href: "#projects" },
     { name: "Experience", href: "#experience" },
     { name: "Skills", href: "#skills" },
+    { name: "Certifications", href: "#certifications" },
     { name: "Contact", href: "#contact" },
-    {
-      name: "Certifications",
-      href: "/certification-journey",
-    },
   ];
 
   return (
