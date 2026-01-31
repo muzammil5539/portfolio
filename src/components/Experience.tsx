@@ -7,6 +7,33 @@ export default function Experience() {
 
   const experiences = [
     {
+      title: "Junior AI Engineer",
+      company: "CareCloud (MTBC) - Bagh, AJK",
+      date: "Nov 2023 - Present",
+      description: [
+        "Developed Python scripts to interface with Hikvision NVR systems, successfully fetching raw logs of employee facial matches for processing",
+        "Designed and implemented data cleaning rules to remove duplicate records and filter out non-attendance related movements, ensuring only valid check-ins were recorded",
+        "Transformed noisy raw camera data into structured, accurate attendance records, directly enabling the HR system to track employee productivity and presence reliably",
+        "Working on RCM (Revenue Cycle Management) AI solutions with RAG pipeline to optimize medical coding and reduce claim denial rates by ensuring correct modifier usage",
+        "Collaborating with cross-functional teams to integrate AI solutions into existing healthcare systems",
+        "Researching and developing new AI tools and technologies including speech recognition-based language understanding and image-based recognition systems",
+      ],
+      technologies: [
+        "Python",
+        "TensorFlow",
+        "OpenCV",
+        "REST APIs",
+        "Node.js",
+        "SQL",
+        "RAG",
+        "NLP",
+        "Computer Vision",
+        "Data Science",
+        "Hikvision NVR",
+        "Healthcare AI",
+      ],
+    },
+    {
       title: "Biomedical AI Research and Development Intern",
       company: "RiseTech - Islamabad, Pakistan",
       date: "July 2024 - Sept 2024",
