@@ -83,18 +83,23 @@ export default function Experience() {
         </div>
 
         {/* Timeline */}
-        <div className="max-w-4xl mx-auto relative">
+        <div className="max-w-6xl mx-auto relative">
           {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-ai-cyan via-ai-blue to-ai-purple transform md:-translate-x-1/2"></div>
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-ai-cyan via-ai-blue to-ai-purple transform md:-translate-x-1/2"></div>
 
           {experiences.map((exp, index) => (
-            <div key={index} className="relative mb-12 last:mb-0">
+            <div key={index} className="relative mb-16 last:mb-0">
               {/* Timeline dot */}
-              <div className={`absolute left-0 md:left-1/2 w-4 h-4 border-2 rounded-full transform -translate-x-1/2 shadow-glow-cyan z-10 ${
+              <div className={`absolute left-4 md:left-1/2 w-5 h-5 border-4 rounded-full transform -translate-x-1/2 shadow-glow-cyan z-10 ${
                 isDarkMode ? "bg-ai-charcoal border-ai-cyan" : "bg-white border-cyan-500"
               }`}></div>
               
-              <div className="ml-8 md:ml-0 md:w-1/2 md:odd:pr-12 md:even:pl-12 md:odd:ml-0 md:even:ml-auto">
+              {/* Alternating Cards - Even indices on right, Odd on left */}
+              <div className={`ml-12 md:ml-0 md:w-1/2 ${
+                index % 2 === 0 
+                  ? "md:ml-auto md:pl-12" // Right side
+                  : "md:mr-auto md:pr-12" // Left side
+              }`}>
                 <ExperienceCard {...exp} />
               </div>
             </div>
