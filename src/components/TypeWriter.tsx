@@ -18,6 +18,7 @@ export default function TypeWriter() {
 
   useEffect(() => {
     const currentRole = roles[roleIndex];
+    if (!currentRole) return;
     
     const timeout = setTimeout(
       () => {
@@ -44,7 +45,7 @@ export default function TypeWriter() {
     );
 
     return () => clearTimeout(timeout);
-  }, [text, roleIndex, isDeleting, isPaused]);
+  }, [text, roleIndex, isDeleting, isPaused, roles]);
 
   return (
     <span className="relative">

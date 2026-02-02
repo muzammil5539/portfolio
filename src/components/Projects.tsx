@@ -1,51 +1,7 @@
 "use client";
 import ProjectCard from "./ProjectCard";
 import { useTheme } from "@/context/ThemeContext";
-
-const projects = [
-  {
-    title: "Luggage Threat Detection",
-    description:
-      "Developed ANN architecture for image classification of potential threats in luggage images with high accuracy in threat identification.",
-    image: "/projects/luggage.jpg",
-    tags: ["Python", "ANN", "OpenCV", "Image Classification"],
-  },
-  {
-    title: "License Plate Recognition",
-    description:
-      "Created pipeline for license plate localization using edge detection and implemented robust plate isolation system.",
-    image: "/projects/licencse_plate.png",
-    tags: ["Python", "OpenCV", "NumPy", "Computer Vision"],
-  },
-  {
-    title: "Braille Digits Recognition",
-    description:
-      "Built system to recognize Braille characters through dot pattern analysis and distance metrics for character differentiation.",
-    image: "/projects/Braille.png",
-    tags: ["Python", "OpenCV", "Pattern Recognition"],
-  },
-  {
-    title: "Cat Dog Classification",
-    description:
-      "Implemented CNN models with and without pooling and dropout layers, demonstrating regularization techniques.",
-    image: "/projects/classification.png",
-    tags: ["Python", "TensorFlow", "Keras", "CNN"],
-  },
-  {
-    title: "Skin Image Segmentation",
-    description:
-      "Designed segmentation system using Connected Component Labeling and achieved accurate results with IoU metrics.",
-    image: "/projects/skin.png",
-    tags: ["Python", "OpenCV", "Image Segmentation"],
-  },
-  {
-    title: "Retinal Image Segmentation",
-    description:
-      "Developed method for segmenting retinal structures using point and multi-level thresholding techniques.",
-    image: "/projects/retinal.png",
-    tags: ["Python", "OpenCV", "Medical Imaging"],
-  },
-];
+import { projects } from "@/data/projects";
 
 export default function Projects() {
   const { isDarkMode } = useTheme();

@@ -44,13 +44,21 @@ const CertificationJourneyPage = () => {
   const [showLeftNav, setShowLeftNav] = useState(false);
   const [showRightNav, setShowRightNav] = useState(false);
 
+  // Guard clause if no course is selected
+  if (!selectedCourse) {
+    return <div>No course selected</div>;
+  }
+
   // Scroll to module when clicked in right nav
   const handleModuleClick = (idx: number) => {
     setActiveModuleIdx(idx);
-    moduleRefs.current[idx]?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    const moduleRef = moduleRefs.current[idx];
+    if (moduleRef) {
+      moduleRef.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
     // On mobile, close right nav after click
     setShowRightNav(false);
   };

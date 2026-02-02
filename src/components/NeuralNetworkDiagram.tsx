@@ -54,17 +54,19 @@ export default function NeuralNetworkDiagram({
   for (let i = 0; i < layers.length - 1; i++) {
     const currentLayer = layers[i];
     const nextLayer = layers[i + 1];
-    currentLayer.forEach((node, ni) => {
-      nextLayer.forEach((nextNode, nj) => {
-        connections.push({
-          x1: node.x,
-          y1: node.y,
-          x2: nextNode.x,
-          y2: nextNode.y,
-          key: `${i}-${ni}-${nj}`,
+    if (currentLayer && nextLayer) {
+      currentLayer.forEach((node, ni) => {
+        nextLayer.forEach((nextNode, nj) => {
+          connections.push({
+            x1: node.x,
+            y1: node.y,
+            x2: nextNode.x,
+            y2: nextNode.y,
+            key: `${i}-${ni}-${nj}`,
+          });
         });
       });
-    });
+    }
   }
 
   return (
