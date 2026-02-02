@@ -254,16 +254,21 @@ function SkillsGlobe({ selectedCategory, onSkillClick }: SkillsGlobeProps) {
       ))}
 
       {/* Skill nodes with enhanced positioning */}
-      {allSkills.map(({ skill, category, color }, index) => (
-        <SkillNode
-          key={skill}
-          skill={skill}
-          position={positions[index]}
-          color={color}
-          onClick={() => onSkillClick(skill)}
-          isSelected={selectedCategory === category}
-        />
-      ))}
+      {allSkills.map(({ skill, category, color }, index) => {
+        const position = positions[index];
+        if (!position) return null;
+        
+        return (
+          <SkillNode
+            key={skill}
+            skill={skill}
+            position={position}
+            color={color}
+            onClick={() => onSkillClick(skill)}
+            isSelected={selectedCategory === category}
+          />
+        );
+      })}
 
       {/* Enhanced particle field */}
       <points>

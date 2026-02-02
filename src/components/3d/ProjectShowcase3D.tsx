@@ -317,46 +317,51 @@ export default function ProjectShowcase3D() {
 
           {/* Project Details Panel */}
           <div className="space-y-6">
-            {selectedProject !== null && (
-              <div className={`rounded-lg p-6 shadow-lg border-2 ${
-                isDarkMode
-                  ? 'bg-gray-800 border-gray-700'
-                  : 'bg-white border-gray-200'
-              }`}>
-                <div 
-                  className="w-4 h-4 rounded-full mb-4"
-                  style={{ backgroundColor: projects[selectedProject].color }}
-                />
-                <h3 className={`text-xl font-bold mb-3 ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
+            {selectedProject !== null && (() => {
+              const selectedProj = projects[selectedProject];
+              if (!selectedProj) return null;
+              
+              return (
+                <div className={`rounded-lg p-6 shadow-lg border-2 ${
+                  isDarkMode
+                    ? 'bg-gray-800 border-gray-700'
+                    : 'bg-white border-gray-200'
                 }`}>
-                  {projects[selectedProject].title}
-                </h3>
-                <p className={`mb-4 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                }`}>
-                  {projects[selectedProject].description}
-                </p>
-                <div className="space-y-3">
-                  <h4 className={`font-semibold ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                  <div 
+                    className="w-4 h-4 rounded-full mb-4"
+                    style={{ backgroundColor: selectedProj.color }}
+                  />
+                  <h3 className={`text-xl font-bold mb-3 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
                   }`}>
-                    Technologies Used:
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {projects[selectedProject].tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 rounded-full text-sm text-white"
-                        style={{ backgroundColor: projects[selectedProject].color }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {selectedProj.title}
+                  </h3>
+                  <p className={`mb-4 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    {selectedProj.description}
+                  </p>
+                  <div className="space-y-3">
+                    <h4 className={`font-semibold ${
+                      isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                    }`}>
+                      Technologies Used:
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProj.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 rounded-full text-sm text-white"
+                          style={{ backgroundColor: selectedProj.color }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Projects Overview */}
             <div className={`rounded-lg p-6 shadow-lg ${

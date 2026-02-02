@@ -28,16 +28,25 @@ function ParticleField({ mousePosition }: { mousePosition: { x: number; y: numbe
     if (!points.current || prefersReducedMotion) return;
     
     const time = state.clock.getElapsedTime();
-    const positions = points.current.geometry.attributes.position.array as Float32Array;
+    const positionAttribute = points.current.geometry.attributes.position;
+    if (!positionAttribute) return;
+    
+    const positions = positionAttribute.array as Float32Array;
     
     for (let i = 0; i < particlesCount; i++) {
       const i3 = i * 3;
-      positions[i3 + 1] += Math.sin(time + positions[i3]) * 0.001;
-      positions[i3] += mousePosition.x * 0.0005;
-      positions[i3 + 2] += mousePosition.y * 0.0005;
+      const currentX = positions[i3];
+      const currentY = positions[i3 + 1];
+      const currentZ = positions[i3 + 2];
+      
+      if (currentX !== undefined && currentY !== undefined && currentZ !== undefined) {
+        positions[i3 + 1] = currentY + Math.sin(time + currentX) * 0.001;
+        positions[i3] = currentX + mousePosition.x * 0.0005;
+        positions[i3 + 2] = currentZ + mousePosition.y * 0.0005;
+      }
     }
     
-    points.current.geometry.attributes.position.needsUpdate = true;
+    positionAttribute.needsUpdate = true;
     points.current.rotation.y = time * 0.05;
   });
 

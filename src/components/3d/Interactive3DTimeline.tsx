@@ -199,18 +199,24 @@ function TimelineMilestone({ experience, index, isSelected, onClick, totalCount 
       )}
 
       {/* Connection line to next milestone */}
-      {index < totalCount - 1 && (
-        <Line
-          points={[
-            experience.position,
-            experiences[index + 1].position
-          ]}
-          color="#d1d5db"
-          lineWidth={2}
-          transparent
-          opacity={0.5}
-        />
-      )}
+      {(() => {
+        const nextExperience = experiences[index + 1];
+        if (index < totalCount - 1 && nextExperience) {
+          return (
+            <Line
+              points={[
+                experience.position,
+                nextExperience.position
+              ]}
+              color="#d1d5db"
+              lineWidth={2}
+              transparent
+              opacity={0.5}
+            />
+          );
+        }
+        return null;
+      })()}
     </group>
   );
 }
@@ -346,51 +352,56 @@ export default function Interactive3DTimeline() {
 
           {/* Experience Details Panel */}
           <div className="space-y-6">
-            {selectedMilestone !== null && (
-              <div className={`rounded-lg p-6 shadow-lg border-2 ${
-                isDarkMode
-                  ? 'bg-gray-900 border-gray-700'
-                  : 'bg-white border-gray-200'
-              }`}>
-                <div 
-                  className="w-4 h-4 rounded-full mb-4"
-                  style={{ backgroundColor: experiences[selectedMilestone].color }}
-                />
-                <h3 className={`text-lg font-bold mb-2 ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
+            {selectedMilestone !== null && (() => {
+              const selectedExp = experiences[selectedMilestone];
+              if (!selectedExp) return null;
+              
+              return (
+                <div className={`rounded-lg p-6 shadow-lg border-2 ${
+                  isDarkMode
+                    ? 'bg-gray-900 border-gray-700'
+                    : 'bg-white border-gray-200'
                 }`}>
-                  {experiences[selectedMilestone].title}
-                </h3>
-                <p className={`text-sm mb-1 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                }`}>
-                  {experiences[selectedMilestone].company}
-                </p>
-                <p className={`text-sm mb-4 ${
-                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                }`}>
-                  {experiences[selectedMilestone].date}
-                </p>
-                
-                <div className="space-y-3">
-                  <h4 className={`font-semibold ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                  <div 
+                    className="w-4 h-4 rounded-full mb-4"
+                    style={{ backgroundColor: selectedExp.color }}
+                  />
+                  <h3 className={`text-lg font-bold mb-2 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
                   }`}>
-                    Key Achievements:
-                  </h4>
-                  <ul className="space-y-2">
-                    {experiences[selectedMilestone].description.map((item, i) => (
-                      <li key={i} className={`text-sm flex items-start gap-2 ${
-                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                      }`}>
-                        <span 
-                          className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
-                          style={{ backgroundColor: experiences[selectedMilestone].color }}
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                    {selectedExp.title}
+                  </h3>
+                  <p className={`text-sm mb-1 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    {selectedExp.company}
+                  </p>
+                  <p className={`text-sm mb-4 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
+                    {selectedExp.date}
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <h4 className={`font-semibold ${
+                      isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                    }`}>
+                      Key Achievements:
+                    </h4>
+                    <ul className="space-y-2">
+                      {selectedExp.description.map((item, i) => (
+                        <li key={i} className={`text-sm flex items-start gap-2 ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}>
+                          <span 
+                            className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
+                            style={{ backgroundColor: selectedExp.color }}
+                          />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   
                   <div className="mt-4">
                     <h4 className={`font-semibold mb-2 ${
@@ -399,11 +410,11 @@ export default function Interactive3DTimeline() {
                       Technologies:
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {experiences[selectedMilestone].technologies.map((tech) => (
+                      {selectedExp.technologies.map((tech) => (
                         <span
                           key={tech}
                           className="px-2 py-1 rounded text-xs text-white"
-                          style={{ backgroundColor: experiences[selectedMilestone].color }}
+                          style={{ backgroundColor: selectedExp.color }}
                         >
                           {tech}
                         </span>
@@ -411,8 +422,8 @@ export default function Interactive3DTimeline() {
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Timeline Overview */}
             <div className={`rounded-lg p-6 shadow-lg ${
