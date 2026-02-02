@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:strict": "eslint . --ext .ts,.tsx --max-warnings 0"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
@@ -15,6 +16,7 @@
     "@react-three/fiber": "^9.3.0",
     "@react-three/postprocessing": "^3.0.4",
     "@types/three": "^0.178.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
     "lottie-react": "^2.4.1",
@@ -23,6 +25,7 @@
     "react-dom": "^19.0.0",
     "react-error-boundary": "^6.0.0",
     "react-icons": "^5.5.0",
+    "tailwind-merge": "^3.4.0",
     "three": "^0.179.1"
   },
   "devDependencies": {
