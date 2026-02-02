@@ -58,11 +58,11 @@ module.exports = {
         'ai-text-muted': '#94A3B8',
         'ai-text-dim': '#64748B',
         
-        // Other legacy support
+        // Other legacy support (kept for backward compatibility)
         'neon-cyan': '#00D9FF',
         'neon-pink': '#EC4899',
         'neon-green': '#10B981',
-        'deep-black': '#0A1628',
+        'deep-black': '#0A1628', // Legacy alias for ai-navy
       },
       boxShadow: {
         'glow-cyan': '0 0 20px rgba(0, 217, 255, 0.3), 0 0 40px rgba(0, 217, 255, 0.1)',
