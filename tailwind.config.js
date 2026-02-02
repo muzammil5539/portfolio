@@ -7,16 +7,45 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
-        // AI Engineer Dark Theme Palette
+        // CSS Variable-based theming
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        "foreground-muted": "var(--foreground-muted)",
+        "background-secondary": "var(--background-secondary)",
+        surface: "var(--surface)",
+        "surface-elevated": "var(--surface-elevated)",
+        "surface-hover": "var(--surface-hover)",
+        border: "var(--border)",
+        "border-glow": "var(--border-glow)",
+        
+        // Accent colors as CSS variables
+        "accent-cyan": "var(--accent-cyan)",
+        "accent-blue": "var(--accent-blue)",
+        "accent-purple": "var(--accent-purple)",
+        "accent-green": "var(--accent-green)",
+        
+        // Text colors
+        "text-primary": "var(--text-primary)",
+        "text-secondary": "var(--text-secondary)",
+        "text-muted": "var(--text-muted)",
+        
+        // Legacy support - AI Engineer Dark Theme Palette
         'ai-navy': '#0A1628',
         'ai-navy-light': '#0D1B2A',
         'ai-charcoal': '#1A1F2E',
         'ai-charcoal-light': '#242938',
         'ai-slate': '#2D3344',
         
-        // Accent Colors
+        // Legacy Accent Colors
         'ai-cyan': '#00D9FF',
         'ai-cyan-glow': 'rgba(0, 217, 255, 0.4)',
         'ai-blue': '#3B82F6',
@@ -24,18 +53,16 @@ module.exports = {
         'ai-green': '#10B981',
         'ai-amber': '#F59E0B',
         
-        // Text Colors
+        // Legacy Text Colors
         'ai-text': '#E2E8F0',
         'ai-text-muted': '#94A3B8',
         'ai-text-dim': '#64748B',
         
-        // Legacy support
+        // Other legacy support
         'neon-cyan': '#00D9FF',
         'neon-pink': '#EC4899',
         'neon-green': '#10B981',
         'deep-black': '#0A1628',
-        'surface': '#1A1F2E',
-        'surface-elevated': '#242938',
       },
       boxShadow: {
         'glow-cyan': '0 0 20px rgba(0, 217, 255, 0.3), 0 0 40px rgba(0, 217, 255, 0.1)',
