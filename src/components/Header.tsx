@@ -123,6 +123,7 @@ export default function Header() {
                   className={`relative inline-flex items-center gap-2 bg-gradient-to-r from-ai-cyan to-ai-blue px-5 py-2.5 text-sm font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 group overflow-hidden ${
                     isDarkMode ? "text-ai-navy" : "text-white"
                   }`}
+                  aria-label="Download Resume PDF"
                 >
                   <span className="relative z-10">Resume</span>
                   <svg className="w-4 h-4 relative z-10 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,6 +140,8 @@ export default function Header() {
                 isDarkMode ? "text-ai-text-muted hover:text-ai-cyan" : "text-gray-600 hover:text-cyan-600"
               }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
             >
               <svg
                 className="w-6 h-6"
