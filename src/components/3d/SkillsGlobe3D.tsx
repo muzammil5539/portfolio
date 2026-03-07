@@ -30,6 +30,20 @@ const skillsData = {
   },
 };
 
+// Optimization: Pre-build a lookup map for skill to category mapping
+const skillToCategoryMap: Record<string, string> = Object.entries(skillsData).reduce(
+  (acc, [category, data]) => {
+    data.skills.forEach((skill) => {
+      // Only set if not already present to preserve "first match" behavior
+      if (!acc[skill]) {
+        acc[skill] = category;
+      }
+    });
+    return acc;
+  },
+  {} as Record<string, string>
+);
+
 interface SkillNodeProps {
   skill: string;
   position: [number, number, number];
@@ -319,10 +333,8 @@ export default function SkillsGlobe3D() {
 
   const handleSkillClick = useCallback((skill: string) => {
     setSelectedSkill(skill);
-    // Find the category of the clicked skill
-    const category = Object.entries(skillsData).find(([, data]) =>
-      data.skills.includes(skill)
-    )?.[0];
+    // Find the category of the clicked skill using optimized lookup map
+    const category = skillToCategoryMap[skill];
     setSelectedCategory(category || null);
   }, []);
 
