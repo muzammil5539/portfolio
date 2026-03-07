@@ -45,7 +45,7 @@ export default function TypeWriter() {
     );
 
     return () => clearTimeout(timeout);
-  }, [text, roleIndex, isDeleting, isPaused, roles]);
+  }, [text, roleIndex, isDeleting, isPaused]);
 
   return (
     <span className="relative">
