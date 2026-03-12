@@ -6,28 +6,12 @@ import { motion } from "framer-motion";
 
 const blogs = [
   {
-    id: "llm-benchmarks",
-    title: "Beyond the Chatbot: Why LLM Benchmarks Radically Changed in 2026",
-    excerpt: "A deep dive into why MMLU saturated and how new benchmarks like SWE-bench, GPQA Diamond, and AIME are redefining intelligence by measuring agentic execution and multi-step reasoning.",
-    date: "March 2026",
-    readTime: "8 min read",
-    tags: ["LLMs", "Benchmarks", "Agents"],
-  },
-  {
-    id: "history-of-nlp",
-    title: "Natural Language Processing and its History",
-    excerpt: "A thorough journey through the history of Natural Language Processing, from early symbolic systems like ELIZA to the rise of modern Large Language Models.",
-    date: "March 2024",
-    readTime: "12 min read",
-    tags: ["NLP", "History", "AI"],
-  },
-  {
-    id: "llms-evolution",
-    title: "LLMs and How They Understand Natural Language",
-    excerpt: "Deep dive into the internals of the first Transformer, BERT, GPT models, Mixture of Experts (MoE), and knowledge distillation. Learn how modern LLMs process text.",
-    date: "March 2024",
-    readTime: "15 min read",
-    tags: ["LLM", "Transformers", "Deep Learning"],
+    id: "ai-evaluation-paradigm-shift",
+    title: "The Paradigm Shift in AI Evaluation: Moving from Knowledge Retrieval to Agentic Execution",
+    excerpt: "Beyond the Chatbot: Why LLM Benchmarks Radically Changed in 2026. A deep dive into the evolution of AI testing from static multiple-choice to dynamic, agentic evaluations.",
+    date: "October 14, 2025",
+    readTime: "10 min read",
+    tags: ["AI Evaluation", "LLM Benchmarks", "Agentic Execution"],
   }
 ];
 
@@ -69,7 +53,7 @@ export default function BlogIndex() {
                         <span className="w-1 h-1 rounded-full bg-ai-cyan/50" />
                         <span>{blog.readTime}</span>
                         <span className="w-1 h-1 rounded-full bg-ai-cyan/50" />
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap">
                           {blog.tags.map(tag => (
                             <span key={tag} className="px-2 py-1 rounded-md bg-ai-navy text-ai-cyan text-xs font-medium border border-ai-cyan/20">
                               {tag}
@@ -87,7 +71,7 @@ export default function BlogIndex() {
                     </div>
 
                     <div className="flex items-center text-ai-cyan group-hover:translate-x-2 transition-transform duration-300">
-                      <span className="font-medium mr-2">Read Article</span>
+                      <span className="font-medium mr-2 whitespace-nowrap">Read Article</span>
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
