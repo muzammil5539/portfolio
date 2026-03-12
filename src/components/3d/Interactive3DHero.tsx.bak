@@ -1,0 +1,350 @@
+"use client";
+import React, { useRef, useMemo, useState } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { Float, Sphere, Box, Torus, Stars, Sparkles, Icosahedron, Octahedron, MeshDistortMaterial, Plane } from '@react-three/drei';
+import * as THREE from 'three';
+import Scene3D from './Scene3D';
+import { useMousePosition, useWebGLSupport, useReducedMotion } from './hooks';
+import Link from 'next/link';
+import Hero from '../Hero';
+
+// Enhanced particle system
+function ParticleField({ mousePosition }: { mousePosition: { x: number; y: number } }) {
+  const points = useRef<THREE.Points>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const particlesCount = 1000;
+  const positions = useMemo(() => {
+    const pos = new Float32Array(particlesCount * 3);
+    for (let i = 0; i < particlesCount; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 20;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    }
+    return pos;
+  }, []);
+
+  useFrame((state) => {
+    if (!points.current || prefersReducedMotion) return;
+
+    const time = state.clock.getElapsedTime();
+    const positions = points.current.geometry.attributes.position.array as Float32Array;
+
+    for (let i = 0; i < particlesCount; i++) {
+      const i3 = i * 3;
+      positions[i3 + 1] += Math.sin(time + positions[i3]) * 0.001;
+      positions[i3] += mousePosition.x * 0.0005;
+      positions[i3 + 2] += mousePosition.y * 0.0005;
+    }
+
+    points.current.geometry.attributes.position.needsUpdate = true;
+    points.current.rotation.y = time * 0.05;
+  });
+
+  return (
+    <points ref={points}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={particlesCount}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.015}
+        color="#60a5fa"
+        transparent
+        opacity={0.6}
+        vertexColors={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
+// Advanced geometric avatar with better materials and lighting
+function GeometricAvatar({ mousePosition }: { mousePosition: { x: number; y: number } }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const sphereRef = useRef<THREE.Mesh>(null);
+  const torusRef = useRef<THREE.Mesh>(null);
+  const icosahedronRef = useRef<THREE.Mesh>(null);
+  const octahedronRef = useRef<THREE.Mesh>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const [hovered, setHovered] = useState(false);
+
+  useFrame((state) => {
+    if (prefersReducedMotion) return;
+
+    const t = state.clock.getElapsedTime();
+
+    if (groupRef.current) {
+      // Enhanced rotation and mouse tracking
+      groupRef.current.rotation.y = t * 0.15 + mousePosition.x * 0.2;
+      groupRef.current.rotation.x = Math.sin(t * 0.3) * 0.15 + mousePosition.y * 0.1;
+      groupRef.current.position.y = Math.sin(t * 0.4) * 0.3;
+
+      // Scale effect on hover
+      const targetScale = hovered ? 1.1 : 1;
+      groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+    }
+
+    if (torusRef.current) {
+      torusRef.current.rotation.x = t * 0.7;
+      torusRef.current.rotation.z = t * 0.4;
+    }
+
+    if (icosahedronRef.current) {
+      icosahedronRef.current.rotation.x = t * 0.3;
+      icosahedronRef.current.rotation.y = t * 0.2;
+    }
+
+    if (octahedronRef.current) {
+      octahedronRef.current.rotation.x = -t * 0.4;
+      octahedronRef.current.rotation.z = t * 0.3;
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      {/* Central core with distortion material */}
+      <Float speed={2} rotationIntensity={0.4} floatIntensity={0.3}>
+        <Sphere
+          ref={sphereRef}
+          args={[1.2, 64, 64]}
+          position={[0, 0, 0]}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+        >
+          <MeshDistortMaterial
+            color={hovered ? "#3b82f6" : "#1e40af"}
+            transparent
+            opacity={0.7}
+            distort={0.3}
+            speed={2}
+            roughness={0.1}
+            metalness={0.8}
+          />
+        </Sphere>
+      </Float>
+
+      {/* Orbiting geometric shapes */}
+      {/* Enhanced orbiting torus with metallic material */}
+      <Float speed={2} rotationIntensity={0.5} floatIntensity={0.3}>
+        <Torus
+          ref={torusRef}
+          args={[1.5, 0.2, 16, 100]}
+          position={[2, 0, 0]}
+        >
+          <meshStandardMaterial
+            color="#1d4ed8"
+            transparent
+            opacity={0.8}
+            metalness={0.7}
+            roughness={0.3}
+            emissive="#0f172a"
+            emissiveIntensity={0.1}
+          />
+        </Torus>
+      </Float>
+
+      {/* Icosahedron with advanced material */}
+      <Float speed={1.5} rotationIntensity={0.6} floatIntensity={0.4}>
+        <Icosahedron ref={icosahedronRef} args={[0.8]} position={[-2.5, 1.5, 0]}>
+          <meshStandardMaterial
+            color="#7c3aed"
+            transparent
+            opacity={0.7}
+            metalness={0.9}
+            roughness={0.1}
+            envMapIntensity={1}
+          />
+        </Icosahedron>
+      </Float>
+
+      {/* Octahedron */}
+      <Float speed={1.8} rotationIntensity={0.4} floatIntensity={0.2}>
+        <Octahedron ref={octahedronRef} args={[0.6]} position={[0, -2.5, 1.5]}>
+          <meshStandardMaterial
+            color="#059669"
+            transparent
+            opacity={0.8}
+            metalness={0.6}
+            roughness={0.4}
+          />
+        </Octahedron>
+      </Float>
+
+      {/* Enhanced floating cubes with gradient effect */}
+      {[...Array(12)].map((_, i) => {
+        const angle = (i / 12) * Math.PI * 2;
+        const radius = 4 + Math.sin(i) * 0.5;
+        const colors = ["#3b82f6", "#8b5cf6", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
+        return (
+          <Float key={i} speed={1 + i * 0.05} rotationIntensity={0.3} floatIntensity={0.2}>
+            <Box
+              args={[0.2, 0.2, 0.2]}
+              position={[
+                Math.cos(angle) * radius,
+                Math.sin(angle * 2) * 1.5,
+                Math.sin(angle) * radius * 0.7,
+              ]}
+            >
+              <meshStandardMaterial
+                color={colors[i % colors.length]}
+                transparent
+                opacity={0.8}
+                metalness={0.5}
+                roughness={0.2}
+                emissive={colors[i % colors.length]}
+                emissiveIntensity={0.1}
+              />
+            </Box>
+          </Float>
+        );
+      })}
+    </group>
+  );
+}
+
+
+// Main Interactive3DHero component with enhanced lighting and effects
+export default function Interactive3DHero() {
+  const mousePosition = useMousePosition();
+  const { hasWebGL, isLowEndDevice } = useWebGLSupport();
+
+  // Fallback to original Hero component for unsupported devices
+  if (!hasWebGL || isLowEndDevice) {
+    return <Hero />;
+  }
+
+  return (
+    <section id="about" className="py-20 md:py-28 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 relative overflow-hidden">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-16">
+
+          {/* Enhanced 3D Interactive Avatar */}
+          <div className="flex-1 order-1 lg:order-2 h-[600px] relative">
+            <Scene3D
+              camera={{ position: [0, 0, 10], fov: 45 }}
+              className="w-full h-full"
+            >
+              {/* Enhanced particle field */}
+              <ParticleField mousePosition={mousePosition} />
+              <GeometricAvatar mousePosition={mousePosition} />
+
+              {/* Enhanced lighting setup for better material rendering */}
+              <ambientLight intensity={0.2} color="#1e293b" />
+              <directionalLight
+                position={[10, 10, 5]}
+                intensity={1.2}
+                color="#ffffff"
+                castShadow
+              />
+              <pointLight
+                position={[-10, 5, -5]}
+                intensity={0.8}
+                color="#3b82f6"
+                decay={2}
+                distance={30}
+              />
+              <pointLight
+                position={[5, -5, 5]}
+                intensity={0.6}
+                color="#8b5cf6"
+                decay={2}
+                distance={25}
+              />
+              <spotLight
+                position={[0, 10, 0]}
+                angle={Math.PI / 6}
+                intensity={0.5}
+                color="#10b981"
+                penumbra={1}
+                decay={2}
+                distance={30}
+              />
+
+              {/* Starfield effect */}
+              <Stars
+                radius={50}
+                depth={50}
+                count={1000}
+                factor={4}
+                saturation={0.5}
+                fade
+                speed={0.5}
+              />
+
+              {/* Sparkles for extra magic */}
+              <Sparkles
+                count={100}
+                scale={[20, 20, 20]}
+                size={2}
+                speed={0.3}
+                opacity={0.6}
+                color="#60a5fa"
+              />
+            </Scene3D>
+          </div>
+
+          {/* Enhanced Academic Profile Information */}
+          <div className="flex-1 order-2 lg:order-1">
+            <div className="space-y-8">
+              {/* Academic Header with enhanced styling */}
+              <div className="border-l-4 border-gradient-to-b from-blue-400 to-purple-600 pl-6 bg-gradient-to-r from-white/10 to-transparent backdrop-blur-sm rounded-r-lg p-6">
+                <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                  Muzammil Nawaz Khan
+                </h1>
+                <h2 className="text-xl md:text-2xl text-blue-300 font-semibold mb-2">
+                  Computer Engineering Graduate
+                </h2>
+                <p className="text-lg text-blue-100 font-medium">
+                  National University of Sciences and Technology (NUST)
+                </p>
+              </div>
+              </div>
+
+              {/* Enhanced Academic Focus Areas */}
+              <div className="bg-white/10 backdrop-blur-md p-6 border border-white/20 rounded-lg shadow-2xl">
+                <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wide">
+                  Research Interests
+                </h3>
+                <div className="space-y-3">
+                  <p className="text-blue-100 leading-relaxed">
+                    <strong className="text-blue-300">Artificial Intelligence:</strong> Specializing in machine learning algorithms,
+                    deep learning architectures, and neural network optimization for real-world applications.
+                  </p>
+                  <p className="text-blue-100 leading-relaxed">
+                    <strong className="text-purple-300">Computer Vision:</strong> Developing advanced image processing techniques
+                    and pattern recognition systems for medical imaging and security applications.
+                  </p>
+                  <p className="text-blue-100 leading-relaxed">
+                    <strong className="text-green-300">Biomedical AI:</strong> Applying artificial intelligence in healthcare,
+                    focusing on medical image segmentation and diagnostic support systems.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Enhanced Academic Actions */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+              <Link
+                href="#projects"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 font-semibold uppercase tracking-wide hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-center transform hover:scale-105 shadow-lg hover:shadow-2xl rounded-lg border border-white/20"
+              >
+                View Research Projects
+              </Link>
+              <Link
+                href="#contact"
+                className="border-2 border-blue-400 text-blue-300 px-8 py-4 font-semibold uppercase tracking-wide hover:bg-blue-400 hover:text-slate-900 transition-all duration-300 text-center transform hover:scale-105 rounded-lg backdrop-blur-sm"
+              >
+                Academic Contact
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

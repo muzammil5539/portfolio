@@ -6,11 +6,19 @@ import { motion } from "framer-motion";
 
 const blogs = [
   {
+    id: "llm-benchmarks",
+    title: "Beyond the Chatbot: Why LLM Benchmarks Radically Changed in 2026",
+    excerpt: "A deep dive into why MMLU saturated and how new benchmarks like SWE-bench, GPQA Diamond, and AIME are redefining intelligence by measuring agentic execution and multi-step reasoning.",
+    date: "March 2026",
+    readTime: "8 min read",
+    tags: ["LLMs", "Benchmarks", "Agents"],
+  },
+  {
     id: "history-of-nlp",
     title: "Natural Language Processing and its History",
     excerpt: "A thorough journey through the history of Natural Language Processing, from early symbolic systems like ELIZA to the rise of modern Large Language Models.",
     date: "March 2024",
-    readTime: "10 min read",
+    readTime: "12 min read",
     tags: ["NLP", "History", "AI"],
   },
   {
