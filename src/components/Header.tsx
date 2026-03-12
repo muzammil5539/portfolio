@@ -14,6 +14,7 @@ export default function Header() {
     { name: "Skills", href: "#skills" },
     { name: "Certifications", href: "#certifications" },
     { name: "Contact", href: "#contact" },
+    { name: "Blog", href: "/blog" },
   ];
 
   return (
