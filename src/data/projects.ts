@@ -11,6 +11,22 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "voice-ai-front-desk",
+    title: "Voice AI Front Desk Agent",
+    description: "Developing a real-time conversational AI agent using LiveKit, OpenAI, and ElevenLabs, integrating Silero VAD for seamless voice activity detection. Configured SIP Trunking with logic-based transfer functionality.",
+    image: "/projects/luggage.jpg",
+    tags: ["LiveKit", "OpenAI", "ElevenLabs", "Silero VAD", "n8n", "SIP Trunking"],
+    category: "ai",
+  },
+  {
+    id: "camera-data-pipeline",
+    title: "Data Pipeline & Integrity System",
+    description: "Engineered Python scripts to interface with Hikvision NVR systems for fetching raw logs, and designed logic filters to clean noisy camera data (duplicate records/non-attendance) for accurate HR tracking.",
+    image: "/projects/skin.png",
+    tags: ["Python", "Hikvision NVR", "Data Pipeline", "Analytics"],
+    category: "cv",
+  },
+  {
     id: "luggage-threat-detection",
     title: "Luggage Threat Detection",
     description:

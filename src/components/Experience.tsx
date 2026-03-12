@@ -8,29 +8,24 @@ export default function Experience() {
   const experiences = [
     {
       title: "Junior AI Engineer",
-      company: "CareCloud (MTBC) - Bagh, AJK",
+      company: "CareCloud - Remote / On-site",
       date: "July 2025 - Present",
       description: [
-        "Developed Python scripts to interface with Hikvision NVR systems, successfully fetching raw logs of employee facial matches for processing",
-        "Designed and implemented data cleaning rules to remove duplicate records and filter out non-attendance related movements, ensuring only valid check-ins were recorded",
-        "Transformed noisy raw camera data into structured, accurate attendance records, directly enabling the HR system to track employee productivity and presence reliably",
-        "Working on RCM (Revenue Cycle Management) AI solutions with RAG pipeline to optimize medical coding and reduce claim denial rates by ensuring correct modifier usage",
-        "Collaborating with cross-functional teams to integrate AI solutions into existing healthcare systems",
-        "Researching and developing new AI tools and technologies including speech recognition-based language understanding and image-based recognition systems",
+        "Voice AI Front Desk Agent: Developing a real-time conversational AI agent using LiveKit, OpenAI, and ElevenLabs, integrating Silero VAD for seamless voice activity detection.",
+        "Agent Orchestration: Implemented an n8n workflow acting as a Model Context Protocol (MCP) server to manage conversation state, backend prompts, and call routing logic.",
+        "Telephony Integration: Configured SIP Trunking to handle inbound calls with logic-based transfer functionality to human agents.",
+        "Data Pipeline Automation: Engineered Python scripts to interface with Hikvision NVR systems, fetching raw logs for facial recognition and optimizing workforce analytics.",
+        "Data Integrity: Designed logic filters to clean noisy camera data (duplicate records/non-attendance), ensuring accurate HR tracking."
       ],
       technologies: [
+        "LiveKit",
+        "OpenAI",
+        "ElevenLabs",
+        "Silero VAD",
+        "n8n",
+        "SIP Trunking",
         "Python",
-        "TensorFlow",
-        "OpenCV",
-        "REST APIs",
-        "Node.js",
-        "SQL",
-        "RAG",
-        "NLP",
-        "Computer Vision",
-        "Data Science",
-        "Hikvision NVR",
-        "Healthcare AI",
+        "Hikvision NVR"
       ],
     },
     {
