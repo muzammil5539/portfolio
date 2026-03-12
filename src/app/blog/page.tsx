@@ -14,12 +14,12 @@ const blogs = [
     tags: ["LLMs", "Benchmarks", "Agents"],
   },
   {
-    id: "history-of-nlp",
-    title: "Natural Language Processing and its History",
-    excerpt: "A thorough journey through the history of Natural Language Processing, from early symbolic systems like ELIZA to the rise of modern Large Language Models.",
-    date: "March 2024",
-    readTime: "12 min read",
-    tags: ["NLP", "History", "AI"],
+    id: "linguistic-paradigm-shift",
+    title: "The Linguistic Paradigm Shift: Decoupling Memory from Time in Deep Learning",
+    excerpt: "The evolution of Natural Language Processing (NLP) is fundamentally a story of overcoming the constraints of sequence. Tracing the historical paradigm shift from legacy Recurrent Neural Networks (RNNs) to the Transformer architecture.",
+    date: "August 2025",
+    readTime: "15 min read",
+    tags: ["Transformers", "Deep Learning", "NLP"],
   },
   {
     id: "llms-evolution",
