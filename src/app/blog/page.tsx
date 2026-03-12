@@ -22,12 +22,12 @@ const blogs = [
     tags: ["NLP", "History", "AI"],
   },
   {
-    id: "llms-evolution",
-    title: "LLMs and How They Understand Natural Language",
-    excerpt: "Deep dive into the internals of the first Transformer, BERT, GPT models, Mixture of Experts (MoE), and knowledge distillation. Learn how modern LLMs process text.",
-    date: "March 2024",
-    readTime: "15 min read",
-    tags: ["LLM", "Transformers", "Deep Learning"],
+    id: "anatomy-of-llms",
+    title: "The Anatomy of LLMs: From Dense Attention to Sparse Mixture of Experts",
+    excerpt: "Large Language Models have hit a critical computational inflection point. Unpack the architectural paradigm shift from monolithic self-attention mechanisms to the dynamic routing of Mixture of Experts (MoE).",
+    date: "October 2023",
+    readTime: "12 min read",
+    tags: ["LLMs", "Architecture", "MoE"],
   }
 ];
 
