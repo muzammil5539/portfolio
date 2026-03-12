@@ -12,6 +12,23 @@ const blogs = [
     date: "October 14, 2025",
     readTime: "10 min read",
     tags: ["AI Evaluation", "LLM Benchmarks", "Agentic Execution"],
+        },
+  {
+    id: "linguistic-paradigm-shift",
+    title: "The Linguistic Paradigm Shift: Decoupling Memory from Time in Deep Learning",
+    excerpt: "The evolution of Natural Language Processing (NLP) is fundamentally a story of overcoming the constraints of sequence. Tracing the historical paradigm shift from legacy Recurrent Neural Networks (RNNs) to the Transformer architecture.",
+    date: "August 2025",
+    readTime: "15 min read",
+    tags: ["Transformers", "Deep Learning", "NLP"],
+  },
+        {
+    id: "anatomy-of-llms",
+    title: "The Anatomy of LLMs: From Dense Attention to Sparse Mixture of Experts",
+    excerpt: "Large Language Models have hit a critical computational inflection point. Unpack the architectural paradigm shift from monolithic self-attention mechanisms to the dynamic routing of Mixture of Experts (MoE).",
+    date: "October 2023",
+    readTime: "12 min read",
+    tags: ["LLMs", "Architecture", "MoE"],
+
   }
 ];
 
