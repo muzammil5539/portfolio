@@ -122,6 +122,7 @@ const ModuleCard: React.FC<ModuleCardProps> = ({
                 key={lab.title}
                 href={lab.link}
                 target="_blank"
+                rel="noopener noreferrer"
                 className={`group/lab flex items-center p-3 rounded-xl border transition-all duration-200 ${
                   isDarkMode
                     ? "bg-ai-navy/30 border-ai-slate/30 hover:bg-ai-navy hover:border-ai-cyan/50 focus:ring-ai-cyan"
