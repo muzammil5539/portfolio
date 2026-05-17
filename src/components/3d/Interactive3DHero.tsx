@@ -70,6 +70,8 @@ function ParticleField({ mousePosition }: { mousePosition: { x: number; y: numbe
   );
 }
 
+const CUBE_INDICES = Array.from({ length: 12 }, (_, i) => i);
+
 // Advanced geometric avatar with better materials and lighting
 function GeometricAvatar({ mousePosition }: { mousePosition: { x: number; y: number } }) {
   const groupRef = useRef<THREE.Group>(null);
@@ -183,7 +185,7 @@ function GeometricAvatar({ mousePosition }: { mousePosition: { x: number; y: num
       </Float>
 
       {/* Enhanced floating cubes with gradient effect */}
-      {[...Array(12)].map((_, i) => {
+      {CUBE_INDICES.map((i) => {
         const angle = (i / 12) * Math.PI * 2;
         const radius = 4 + Math.sin(i) * 0.5;
         const colors = ["#3b82f6", "#8b5cf6", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
