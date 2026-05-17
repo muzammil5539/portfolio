@@ -167,6 +167,7 @@ const CertificationJourneyPage = () => {
                     : "text-cyan-600 hover:text-cyan-800"
                 }`}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 IBM AI Engineer Professional Certificate on Coursera
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
