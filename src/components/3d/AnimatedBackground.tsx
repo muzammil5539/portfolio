@@ -8,6 +8,8 @@ interface AnimatedBackgroundProps {
   className?: string;
 }
 
+const SHAPES = Array.from({ length: 10 }, (_, i) => i);
+
 // Main AnimatedBackground component
 export default function AnimatedBackground({
   className = "fixed inset-0 -z-10"
@@ -35,7 +37,7 @@ export default function AnimatedBackground({
           
           {/* Floating geometric shapes */}
           <div className="absolute inset-0">
-            {[...Array(10)].map((_, i) => (
+            {SHAPES.map((_, i) => (
               <div
                 key={i}
                 className="absolute opacity-10"
