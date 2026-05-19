@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
@@ -71,6 +71,20 @@ function ProjectCard3D({ project, index, isSelected, onClick, mousePosition }: P
   const meshRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+
+  // Performance optimization: Pre-allocate Float32Array directly instead of using Array.from().flat(),
+  // and wrap in useMemo to prevent unnecessary memory allocations and garbage collection on every render.
+  const particlePositions = useMemo(() => {
+    const pos = new Float32Array(60 * 3);
+    for (let i = 0; i < 60; i++) {
+      const angle = (i / 20) * Math.PI * 2;
+      const radius = 1.5 + Math.random() * 0.5;
+      pos[i * 3] = Math.cos(angle) * radius;
+      pos[i * 3 + 1] = Math.sin(angle) * radius;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 0.5;
+    }
+    return pos;
+  }, []);
 
   useFrame((state) => {
     if (!meshRef.current || prefersReducedMotion) return;
@@ -187,17 +201,7 @@ function ProjectCard3D({ project, index, isSelected, onClick, mousePosition }: P
             <bufferGeometry>
               <bufferAttribute
                 attach="attributes-position"
-                args={[new Float32Array(
-                  Array.from({ length: 60 }, (_, i) => {
-                    const angle = (i / 20) * Math.PI * 2;
-                    const radius = 1.5 + Math.random() * 0.5;
-                    return [
-                      Math.cos(angle) * radius,
-                      Math.sin(angle) * radius,
-                      (Math.random() - 0.5) * 0.5
-                    ];
-                  }).flat()
-                ), 3]}
+                args={[particlePositions, 3]}
               />
             </bufferGeometry>
             <pointsMaterial 

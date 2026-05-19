@@ -8,6 +8,8 @@ import { useMousePosition, useWebGLSupport, useReducedMotion } from './hooks';
 import Link from 'next/link';
 import Hero from '../Hero';
 
+const FLOATING_CUBES = Array.from({ length: 12 }, (_, i) => i);
+
 // Enhanced particle system
 function ParticleField({ mousePosition }: { mousePosition: { x: number; y: number } }) {
   const points = useRef<THREE.Points>(null);
@@ -183,7 +185,7 @@ function GeometricAvatar({ mousePosition }: { mousePosition: { x: number; y: num
       </Float>
 
       {/* Enhanced floating cubes with gradient effect */}
-      {[...Array(12)].map((_, i) => {
+      {FLOATING_CUBES.map((i) => {
         const angle = (i / 12) * Math.PI * 2;
         const radius = 4 + Math.sin(i) * 0.5;
         const colors = ["#3b82f6", "#8b5cf6", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];

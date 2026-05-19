@@ -5,6 +5,8 @@ interface CodeSnippetProps {
   language?: string;
 }
 
+const LINE_NUMBERS = Array.from({ length: 16 }, (_, i) => i);
+
 export default function CodeSnippet({
   className = "",
   language = "python",
@@ -25,7 +27,7 @@ export default function CodeSnippet({
       <div className="flex">
         {/* Line numbers */}
         <div className="pr-4 mr-4 border-r border-ai-charcoal-light select-none">
-          {[...Array(16)].map((_, i) => (
+          {LINE_NUMBERS.map((i) => (
             <div key={i} className="text-ai-text-dim text-xs leading-7 text-right">
               {i + 1}
             </div>
