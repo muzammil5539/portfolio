@@ -1,0 +1,3 @@
+## 2025-05-20 - SVG Animation Performance Optimization
+**Learning:** Hardcoded animation keyframes applied to dynamically generated SVG paths can lead to visual desync and often force developers to imperatively modify the DOM via `useEffect` and `querySelectorAll`. This causes synchronous DOM layout thrashing and prevents the engine from utilizing React's optimized virtual DOM batching.
+**Action:** Use `useMemo` to perform geometry math (like distance algorithms) ahead of time during the render cycle, and apply the results directly to the component via custom CSS variables like `--path-length` in inline styles, syncing it to dynamic `@keyframes`.
