@@ -11,21 +11,21 @@ on:
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref != 'add-clamp-utility-tests-18323100520824437596' && github.head_ref != 'add-blog-section-10597797719136655377' && github.head_ref != 'feat/update-blog-content-11807806286163808016' && github.head_ref != 'update-carecloud-v2')
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref != 'add-clamp-utility-tests-18323100520824437596' && github.head_ref != 'add-blog-section-10597797719136655377' && github.head_ref != 'feat/update-blog-content-11807806286163808016' && github.head_ref != 'update-carecloud-v2' && !startsWith(github.head_ref, 'perf/optimize-svg'))
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     permissions:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
           lfs: false
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
       - name: Get Id Token
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         id: idtoken
         with:
           script: |
