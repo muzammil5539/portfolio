@@ -1,0 +1,3 @@
+## 2025-05-21 - Optimize NeuralNetworkDiagram SVG Animation
+**Learning:** Found a major anti-pattern where a `useEffect` inside an SVG component was imperatively querying DOM elements (`querySelectorAll(".neural-connection")`), parsing their layout attributes (`getAttribute`), calculating path length using Math.sqrt, and assigning inline styles causing layout thrashing on render.
+**Action:** Always prefer declarative React implementations. For dynamic SVG animations, pre-calculate geometries (like line lengths) during render utilizing `useMemo` to prevent recalculations. Use CSS Variables (`--path-length`) passed via inline styles to cleanly link dynamic JS variables with static CSS `@keyframes`.
