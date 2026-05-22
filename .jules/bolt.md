@@ -1,0 +1,3 @@
+## 2025-03-09 - Imperative DOM updates vs React useMemo caching for NeuralNetworkDiagram
+**Learning:** Imperative DOM searches and manual manipulation via `useEffect` in performance-critical areas like animating SVG diagrams forces visual layout repaints, and unnecessarily triggers expensive computations inside high-frequency renders if not handled declaratively within the React lifecycle properly.
+**Action:** Replace direct access through `useRef()` and `document.querySelectorAll()` with pure declarative mappings where geometry state is efficiently computed via `useMemo()`. Sync custom SVG attributes and CSS variables properly, bypassing the overhead of manual `style.strokeDashoffset` querying.
