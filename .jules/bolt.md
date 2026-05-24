@@ -1,0 +1,3 @@
+## 2025-03-09 - Avoid DOM Parsing in useEffect for SVG Animations
+**Learning:** Found a performance bottleneck in SVG network diagram components (`NeuralNetworkDiagram.tsx`) where layout properties like line lengths were calculated by querying the DOM (`querySelectorAll`) and parsing attributes (`x1`, `y1`, etc.) inside a `useEffect`. This forces synchronous layout calculation and causes layout thrashing on mount, especially with numerous nodes.
+**Action:** When animating SVG geometries, mathematically calculate visual properties (like node positions and path lengths) during the render cycle, cache the result using `useMemo`, and pass values declaratively using inline CSS variables (e.g., `--path-length`) to be consumed by `@keyframes`.
