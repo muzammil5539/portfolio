@@ -1,0 +1,3 @@
+## 2025-05-25 - SVG Imperative DOM Modification Anti-Pattern
+**Learning:** Found a specific anti-pattern in `NeuralNetworkDiagram.tsx` where SVG path lengths were being calculated via `querySelectorAll` and DOM string parsing inside a `useEffect` on every load, coupled with hardcoded animation keyframes. In Next.js/React, querying the DOM directly for styles rather than calculating properties mathematically during the render phase causes forced synchronous layout and bypasses React's virtual DOM entirely.
+**Action:** Always pre-calculate visual geometric properties natively using math within `useMemo` hooks, map them directly to data objects, and apply them dynamically via inline styles and CSS variables to avoid DOM thrashing and sync keyframe animations properly.
