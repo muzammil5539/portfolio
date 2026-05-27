@@ -1,0 +1,3 @@
+## 2025-03-05 - Optimize SVG Neural Network Diagram Performance
+**Learning:** Imperative DOM querying (`querySelectorAll`) and mutating styles inside a `useEffect` on every render cycle causes significant layout thrashing and poor React rendering performance, especially when computing SVG geometry dynamically for many nodes and lines.
+**Action:** When calculating SVG geometry in React components, do so declaratively within `useMemo` hooks. This ensures attributes like `strokeDasharray` and `strokeDashoffset` can be applied directly within the JSX via inline styles during the React render phase, skipping unnecessary browser reflows triggered by manual DOM mutations.
