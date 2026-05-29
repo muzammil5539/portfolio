@@ -1,0 +1,3 @@
+## 2026-05-29 - Declarative SVG Animation Optimization
+**Learning:** Found an anti-pattern in `NeuralNetworkDiagram.tsx` where imperative DOM queries (`querySelectorAll`) and attribute parsing inside `useEffect` were used to calculate line lengths for SVG animations. This causes unnecessary layout thrashing/reflows and breaks React's declarative rendering model.
+**Action:** Always pre-calculate visual properties (like SVG line lengths via Pythagorean theorem) during the render phase based on React state/props, and use `useMemo` to cache the results. Apply these calculated values via inline styles declaratively instead of reaching into the DOM.
