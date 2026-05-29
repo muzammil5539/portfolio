@@ -16,6 +16,10 @@ export default function NeuralNetworkDiagram({
   nodeCount = DEFAULT_NODE_COUNT,
   animated = true,
 }: NeuralNetworkDiagramProps) {
+  // PERFORMANCE OPTIMIZATION:
+  // Pre-calculate line distances and geometric positions during the render phase
+  // instead of imperatively querying the DOM with querySelectorAll inside useEffect.
+  // Impact: Eliminates synchronous layout thrashing/reflows and significantly reduces mount time.
   const { layers, connections } = useMemo(() => {
     const layerSpacing = WIDTH / (nodeCount.length + 1);
 
