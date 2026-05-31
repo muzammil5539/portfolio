@@ -1,0 +1,3 @@
+## 2024-05-18 - Avoid DOM querying in SVG React Components
+**Learning:** In React, performing imperative DOM queries like `querySelectorAll` and parsing attributes like `getAttribute("x1")` inside a `useEffect` for SVG components is an anti-pattern. It forces layout thrashing, bypasses React's render lifecycle, and scales poorly with complexity. In `NeuralNetworkDiagram.tsx`, this approach was used to calculate line lengths for CSS animations.
+**Action:** Pre-calculate visual properties (like line lengths) during the React render phase using standard math, and memoize the calculations using `useMemo`. Apply the calculated lengths dynamically via inline styles using CSS variables or direct styling, eliminating the need for `useEffect` and imperative DOM queries entirely.
