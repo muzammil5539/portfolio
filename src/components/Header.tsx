@@ -119,7 +119,7 @@ export default function Header() {
 
               <div className={`ml-4 pl-4 border-l ${isDarkMode ? "border-ai-charcoal" : "border-gray-200"}`}>
                 <a
-                  href="/Muzammil Nawaz Khan Resume.pdf"
+                  href="/Muzammil_Nawaz_Khan_Resume.pdf"
                   download
                   className={`relative inline-flex items-center gap-2 bg-gradient-to-r from-ai-cyan to-ai-blue px-5 py-2.5 text-sm font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 group overflow-hidden ${
                     isDarkMode ? "text-ai-navy" : "text-white"
@@ -222,7 +222,7 @@ export default function Header() {
               
               <div className={`pt-4 mt-4 border-t ${isDarkMode ? "border-ai-charcoal" : "border-gray-200"}`}>
                 <a
-                  href="/Muzammil Nawaz Khan Resume.pdf"
+                  href="/Muzammil_Nawaz_Khan_Resume.pdf"
                   download
                   className={`flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-ai-cyan to-ai-blue rounded-lg font-semibold text-sm ${
                     isDarkMode ? "text-ai-navy" : "text-white"
