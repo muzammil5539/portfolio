@@ -1,0 +1,3 @@
+## 2025-03-09 - SVG Network performance boost via inline declarative rendering
+**Learning:** When dealing with static SVG connections whose calculations happen every render but can be derived from static or semi-static props, an imperative `useEffect` that triggers querySelectorAll on mount introduces performance overhead by reading layout and appending CSS after render. Combining `useMemo` calculation of mathematical positions directly injected via inline properties is cleaner and more efficient.
+**Action:** Re-evaluate imperative DOM selection (`querySelectorAll`) in `useEffect` when dynamic styles (`strokeDasharray`, `strokeDashoffset`, `animation`) can be evaluated via `useMemo` and rendered declaratively on standard components.
