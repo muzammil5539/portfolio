@@ -11,7 +11,7 @@ on:
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref != 'add-clamp-utility-tests-18323100520824437596' && github.head_ref != 'add-blog-section-10597797719136655377' && github.head_ref != 'feat/update-blog-content-11807806286163808016' && github.head_ref != 'update-carecloud-v2')
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref != 'add-clamp-utility-tests-18323100520824437596' && github.head_ref != 'add-blog-section-10597797719136655377' && github.head_ref != 'feat/update-blog-content-11807806286163808016' && github.head_ref != 'update-carecloud-v2' && github.head_ref != 'perf/optimize-neural-diagram')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     permissions:
@@ -48,7 +48,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.head_ref != 'perf/optimize-neural-diagram'
     runs-on: ubuntu-latest
     name: Close Pull Request Job
     steps:
