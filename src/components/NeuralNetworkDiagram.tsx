@@ -62,8 +62,8 @@ export default function NeuralNetworkDiagram({
             conns.push({
               x1: node.x,
               y1: node.y,
-              x2: nextLayer[nj].x,
-              y2: nextLayer[nj].y,
+              x2: nextNode.x,
+              y2: nextNode.y,
               key: `${i}-${ni}-${nj}`,
               length,
               animationDelay: connectionIndex * 0.05,
@@ -112,13 +112,12 @@ export default function NeuralNetworkDiagram({
 
         {/* Connections */}
         {connections.map((conn) => {
-          // @ts-expect-error custom CSS property
-          const lineStyle: CSSProperties = animated ? {
+          const lineStyle = animated ? {
             "--path-length": conn.length,
             strokeDasharray: conn.length,
             strokeDashoffset: conn.length,
             animation: `lineFlow 3s ${conn.animationDelay}s ease-in-out infinite`,
-          } : {};
+          } as CSSProperties : {};
 
           return (
             <line
