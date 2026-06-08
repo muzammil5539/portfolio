@@ -1,0 +1,3 @@
+## 2024-06-08 - Declarative SVG Animation Performance
+**Learning:** Imperative DOM querying (e.g., `querySelectorAll` inside `useEffect`) in React components for calculating SVG line lengths forces unnecessary reflows and breaks React's declarative rendering model. Additionally, default array props in component signatures cause referential equality checks to fail, leading to redundant re-renders.
+**Action:** Always pre-calculate visual properties like line distances during the render phase using `useMemo` and apply them declaratively via inline styles. Extract default object/array props to constants outside the component.
