@@ -16,10 +16,9 @@ export default function NeuralNetworkDiagram({
 }: NeuralNetworkDiagramProps) {
   const width = 600;
   const height = 400;
+  const layerSpacing = width / (nodeCount.length + 1);
 
   const { layers, connections } = useMemo(() => {
-    const layerSpacing = width / (nodeCount.length + 1);
-
     const getNodePosition = (layerIndex: number, nodeIndex: number, totalNodes: number) => {
       const x = layerSpacing * (layerIndex + 1);
       const nodeSpacing = height / (totalNodes + 1);
@@ -61,7 +60,7 @@ export default function NeuralNetworkDiagram({
     }
 
     return { layers: newLayers, connections: newConnections };
-  }, [nodeCount, width, height]);
+  }, [nodeCount, height, layerSpacing]);
 
   return (
     <div className={`relative ${className}`}>
