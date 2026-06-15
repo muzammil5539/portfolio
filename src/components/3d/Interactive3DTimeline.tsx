@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Sphere, Line } from '@react-three/drei';
 import * as THREE from 'three';
@@ -92,6 +92,18 @@ function TimelineMilestone({ experience, index, isSelected, onClick, totalCount 
     groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
   });
 
+  const animatedParticlePositions = useMemo(() => {
+    const positions = new Float32Array(48 * 3);
+    for (let i = 0; i < 48; i++) {
+      const angle = (i / 16) * Math.PI * 2;
+      const radius = 0.6;
+      positions[i * 3] = Math.cos(angle) * radius;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 0.2;
+      positions[i * 3 + 2] = Math.sin(angle) * radius;
+    }
+    return positions;
+  }, []);
+
   return (
     <group 
       ref={groupRef}
@@ -175,17 +187,7 @@ function TimelineMilestone({ experience, index, isSelected, onClick, totalCount 
             <bufferGeometry>
               <bufferAttribute
                 attach="attributes-position"
-                args={[new Float32Array(
-                  Array.from({ length: 48 }, (_, i) => {
-                    const angle = (i / 16) * Math.PI * 2;
-                    const radius = 0.6;
-                    return [
-                      Math.cos(angle) * radius,
-                      (Math.random() - 0.5) * 0.2,
-                      Math.sin(angle) * radius
-                    ];
-                  }).flat()
-                ), 3]}
+                args={[animatedParticlePositions, 3]}
               />
             </bufferGeometry>
             <pointsMaterial 
@@ -231,6 +233,14 @@ function Timeline3DScene({ selectedMilestone, onMilestoneClick }: Timeline3DScen
   const mousePosition = useMousePosition();
   const prefersReducedMotion = useReducedMotion();
 
+  const backgroundParticlePositions = useMemo(() => {
+    const positions = new Float32Array(150 * 3);
+    for (let i = 0; i < 150 * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 20;
+    }
+    return positions;
+  }, []);
+
   useFrame(() => {
     if (!groupRef.current || prefersReducedMotion) return;
     
@@ -271,9 +281,7 @@ function Timeline3DScene({ selectedMilestone, onMilestoneClick }: Timeline3DScen
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            args={[new Float32Array(
-              Array.from({ length: 150 }, () => (Math.random() - 0.5) * 20)
-            ), 3]}
+            args={[backgroundParticlePositions, 3]}
           />
         </bufferGeometry>
         <pointsMaterial 
