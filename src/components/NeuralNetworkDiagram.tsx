@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useMemo } from "react";
 
 interface NeuralNetworkDiagramProps {
   className?: string;
@@ -7,72 +7,63 @@ interface NeuralNetworkDiagramProps {
   animated?: boolean;
 }
 
+const DEFAULT_NODE_COUNT = [4, 6, 6, 4, 2];
+
 export default function NeuralNetworkDiagram({
   className = "",
-  nodeCount = [4, 6, 6, 4, 2],
+  nodeCount = DEFAULT_NODE_COUNT,
   animated = true,
 }: NeuralNetworkDiagramProps) {
-  const svgRef = useRef<SVGSVGElement>(null);
+  const { layers, connections, layerSpacing, height, width } = useMemo(() => {
+    const w = 600;
+    const h = 400;
+    const spacing = w / (nodeCount.length + 1);
 
-  useEffect(() => {
-    if (!animated || !svgRef.current) return;
+    const getNodePosition = (layerIndex: number, nodeIndex: number, totalNodes: number) => {
+      const x = spacing * (layerIndex + 1);
+      const nodeSpacing = h / (totalNodes + 1);
+      const y = nodeSpacing * (nodeIndex + 1);
+      return { x, y };
+    };
 
-    const connections = svgRef.current.querySelectorAll(".neural-connection");
-    connections.forEach((connection, index) => {
-      const line = connection as SVGLineElement;
-      const length = Math.sqrt(
-        Math.pow(parseFloat(line.getAttribute("x2") || "0") - parseFloat(line.getAttribute("x1") || "0"), 2) +
-        Math.pow(parseFloat(line.getAttribute("y2") || "0") - parseFloat(line.getAttribute("y1") || "0"), 2)
-      );
-      line.style.strokeDasharray = `${length}`;
-      line.style.strokeDashoffset = `${length}`;
-      line.style.animation = `lineFlow 3s ${index * 0.05}s ease-in-out infinite`;
+    const computedLayers = nodeCount.map((count, layerIndex) => {
+      const nodes = [];
+      for (let i = 0; i < count; i++) {
+        const { x, y } = getNodePosition(layerIndex, i, count);
+        nodes.push({ x, y, layerIndex, nodeIndex: i });
+      }
+      return nodes;
     });
-  }, [animated]);
 
-  const width = 600;
-  const height = 400;
-  const layerSpacing = width / (nodeCount.length + 1);
-
-  const getNodePosition = (layerIndex: number, nodeIndex: number, totalNodes: number) => {
-    const x = layerSpacing * (layerIndex + 1);
-    const nodeSpacing = height / (totalNodes + 1);
-    const y = nodeSpacing * (nodeIndex + 1);
-    return { x, y };
-  };
-
-  const layers = nodeCount.map((count, layerIndex) => {
-    const nodes = [];
-    for (let i = 0; i < count; i++) {
-      const { x, y } = getNodePosition(layerIndex, i, count);
-      nodes.push({ x, y, layerIndex, nodeIndex: i });
-    }
-    return nodes;
-  });
-
-  const connections: { x1: number; y1: number; x2: number; y2: number; key: string }[] = [];
-  for (let i = 0; i < layers.length - 1; i++) {
-    const currentLayer = layers[i];
-    const nextLayer = layers[i + 1];
-    if (currentLayer && nextLayer) {
-      currentLayer.forEach((node, ni) => {
-        nextLayer.forEach((nextNode, nj) => {
-          connections.push({
-            x1: node.x,
-            y1: node.y,
-            x2: nextNode.x,
-            y2: nextNode.y,
-            key: `${i}-${ni}-${nj}`,
+    const computedConnections: { x1: number; y1: number; x2: number; y2: number; key: string; length: number; index: number }[] = [];
+    let connectionIndex = 0;
+    for (let i = 0; i < computedLayers.length - 1; i++) {
+      const currentLayer = computedLayers[i];
+      const nextLayer = computedLayers[i + 1];
+      if (currentLayer && nextLayer) {
+        currentLayer.forEach((node, ni) => {
+          nextLayer.forEach((nextNode, nj) => {
+            const length = Math.sqrt(Math.pow(nextNode.x - node.x, 2) + Math.pow(nextNode.y - node.y, 2));
+            computedConnections.push({
+              x1: node.x,
+              y1: node.y,
+              x2: nextLayer[nj].x,
+              y2: nextLayer[nj].y,
+              key: `${i}-${ni}-${nj}`,
+              length,
+              index: connectionIndex++,
+            });
           });
         });
-      });
+      }
     }
-  }
+
+    return { layers: computedLayers, connections: computedConnections, layerSpacing: spacing, height: h, width: w };
+  }, [nodeCount]);
 
   return (
     <div className={`relative ${className}`}>
       <svg
-        ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
         className="w-full h-full"
         style={{ filter: "drop-shadow(0 0 8px rgba(0, 217, 255, 0.2))" }}
@@ -116,6 +107,15 @@ export default function NeuralNetworkDiagram({
             stroke="url(#nodeGradient)"
             strokeWidth="1"
             opacity="0.3"
+            style={
+              animated
+                ? {
+                    strokeDasharray: `${conn.length}`,
+                    strokeDashoffset: `${conn.length}`,
+                    animation: `lineFlow 3s ${conn.index * 0.05}s ease-in-out infinite`,
+                  }
+                : undefined
+            }
           />
         ))}
 
