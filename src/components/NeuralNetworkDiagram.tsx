@@ -47,8 +47,8 @@ export default function NeuralNetworkDiagram({
             computedConnections.push({
               x1: node.x,
               y1: node.y,
-              x2: nextLayer[nj].x,
-              y2: nextLayer[nj].y,
+              x2: nextNode.x,
+              y2: nextNode.y,
               key: `${i}-${ni}-${nj}`,
               length,
               index: connectionIndex++,
