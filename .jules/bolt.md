@@ -1,0 +1,3 @@
+## 2025-03-05 - Unmemoized Float32Arrays with Math.random() in Render Body
+**Learning:** Found an anti-pattern in the codebase where React Three Fiber components initialize \`Float32Array\` with \`Math.random()\` calculations during the component's render function without using \`useMemo\`. This leads to array recreation and unnecessary memory allocation on every re-render.
+**Action:** When working on R3F or Canvas applications, always verify that objects like \`Float32Array\` and values containing \`Math.random()\` are properly memoized via \`useMemo\` if their generation is synchronous, to avoid garbage collection pressure.
