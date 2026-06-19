@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
@@ -71,6 +71,21 @@ function ProjectCard3D({ project, index, isSelected, onClick, mousePosition }: P
   const meshRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+
+  // Memoize particle positions to prevent array recreation and Math.random() calls on re-renders
+  const particlePositions = useMemo(() => {
+    return new Float32Array(
+      Array.from({ length: 60 }, (_, i) => {
+        const angle = (i / 20) * Math.PI * 2;
+        const radius = 1.5 + Math.random() * 0.5;
+        return [
+          Math.cos(angle) * radius,
+          Math.sin(angle) * radius,
+          (Math.random() - 0.5) * 0.5
+        ];
+      }).flat()
+    );
+  }, []);
 
   useFrame((state) => {
     if (!meshRef.current || prefersReducedMotion) return;
@@ -187,17 +202,7 @@ function ProjectCard3D({ project, index, isSelected, onClick, mousePosition }: P
             <bufferGeometry>
               <bufferAttribute
                 attach="attributes-position"
-                args={[new Float32Array(
-                  Array.from({ length: 60 }, (_, i) => {
-                    const angle = (i / 20) * Math.PI * 2;
-                    const radius = 1.5 + Math.random() * 0.5;
-                    return [
-                      Math.cos(angle) * radius,
-                      Math.sin(angle) * radius,
-                      (Math.random() - 0.5) * 0.5
-                    ];
-                  }).flat()
-                ), 3]}
+                args={[particlePositions, 3]}
               />
             </bufferGeometry>
             <pointsMaterial 
