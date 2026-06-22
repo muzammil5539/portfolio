@@ -1,0 +1,3 @@
+## 2025-03-05 - Avoid DOM querying in Next.js useEffect for SVG lengths
+**Learning:** In Next.js (or SSR generally), parsing visual SVG lengths using DOM calls (`.querySelectorAll`, `.getAttribute`) within a `useEffect` triggers layout thrashing, prevents static rendering, and frequently causes runtime issues. The codebase had an anti-pattern in `NeuralNetworkDiagram.tsx` where it iteratively calculated connection lengths after mount.
+**Action:** Use `useMemo` to precalculate coordinate distances mathematically during the React render phase, and pass them declaratively via CSS variables or inline styles (`strokeDasharray`, `strokeDashoffset`) to animations, completely eliminating imperative DOM queries.
