@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Sphere, Line } from '@react-three/drei';
 import * as THREE from 'three';
@@ -72,6 +72,21 @@ function TimelineMilestone({ experience, index, isSelected, onClick, totalCount 
   const groupRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+
+  // Memoize animated particles to prevent re-creation on every render
+  const particlesPosition = useMemo(() => {
+    return new Float32Array(
+      Array.from({ length: 48 }, (_, i) => {
+        const angle = (i / 16) * Math.PI * 2;
+        const radius = 0.6;
+        return [
+          Math.cos(angle) * radius,
+          (Math.random() - 0.5) * 0.2,
+          Math.sin(angle) * radius
+        ];
+      }).flat()
+    );
+  }, []);
 
   useFrame((state) => {
     if (!groupRef.current || prefersReducedMotion) return;
@@ -175,17 +190,7 @@ function TimelineMilestone({ experience, index, isSelected, onClick, totalCount 
             <bufferGeometry>
               <bufferAttribute
                 attach="attributes-position"
-                args={[new Float32Array(
-                  Array.from({ length: 48 }, (_, i) => {
-                    const angle = (i / 16) * Math.PI * 2;
-                    const radius = 0.6;
-                    return [
-                      Math.cos(angle) * radius,
-                      (Math.random() - 0.5) * 0.2,
-                      Math.sin(angle) * radius
-                    ];
-                  }).flat()
-                ), 3]}
+                args={[particlesPosition, 3]}
               />
             </bufferGeometry>
             <pointsMaterial 
@@ -231,6 +236,13 @@ function Timeline3DScene({ selectedMilestone, onMilestoneClick }: Timeline3DScen
   const mousePosition = useMousePosition();
   const prefersReducedMotion = useReducedMotion();
 
+  // Memoize background particles to prevent re-creation on every render
+  const bgParticlesPosition = useMemo(() => {
+    return new Float32Array(
+      Array.from({ length: 150 }, () => (Math.random() - 0.5) * 20)
+    );
+  }, []);
+
   useFrame(() => {
     if (!groupRef.current || prefersReducedMotion) return;
     
@@ -271,9 +283,7 @@ function Timeline3DScene({ selectedMilestone, onMilestoneClick }: Timeline3DScen
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            args={[new Float32Array(
-              Array.from({ length: 150 }, () => (Math.random() - 0.5) * 20)
-            ), 3]}
+            args={[bgParticlesPosition, 3]}
           />
         </bufferGeometry>
         <pointsMaterial 
