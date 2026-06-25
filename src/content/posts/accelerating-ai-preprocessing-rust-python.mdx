@@ -1,0 +1,57 @@
+export const metadata = {
+  title: "Accelerating AI Data Preprocessing: Rewriting a Python Bottleneck in Rust",
+  publishDate: "2026-03-01",
+  description: "How rewriting a critical JSON parsing bottleneck in Rust using PyO3 accelerated our LLM inference pipeline by 40x.",
+  tags: ["Rust", "Python", "AI", "Performance"],
+};
+
+## The Problem: Python's JSON Bottleneck
+
+In our latest LLM inference pipeline, we noticed a severe bottleneck. The model inference itself was fast (thanks to optimized vLLM containers), but the data preprocessing step—specifically parsing and transforming massive JSON arrays of conversation histories—was taking up 80% of the total request time.
+
+Standard Python libraries like `json` and even `orjson` were struggling with the sheer volume of nested, unstructured data. We needed a system-level solution.
+
+<InfoCallout title="Why not just scale horizontally?">
+  Horizontal scaling (adding more worker nodes) would have solved the throughput issue, but it would have skyrocketed our cloud costs. We wanted to improve single-node efficiency first.
+</InfoCallout>
+
+## The Solution: Rust and PyO3
+
+We decided to rewrite the specific preprocessing function in Rust, compiling it as a Python module using `PyO3`.
+
+Here is a simplified version of the Rust implementation:
+
+```rust
+use pyo3::prelude::*;
+use pyo3::types::{PyDict, PyList};
+use serde_json::Value;
+
+#[pyfunction]
+fn process_conversations(py: Python, json_data: &str) -> PyResult<PyObject> {
+    // Parse JSON safely and extremely fast
+    let parsed: Value = serde_json::from_str(json_data).unwrap();
+
+    // ... complex transformation logic omitted for brevity ...
+
+    let result = PyList::empty(py);
+    // Return standard Python objects to the caller
+    Ok(result.into())
+}
+
+#[pymodule]
+fn fast_preprocessor(_py: Python, m: &PyModule) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(process_conversations, m)?)?;
+    Ok(())
+}
+```
+
+## The Results
+
+The results were immediate and staggering. The preprocessing step went from taking **1.2 seconds** per batch in pure Python to just **30 milliseconds** using the Rust extension.
+
+This 40x speedup allowed us to serve 10x more concurrent users on the same hardware tier, saving thousands of dollars in monthly infrastructure costs.
+
+### Key Takeaways
+1. **Profile before you rewrite.** We didn't rewrite the whole app in Rust, just the hot path.
+2. **Interop is easier than ever.** PyO3 makes the boundary between Python and Rust nearly frictionless.
+3. **Memory safety is a bonus.** Not only is it faster, but we also eliminated several obscure `KeyError` crashes that were plaguing the Python version due to malformed data.
