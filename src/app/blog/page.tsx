@@ -1,106 +1,71 @@
-"use client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import Link from 'next/link'
+import { getAllPosts } from '@/lib/blog'
 
-const blogs = [
-  {
-    id: "ai-evaluation-paradigm-shift",
-    title: "The Paradigm Shift in AI Evaluation: Moving from Knowledge Retrieval to Agentic Execution",
-    excerpt: "Beyond the Chatbot: Why LLM Benchmarks Radically Changed in 2026. A deep dive into the evolution of AI testing from static multiple-choice to dynamic, agentic evaluations.",
-    date: "October 14, 2025",
-    readTime: "10 min read",
-    tags: ["AI Evaluation", "LLM Benchmarks", "Agentic Execution"],
-        },
-  {
-    id: "linguistic-paradigm-shift",
-    title: "The Linguistic Paradigm Shift: Decoupling Memory from Time in Deep Learning",
-    excerpt: "The evolution of Natural Language Processing (NLP) is fundamentally a story of overcoming the constraints of sequence. Tracing the historical paradigm shift from legacy Recurrent Neural Networks (RNNs) to the Transformer architecture.",
-    date: "August 2025",
-    readTime: "15 min read",
-    tags: ["Transformers", "Deep Learning", "NLP"],
-  },
-        {
-    id: "anatomy-of-llms",
-    title: "The Anatomy of LLMs: From Dense Attention to Sparse Mixture of Experts",
-    excerpt: "Large Language Models have hit a critical computational inflection point. Unpack the architectural paradigm shift from monolithic self-attention mechanisms to the dynamic routing of Mixture of Experts (MoE).",
-    date: "October 2023",
-    readTime: "12 min read",
-    tags: ["LLMs", "Architecture", "MoE"],
+export default async function BlogIndex() {
+  const posts = await getAllPosts()
 
-  }
-];
-
-export default function BlogIndex() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen pt-32 pb-20 px-6 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-ai-cyan to-ai-blue">
-            AI & Engineering Blog
+    <div className="container py-24 min-h-screen">
+      <div className="max-w-4xl mx-auto">
+        <header className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent-cyan to-accent-blue">
+            Engineering Blog
           </h1>
-          <p className="text-lg text-ai-text-muted max-w-2xl">
-            Thoughts, tutorials, and deep dives into Artificial Intelligence, Machine Learning, and modern software engineering.
+          <p className="text-text-secondary text-lg">
+            Deep dives into AI architecture, Rust performance, and Python systems.
           </p>
-        </motion.div>
+        </header>
 
         <div className="grid gap-8">
-          {blogs.map((blog, index) => (
-            <motion.div
-              key={blog.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Link href={`/blog/${blog.id}`}>
-                <div className="group relative bg-ai-charcoal/30 border border-ai-charcoal rounded-2xl p-8 hover:bg-ai-charcoal/50 transition-all duration-300 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-ai-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {posts.map((post) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`}>
+              <article className="group block p-6 sm:p-8 rounded-2xl border border-border/50 bg-surface-elevated/30 hover:bg-surface-elevated transition-all duration-300 hover:border-accent-cyan/50 hover:shadow-glow-cyan-intense relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                  <div className="relative z-10 flex flex-col md:flex-row md:items-start gap-6">
-                    <div className="flex-1">
-                      <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-ai-text-muted">
-                        <span>{blog.date}</span>
-                        <span className="w-1 h-1 rounded-full bg-ai-cyan/50" />
-                        <span>{blog.readTime}</span>
-                        <span className="w-1 h-1 rounded-full bg-ai-cyan/50" />
-                        <div className="flex gap-2 flex-wrap">
-                          {blog.tags.map(tag => (
-                            <span key={tag} className="px-2 py-1 rounded-md bg-ai-navy text-ai-cyan text-xs font-medium border border-ai-cyan/20">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <h2 className="text-2xl font-bold mb-3 text-ai-text group-hover:text-ai-cyan transition-colors">
-                        {blog.title}
-                      </h2>
-                      <p className="text-ai-text-muted leading-relaxed">
-                        {blog.excerpt}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center text-ai-cyan group-hover:translate-x-2 transition-transform duration-300">
-                      <span className="font-medium mr-2 whitespace-nowrap">Read Article</span>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-4 text-sm text-text-muted">
+                    <time dateTime={post.metadata.publishDate}>
+                      {new Date(post.metadata.publishDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </time>
+                    <div className="flex gap-2">
+                      {post.metadata.tags.map(tag => (
+                        <span key={tag} className="px-2 py-0.5 rounded-full bg-surface-hover text-accent-cyan text-xs font-mono">
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
+
+                  <h2 className="text-2xl font-bold text-text-primary mb-3 group-hover:text-accent-cyan transition-colors">
+                    {post.metadata.title}
+                  </h2>
+
+                  <p className="text-text-secondary leading-relaxed">
+                    {post.metadata.description}
+                  </p>
+
+                  <div className="mt-6 flex items-center text-accent-cyan text-sm font-medium">
+                    Read Article
+                    <svg className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
                 </div>
-              </Link>
-            </motion.div>
+              </article>
+            </Link>
           ))}
+
+          {posts.length === 0 && (
+            <div className="text-center py-20 text-text-muted">
+              No articles published yet. Check back soon!
+            </div>
+          )}
         </div>
-      </main>
-      <Footer />
-    </>
-  );
+      </div>
+    </div>
+  )
 }
