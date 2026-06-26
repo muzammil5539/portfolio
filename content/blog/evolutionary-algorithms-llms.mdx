@@ -1,0 +1,162 @@
+---
+title: "The Convergence of Evolutionary Algorithms and Large Language Models"
+description: "A comprehensive analysis of automated model merging and optimization using evolutionary algorithms and CMA-ES."
+date: "2026-06-26"
+tags: ["ai", "llms", "evolutionary-algorithms", "model-merging", "cma-es"]
+---
+
+# The Convergence of Evolutionary Algorithms and Large Language Models: A Comprehensive Analysis of Automated Model Merging and Optimization
+
+The paradigm of developing foundation Large Language Models (LLMs) has historically been dominated by monolithic, computationally exhaustive training pipelines. Scaling laws have dictated that performance improvements require exponential increases in data, parameter counts, and massive accumulations of GPU hours. However, as the open-source ecosystem has proliferated with thousands of highly specialized, fine-tuned models, a new frontier in artificial intelligence engineering has emerged: combining the latent capabilities of existing models without the need for gradient-based retraining.
+
+At the intersection of genetic algorithms and LLM engineering lies the application of evolutionary computation to automate the composition, routing, and steering of neural networks. By treating model parameters, inference paths, and natural language prompts as genetic sequences, evolutionary computation offers a derivative-free optimization framework capable of navigating non-differentiable, highly combinatorial search spaces. The resulting synthesis—encompassing evolutionary model merging, evolutionary discrete prompt optimization, and automated agent orchestration—represents a fundamental shift from compute-bound model development to search-bound capability discovery.
+
+## The Theoretical Foundations of Model Merging
+
+Traditionally, adapting a pre-trained LLM to a new domain relies on transfer learning or supervised fine-tuning (SFT). While effective, fine-tuning narrow, task-specific datasets frequently induces catastrophic forgetting, wherein the model's generalized capabilities degrade as it overfits to a new distribution. To mitigate this, the machine learning community introduced weight-space model merging, an approach that fuses the parameters of multiple models directly in the continuous space, preserving their individual proficiencies while entirely avoiding the computational overhead of retraining.
+
+Early model merging techniques relied heavily on linear interpolation, spherical linear interpolation (SLERP), and simple weight averaging, often referred to as Model Soups. While these methods succeeded when fusing models derived from the identical base checkpoint and trained on highly similar domains, they proved remarkably fragile when applied to heterogeneous tasks. Advanced heuristic methods sought to address parameter interference through sparsification and conflict resolution. Techniques such as TIES-Merging resolve interference by isolating task-specific vectors, resetting parameters with minor variations, identifying the dominant direction of parameter updates, and resolving sign conflicts before executing the mathematical average. Concurrently, frameworks like Drop And REscale (DARE) randomly eliminate a high percentage—often up to 90%—of task-specific parameter differences (deltas) and rescale the remaining weights to preserve the original base model's representation while integrating new knowledge.
+
+Despite their mathematical elegance, the empirical success of TIES and DARE generated a profound theoretical paradox within federated learning and optimization theories. According to classical optimization theory, aggregating "expert" models that have been heavily over-trained on disparate datasets under varying hyperparameters (such as differing learning rates and batch sizes) should result in catastrophic task interference and a total collapse of the merged model's performance.
+
+Recent theoretical advancements resolve this paradox by reframing model merging not merely as an optimization problem, but as a generalization challenge anchored in L2-Stability theory. When models undergo supervised fine-tuning, they minimize the training optimization error (EO). However, aggressive fine-tuning pushes the model weights far from the pre-trained initialization geometry, subsequently increasing the generalization error (EG) and introducing a massive stability penalty. Increasing fine-tuning steps K or learning rates ηl scales the stability penalty mathematically by O(K) and O(ηl²). Linear combinations natively average out the individual noise introduced by separate fine-tuning runs, acting as an implicit regularizer. Furthermore, the sparsification operators inherent in DARE and the sign-conflict resolutions leveraged by TIES mathematically suppress task heterogeneity. By aggressively zeroing out minor parameter deviations, these mechanisms restrict the merged model's local Lipschitz constant, strictly tightening the stability bound and preventing the generalization penalty from exploding.
+
+The success of parameter interpolation is further explained by the geometric curvature of the models' loss landscapes. Empirical evaluations of the Generalized Gauss-Newton (GGN) matrix and Fisher Information demonstrate that models independently fine-tuned from the same base checkpoint develop highly overlapping, shared curvature geometries. Because the essential structural alignment of the underlying parameter manifolds remains intact across tasks, merging does not force fundamentally incompatible geometries together. Rather, it navigates a highly compatible curvature space, filtering out the noisy, low-saliency parameter updates introduced by localized fine-tuning.
+
+Despite these theoretical guarantees, applying TIES and DARE practically requires extensive, highly dimensional grid searches to determine the optimal retention ratios, drop rates, and weight proportions for each participating model. As the number of source models increases, the search space expands factorially, rendering human intuition and manual trial-and-error fundamentally inadequate to locate the global optimum.
+
+## The Evolutionary Model Merging Framework
+
+To overcome the severe limitations of human-guided grid searches, researchers—most notably from Sakana AI—introduced evolutionary model merging, formally framing the fusion of neural networks as a multi-objective black-box optimization problem. Rather than guessing mixing coefficients or architectural permutations, evolutionary algorithms inspired by natural selection systematically explore vast combinations of models, evaluate their fitness against specific domain benchmarks, and iteratively recombine the highest-performing configurations across successive generations.
+
+This automated model composition harnesses the collective intelligence of disparate open-source models, enabling highly unintuitive cross-domain merging. For instance, researchers successfully combined a Japanese language model with a mathematical problem-solving model to yield an emergent, state-of-the-art Japanese mathematical LLM, all without conducting any gradient-based backpropagation. The implementation of these techniques, accessible via open-source repositories like evolutionary-model-merge, has democratized the creation of highly capable, specialized models.
+
+| Evolved Model Name | Target Domain | Key Capability / Outcome |
+| :--- | :--- | :--- |
+| **EvoLLM-JP** | Cross-Domain (Japanese + Mathematics) | Achieved state-of-the-art performance on Japanese LLM benchmarks; a 7B parameter model outperformed previous 70B parameter models. |
+| **EvoVLM-JP** | Vision-Language (Japanese Culture) | Generated a culturally-aware VLM capable of accurately describing localized Japanese cultural content, surpassing previous Japanese VLMs. |
+| **EvoSDXL-JP** | Image Generation | Demonstrated the applicability of evolutionary merging techniques to latent diffusion models, yielding high-fidelity, culturally specific image generation. |
+
+Evolutionary model merging operates across two distinct, highly dimensional mathematical search spaces: the Parameter Space (PS) and the Data Flow Space (DFS). By optimizing both the internal weight matrices and the architectural routing of information flow, evolutionary algorithms construct configurations that dramatically exceed the bounds of traditional interpolation.
+
+### Continuous Optimization in the Parameter Space (PS)
+
+Merging in the Parameter Space involves the continuous optimization of the weight matrices derived from multiple models possessing identical neural network architectures. The objective is to compute the optimal, layer-specific blending coefficients that maximize downstream task performance without introducing destructive interference.
+
+The evolutionary algorithm integrates the sparsification and conflict-resolution mechanisms of TIES and DARE, but completely automates the hyperparameter selection. For any given layer l, the merged weights θmerged(l) are not a static arithmetic average. Instead, the algorithm defines a genetic configuration vector containing precise parameters for sparsification density (p) and task-specific weight scaling (λ). The fitness of these parameters is continuously evaluated by generating the blended model and scoring it against a validation set, such as the MGSM benchmark for mathematical tasks or ROUGE metrics for generative answering. Because the search space is continuous, the evolutionary algorithm can discover highly granular, layer-wise mixing strategies that preserve the geometric curvature of the base model while injecting precise, task-specific capabilities exactly where they are mathematically viable.
+
+### Discrete-Continuous Optimization in the Data Flow Space (DFS)
+
+While Parameter Space optimization alters the actual tensors, Data Flow Space (DFS) optimization treats the neural layers of the source models as interchangeable, macroscopic building blocks. DFS merging optimizes the active inference path—determining which specific layers from which models are utilized, in what exact sequence, and how many times they are repeated.
+
+In a standard transformer architecture comprising M total layers across all candidate models, the search space for an inference path of length T is mathematically vast. A naive permutation space scales exponentially as (M+1)^T, creating an intractable combinatorial explosion even for highly efficient search algorithms. To constrain this immense landscape, the evolutionary search parameterizes the DFS using a discrete indicator array I∈{0,1}^T, where T=M×r and r is the maximum repetition allowance. This binary array strictly dictates the inclusion or exclusion of specific layers into the finalized inference path.
+
+A critical structural challenge in DFS merging is managing distribution and variance shifts. The hidden state representations extracted from a layer in Model A may possess a fundamentally different variance profile than the expected input space for a subsequent, sequenced layer from Model B. To mitigate this variance shift, DFS optimization introduces a continuous scaling matrix Wij. When a hidden state transitions from layer i to layer j, the activation is multiplied by Wij to normalize the distribution. Consequently, the evolutionary algorithm must simultaneously optimize the discrete binary layer selection zi,j alongside the continuous variance-scaling weights xi,j.
+
+The integration of PS and DFS optimizations introduces severe Type-I conditional variable dependencies into the black-box search. Specifically, the optimal value of the continuous variance-scaling variable xi,j is entirely dependent on whether the discrete layer selection variable zi,j is active. If the genetic algorithm evaluates a configuration that excludes a specific layer (zi,j=0), any computational evaluations spent optimizing its corresponding scaling weight (xi,j) are entirely wasted. This dynamic effective dimensionality means that standard continuous optimization methods, which treat all variables independently, result in highly inefficient searches and fail to scale to modern 70B+ parameter architectures. The field has thus necessitated the use of highly specialized covariance matrix adaptation strategies capable of navigating mixed-variable spaces with conditional logic.
+
+## The Mathematical Engine: Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
+
+Because the objective functions in both model merging and advanced prompt optimization are fundamentally "black boxes"—meaning the internal evaluation processes generating the scores lack explicit analytical forms or gradients—traditional gradient descent and backpropagation cannot be applied. To traverse these non-differentiable fitness landscapes, engineers overwhelmingly employ the Covariance Matrix Adaptation Evolution Strategy (CMA-ES), widely recognized as the gold standard for continuous and mixed-variable black-box optimization.
+
+CMA-ES operates by maintaining and iteratively updating a parameterized multivariate normal distribution N(m,σ²C), where m∈R^d represents the mean vector of the candidate solutions, σ∈R>0 is the global step size, and C∈R^(d×d) is the positive-definite covariance matrix defining the orientation and shape of the distribution ellipsoid.
+
+At each generation g, the algorithm samples a population of λ candidate configurations. Each candidate is instantiated—either as a merged LLM architecture or a synthesized prompt string—and evaluated against a strict benchmark to yield a scalar fitness score. The highest-performing candidate parameters are selected to update the distribution for the subsequent generation (g+1). The new mean m^(g+1) is calculated as a weighted mathematical average of the successful candidates, effectively translating the distribution ellipsoid toward promising, high-fitness regions of the parameter space.
+
+Simultaneously, the covariance matrix C is updated to capture the pairwise dependencies between search variables. If increasing the weight retention λ1 from a mathematical model only improves performance when attention layer L4 from a linguistic model is activated, the covariance matrix adapts its principal eigenvectors to perfectly align with this correlated trajectory. The global step size σ is dynamically adjusted based on the evolution path; if consecutive generational updates translate the mean in the same direction, σ exponentially increases to accelerate convergence. Conversely, if updates oscillate chaotically, σ decreases to enable fine-grained, localized exploitation.
+
+### Advancements in CMA-ES for Neural Architectures
+
+The naive mathematical application of CMA-ES scales quadratically O(d²) with the number of dimensions d, making it computationally prohibitive for millions of parameter mixing ratios. To resolve this bottleneck, researchers leverage Separable CMA-ES (sep-CMA-ES), which strictly constrains the covariance matrix to be purely diagonal. This architectural assumption of independence between certain macroscopic parameter blocks reduces the time and space complexity to linear O(d), allowing for a massive acceleration in learning rates for the remaining, unconstrained variables.
+
+Furthermore, to explicitly address the Data Flow Space's mixed binary-continuous constraints and Type-I interactions, frameworks such as CatCMA (Categorical CMA-ES) and its advanced variant, CatCMA with Margin, have been integrated into merging pipelines. These variants explicitly handle the categorical layer selections alongside the continuous scaling weights, preventing the collapse of marginal probabilities for discrete parameters during deep evolutionary convergence. The implementation of these advanced solvers via dedicated Python libraries like cmaes and integration frameworks such as optuna provides the necessary robust infrastructure to execute large-scale evolutionary merges across distributed GPU clusters. OptunaHub has further augmented these pipelines by introducing quasi-random refinement samplers utilizing Sobol QMC (Quasi-Monte Carlo) sequences, which provide highly uniform directional coverage in high-dimensional spaces, dropping normalized regret by up to 36% compared to pure CMA-ES.
+
+| CMA-ES Variant | Core Innovation / Mechanism | Primary Use Case in LLM Engineering |
+| :--- | :--- | :--- |
+| **Standard CMA-ES** | Multivariate normal distribution updating (N(m,σ²C)). | Baseline continuous hyperparameter optimization. |
+| **sep-CMA-ES** | Constrains covariance matrix to be diagonal, reducing complexity to O(d). | High-dimensional Parameter Space (PS) weight merging. |
+| **CatCMA with Margin** | Native handling of categorical, continuous, and integer variables simultaneously. | Data Flow Space (DFS) merging with mixed discrete/continuous variables. |
+| **Quasi-Random Refinement** | Three-phase sampling leveraging Sobol QMC for targeted local search around optima. | Resolving highly multimodal loss landscapes and escaping local minima. |
+
+### Resolving Mixture-of-Experts (MoE) Breakdown
+
+While CMA-ES effectively navigates dense transformer merging, applying these techniques to sparse Mixture-of-Experts (MoE) architectures introduces distinct failure modes. Routing breakdown occurs because the non-linear softmax and discrete Top-k routing mechanisms present in MoE models are hyper-sensitive to the parameter perturbations induced by merging. Even minor merging-induced errors result in incorrect expert assignments, leading to substantial divergence in output representations despite the expert parameters themselves being mathematically preserved.
+
+To overcome this, engineers deploy Hessian-Aware Router Calibration (HARC), a training-free framework that leverages second-order curvature information. By utilizing a highly scalable, matrix-free conjugate gradient solver, HARC analytically realigns the merged router, effectively rectifying expert mismatch and proving that preserving routing logic is just as mathematically essential as aligning parameter weights in sparse architectures.
+
+## Evolutionary Discrete Prompt Optimization
+
+While evolutionary model merging permanently alters the latent architecture and parametric weights of LLMs, a parallel breakthrough has emerged in utilizing evolutionary algorithms to optimize the natural language inputs that steer these models during inference. The performance of an LLM is acutely sensitive to the semantic structure of its prompt. However, because discrete text tokens exist in a non-differentiable, combinatorial space, gradient-based optimization cannot be executed via black-box API endpoints.
+
+Frameworks such as EvoPrompt and GAAPO (Genetic Algorithm Applied to Prompt Optimization) treat natural language prompts as textual genes, subjecting them to iterative evolutionary life cycles to maximize task accuracy and minimize computational token consumption.
+
+A fundamental limitation of traditional genetic programming applied to text is that standard crossover or mutation operators—such as randomly swapping words or character transposition—destroy grammatical coherence and semantic meaning. EvoPrompt resolves this by employing a secondary LLM as the evolutionary operator itself, leveraging its vast linguistic priors to execute syntax-preserving genetic alterations.
+
+<Callout type="tip" title="EvoPrompt Pipeline">
+The evolutionary loop for discrete prompt optimization executes through highly structured phases: Initialization (combining human-engineered templates with zero-shot LLM variations), Fitness Evaluation (scoring based on task accuracy), Crossover (semantic recombination using a secondary LLM), and Mutation (targeted editing without altering the core functional objective).
+</Callout>
+
+### Multi-Objective Trajectories in Prompt Optimization
+
+Beyond simple accuracy, production-grade LLM applications require optimization across competing, often diametrically opposed objectives. For instance, maximizing accuracy usually requires verbose, highly detailed prompt structures, which concurrently increases API costs and inference latency. Frameworks such as MOPrompt explicitly formulate this as a multi-objective problem, applying the Non-dominated Sorting Genetic Algorithm II (NSGA-II) to locate the optimal balance between task accuracy and context token size.
+
+Instead of pursuing a single, monolithic optimum, NSGA-II generates a Pareto front—a mathematical set of solutions representing the optimal trade-offs between the conflicting objectives. The algorithm ranks the prompt population based on Pareto dominance and utilizes a crowding distance metric to ensure the evolutionary search maintains a diverse array of prompts across the entire trade-off spectrum. In empirical testing on sentiment classification tasks, utilizing these evolutionary multi-objective methods yielded prompts that maintained the absolute peak accuracy of human-engineered baselines while simultaneously reducing the required token length by 31%.
+
+Furthermore, advanced iterations of these frameworks, such as OPTS (Optimizing Prompts with sTrategy Selection), augment the baseline EvoPrompt methodology by dynamically selecting higher-level prompt design strategies—such as choosing between few-shot prompting or zero-shot step-by-step reasoning—before generation. By integrating statistical mechanisms like Thompson Sampling to mathematically balance the exploration of novel prompt strategies against the exploitation of known successful strategies, these hybrid systems yield absolute performance improvements of up to 50% over baseline evolutionary optimizers. The evolutionary prompt paradigm has even been successfully adapted for vision-language models via platforms like PromptEvolver, which utilizes genetic crossovers to perform text-to-image prompt inversion, evolving textual descriptions until they faithfully reconstruct a target visual image.
+
+## System-Level Optimization: Automating Multi-Agent Pipelines
+
+The evolutionary paradigm extends beyond static neural architectures and isolated text prompts into the holistic orchestration of complex Multi-Agent Systems (MAS). Modern LLM agents rely on highly heterogeneous pipelines consisting of system prompts, specific tool documentations, few-shot retrieval parameters, and dynamic retry logic. In these multi-component pipelines, variables interact interdependently; optimizing a system prompt in strict isolation without simultaneously tuning the corresponding JSON tool schemas frequently results in severe performance degradation due to mismatched expectations.
+
+Within the formal framework of MAS development, automated optimization represents the "P4 Paradigm," shifting focus from the design-time configuration of isolated agents to the self-evolving optimization of entire agentic swarms. To navigate this exceptionally high-dimensional configuration space, enterprise platforms like Artemis deploy semantically-aware genetic operators to perform joint optimization across the entire multi-agent architecture.
+
+The Artemis platform executes a highly sophisticated search utilizing both localized genetic and global Bayesian evolutionary strategies. Initially, Artemis utilizes semantic search vectors to automatically parse an agent's codebase, identifying all configurable textual components (such as prompt files and tool descriptions) and continuous execution parameters (such as inference temperature and vector chunk sizes). Components with low interdependency undergo isolated local evolutionary optimization. Similar to EvoPrompt, natural language schemas are mutated and crossed over using LLM-driven operators that guarantee the syntactical validity of the output.
+
+However, for components demonstrating high conditional dependencies—such as the intricate relationship between a master planning prompt and an API execution schema—Artemis layers Bayesian optimization over the genetic algorithm to accurately model synergistic interactions, exploring the combinatorial space to identify optimal systemic configurations. By extracting performance signals directly from execution logs and continuous integration benchmark scripts, these evolutionary pipelines demonstrate massive, statistically significant improvements across highly rigorous tasks without requiring any manual architectural modifications to the agent framework.
+
+| Target Agent System | Evaluation Benchmark / Domain | Evolutionary Optimization Outcome via Artemis |
+| :--- | :--- | :--- |
+| **ALE Agent** | AtCoder Heuristic Contest (Competitive Programming) | Achieved a 13.6% absolute improvement in acceptance rate for complex programmatic solutions. |
+| **Mini-SWE Agent** | SWE-Perf (Autonomous Software Engineering) | Demonstrated a statistically significant 10.1% performance improvement in fully automated code optimization. |
+| **MathTales-Teacher** | GSM8K (Primary-level Mathematics) | Utilizing the smaller Qwen2.5-7B open-source model, achieved a 22% accuracy improvement, proving viability on local models. |
+
+## The Future Trajectory of Genetic AI Engineering
+
+The integration of evolutionary computation into Large Language Model engineering generates several profound, cascading implications for the future development of artificial intelligence.
+
+First, it marks a definitive shift from data-bound to search-bound development models. The traditional competitive moat in AI development has been the possession of massive proprietary datasets and the immense capital expenditure required for pre-training superclusters. Evolutionary model merging circumvents this paradigm entirely. By extracting and recombining capabilities from thousands of disparate, open-source models, the creation of state-of-the-art foundation models is shifting toward combinatorial optimization. The primary bottleneck is no longer data acquisition; it is algorithmic search efficiency and the intelligent navigation of loss landscapes.
+
+Second, the empirical success of evolutionary techniques proves that cross-domain capabilities are highly modular. The ability to mathematically merge a Japanese linguistic model with an English mathematical reasoning model to yield an emergent, fully fluent Japanese mathematical model demonstrates that specific intelligence traits can be isolated and grafted across neural architectures. This strongly indicates that the pursuit of Artificial General Intelligence (AGI) may not exclusively require training a single monolithic model on all human knowledge, but rather evolving optimal routing mechanisms between thousands of highly specialized, narrow experts that share underlying structural curvature.
+
+Finally, the automation of prompt engineering and agent configuration through genetic algorithms fundamentally redefines the operational role of the AI engineer. Prompt design, hyperparameter tuning, and agent orchestration are rapidly transitioning from human-guided, artisanal processes reliant on intuition to automated, multi-objective search problems. The engineer's role is subsequently elevating from manually crafting the instructions to mathematically defining the fitness functions, performance benchmarks, and boundary constraints that govern the evolutionary search space.
+
+The convergence of evolutionary algorithms and Large Language Models establishes a revolutionary framework for automated model composition and behavior optimization. Through the rigorous mathematical navigation of continuous Parameter Spaces and the resolution of mixed-variable constraints in Data Flow Spaces, evolutionary merging leverages the shared geometric curvature of specialized models to produce highly efficient, cross-domain architectures. Concurrently, the application of syntax-preserving evolutionary operators to discrete natural language sequences ensures that models receive mathematically optimal steering inputs. Ultimately, the synthesis of genetic artificial intelligence and LLM engineering democratizes the creation of advanced foundation models, proving that nature-inspired search algorithms remain one of the most potent mechanisms for orchestrating machine intelligence.
+
+---
+
+### References
+*   [Tailoring Intelligence Part 2: Model merging — Flybridge](https://flybridge.com)
+*   [Arcee's MergeKit: A Toolkit for Merging Large Language Models](https://arxiv.org/abs/2403.13187)
+*   [StereoFactory: A Unified Merging Framework for Robust Stereo Matching](https://arxiv.org)
+*   [Competition and Attraction Improve Model Fusion](https://arxiv.org)
+*   [Evolutionary Model Merging Techniques](https://scribd.com)
+*   [Evolutionary Optimization of Model Merging Recipes](https://arxiv.org/abs/2403.13187)
+*   [It's Morphing Time: Unleashing the Potential of Multiple LLMs via Multi-objective Optimization](https://arxiv.org)
+*   [When Model Merging Breaks Routing: Training-Free Calibration for MoE](https://arxiv.org)
+*   [Model Merging via Data-Free Covariance Estimation](https://arxiv.org)
+*   [A Unified Generalization Framework for Model Merging: Trade-offs, Non-Linearity, and Scaling Laws](https://arxiv.org)
+*   [Harnessing Optimization Dynamics for Curvature-Informed Model Merging](https://arxiv.org)
+*   [Black-Box Optimization of Mixed Binary-Continuous Variables: Challenges and Opportunities in Evolutionary Model Merging](https://arxiv.org)
+*   [Evolving New Foundation Models: Unleashing the Power of Automating Model Development - Sakana AI](https://sakana.ai)
+*   [Understanding Sakana.ai's Evolutionary Model Merging | Paper Notes](https://en.bioerrorlog.work)
+*   [Evolving Excellence: Automated Optimization of LLM-based Agents](https://arxiv.org/abs/2512.09108)
+*   [cmaes: A Simple yet Practical Python Library for CMA-ES](https://arxiv.org)
+*   [Trinity: An Evolved LLM Coordinator](https://arxiv.org)
+*   [CMA-ES Sampler - OptunaHub](https://hub.optuna.org)
+*   [CMA-ES with Quasi-Random Refinement Sampler - OptunaHub](https://hub.optuna.org)
+*   [EvoPrompt: Connecting LLMs with Evolutionary Algorithms Yields Powerful Prompt Optimizers](https://arxiv.org)
+*   [GAAPO: Genetic Algorithmic Applied to Prompt Optimization](https://arxiv.org)
+*   [MOPrompt: Multi-objective Semantic Evolution for Prompt Optimization](https://sol.sbc.org.br)
+*   [Bandit-Based Prompt Design Strategy Selection Improves Prompt Optimizers](https://arxiv.org)
+*   [PromptEvolver: Prompt Inversion through Evolutionary Optimization in Natural-Language Space](https://arxiv.org)
+*   [The Evolving Blueprint: A Survey on Automated Optimization of LLM-Based Multi-Agent Systems](https://preprints.org)

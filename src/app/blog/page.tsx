@@ -1,65 +1,37 @@
-"use client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { getBlogPosts } from "@/lib/mdx";
 
-const blogs = [
-  {
-    id: "ai-evaluation-paradigm-shift",
-    title: "The Paradigm Shift in AI Evaluation: Moving from Knowledge Retrieval to Agentic Execution",
-    excerpt: "Beyond the Chatbot: Why LLM Benchmarks Radically Changed in 2026. A deep dive into the evolution of AI testing from static multiple-choice to dynamic, agentic evaluations.",
-    date: "October 14, 2025",
-    readTime: "10 min read",
-    tags: ["AI Evaluation", "LLM Benchmarks", "Agentic Execution"],
-        },
-  {
-    id: "linguistic-paradigm-shift",
-    title: "The Linguistic Paradigm Shift: Decoupling Memory from Time in Deep Learning",
-    excerpt: "The evolution of Natural Language Processing (NLP) is fundamentally a story of overcoming the constraints of sequence. Tracing the historical paradigm shift from legacy Recurrent Neural Networks (RNNs) to the Transformer architecture.",
-    date: "August 2025",
-    readTime: "15 min read",
-    tags: ["Transformers", "Deep Learning", "NLP"],
-  },
-        {
-    id: "anatomy-of-llms",
-    title: "The Anatomy of LLMs: From Dense Attention to Sparse Mixture of Experts",
-    excerpt: "Large Language Models have hit a critical computational inflection point. Unpack the architectural paradigm shift from monolithic self-attention mechanisms to the dynamic routing of Mixture of Experts (MoE).",
-    date: "October 2023",
-    readTime: "12 min read",
-    tags: ["LLMs", "Architecture", "MoE"],
-
-  }
-];
+export const metadata = {
+  title: 'Blog | AI & Engineering',
+  description: 'Thoughts, tutorials, and deep dives into Artificial Intelligence, Machine Learning, and modern software engineering.',
+};
 
 export default function BlogIndex() {
+  const blogs = getBlogPosts();
+
   return (
     <>
       <Header />
       <main className="min-h-screen pt-32 pb-20 px-6 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-16"
-        >
+        <div className="mb-16 animate-fade-in">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-ai-cyan to-ai-blue">
             AI & Engineering Blog
           </h1>
           <p className="text-lg text-ai-text-muted max-w-2xl">
             Thoughts, tutorials, and deep dives into Artificial Intelligence, Machine Learning, and modern software engineering.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid gap-8">
           {blogs.map((blog, index) => (
-            <motion.div
-              key={blog.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+            <div
+              key={blog.slug}
+              className="animate-fade-in"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <Link href={`/blog/${blog.id}`}>
+              <Link href={`/blog/${blog.slug}`}>
                 <div className="group relative bg-ai-charcoal/30 border border-ai-charcoal rounded-2xl p-8 hover:bg-ai-charcoal/50 transition-all duration-300 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-ai-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -96,7 +68,7 @@ export default function BlogIndex() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </main>

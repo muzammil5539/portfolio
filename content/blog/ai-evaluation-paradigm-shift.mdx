@@ -1,0 +1,186 @@
+---
+title: "The Paradigm Shift in AI Evaluation: Moving from Knowledge Retrieval to Agentic Execution"
+description: "A comprehensive analysis exploring the obsolescence of static benchmarks, the rise of multi-environment agentic evaluation suites, and advanced trajectory optimization."
+date: "2026-06-26"
+tags: ["ai", "evaluation", "benchmarks", "agentic-ai", "swe-bench"]
+---
+
+# The Paradigm Shift in AI Evaluation: Moving from Knowledge Retrieval to Agentic Execution
+
+The artificial intelligence landscape is undergoing a foundational paradigm shift, transitioning from generative systems that passively map user inputs to static text outputs, to agentic systems that actively perceive, reason, plan, and manipulate their environments. In this new epoch, Large Language Models (LLMs) operate as the cognitive engines of autonomous agents capable of long-horizon sequential decision-making. These agents browse the internet, execute code, modify file systems, utilize external APIs, and interact with complex graphical user interfaces. As a direct corollary to this architectural evolution, the methodologies utilized to evaluate artificial intelligence must fundamentally change.
+
+Historically, AI evaluation has been anchored in static, question-answering benchmarks such as MMLU (Massive Multitask Language Understanding), HellaSwag, and HumanEval. These benchmarks effectively measure a model's latent knowledge retrieval, linguistic fluency, and zero-shot reasoning capabilities. However, they are fundamentally inadequate for evaluating agentic execution. When an AI system transitions from generating an isolated text snippet to orchestrating a multi-step workflow, its failure modes mutate. Agentic failures encompass unsafe tool utilization, goal drift over long temporal horizons, unauthorized interactions with protected resources, and catastrophic looping. Consequently, evaluating agentic systems requires a departure from measuring isolated model accuracy toward measuring deployment-level trustworthiness, operational integrity, and sequential interaction dynamics.
+
+This comprehensive analysis explores the obsolescence of static benchmarks, the rise of multi-environment agentic evaluation suites, the advanced trajectory optimization algorithms required to train these agents, and the underlying architectural enablers—specifically Mixture-of-Experts (MoE) and Evolutionary Model Merging—that provide the computational capacity necessary for autonomous execution.
+
+## The Critical Limitations of Static Knowledge Retrieval Benchmarks
+
+The fundamental limitation of legacy benchmarks is their abstraction of execution context. In traditional evaluation paradigms, an LLM is presented with a static prompt and evaluated on the semantic or syntactic correctness of its immediate, single-turn output. This approach suffers from severe methodological vulnerabilities when applied to modern autonomous systems.
+
+The foremost vulnerability is data contamination. Frontier models, trained on trillions of web-crawled tokens, frequently ingest the exact evaluation questions and their corresponding solutions during pre-training. For instance, the GAIA benchmark comprises 466 hand-crafted questions intentionally designed to resist memorization, yet because these questions have been publicly accessible in repositories since late 2023, the risk of contamination in subsequent model training runs remains exceptionally high. Similarly, SWE-bench Verified instances are drawn directly from public GitHub repositories, creating inherent risks of data leakage that inflate perceived capabilities.
+
+Furthermore, static benchmarks fail to account for the "benchmark-to-production gap." Industry analyses routinely observe a 20 to 40 percentage point degradation in performance when models are transitioned from public leaderboards to real-world task distributions. This gap exists because real-world agentic tasks are not cleanly formatted multiple-choice questions. They involve noisy environmental signals, partial observability, dynamic state changes, and the absolute necessity to recover from intermediate failures.
+
+Traditional metrics treat inference as an isolated event rather than a continuous trajectory. An agent might select the correct external tool but pass malformed arguments, or it might correctly interpret a visual observation but fail to recognize when a user-imposed safety constraint has been breached. Classical evaluations score only the final output, effectively masking the precise nature of intermediate cognitive, planning, or structural failures.
+
+## The Emergence of Multi-Environment Agentic Evaluation Suites
+
+To address the deficiencies of static evaluation, the research community has developed dynamic, environment-based evaluation suites that test an agent's ability to drive multi-step workflows. These benchmarks represent discrete ecosystems, each isolating different dimensions of agentic capability and human-computer interaction.
+
+The evaluation of software engineering agents has been standardized around SWE-bench. The dataset provides 500 validated problem instances, each comprising a real-world GitHub issue, the pre-fix state of the repository, and a rigorous test suite designed to validate the correct patch. Unlike static code generation tasks, SWE-bench requires the agent to navigate a large, unfamiliar codebase, identify the root cause of a defect, synthesize a multi-file patch, and verify its correctness against unit tests. A critical second-order insight derived from SWE-bench evaluations is the phenomenon of scaffold sensitivity. The underlying base model is only one variable in the equation; the agentic framework—comprising the retrieval strategy for locating relevant files, the retry logic utilized when unit tests fail, and the context window management strategy—can account for a 10 to 15 percentage point variance in the final resolution score. Implementing uncertainty-aware "ask-policies," where an agent is permitted to seek clarification on ambiguous tasks, has been shown to elevate resolution rates by over 8 percentage points.
+
+While SWE-bench tests deep, domain-specific coding capabilities, GAIA assesses broad, multi-modal synthesis and multi-step reasoning. GAIA tasks require the agent to execute live tools, such as web search, file parsing, and calculators, to answer complex, highly specific questions. GAIA categorizes tasks into three difficulty levels, demanding varying degrees of context management across long horizons of tool outputs. Because these benchmarks measure orthogonal capabilities, a model that excels on SWE-bench due to its precise code-editing loops may perform poorly on GAIA Level 3, which requires diverse tool integration and cross-modal reasoning.
+
+WebArena and OSWorld transition the evaluation environment to graphical user interfaces (GUIs) and web browsers. These benchmarks require agents to manipulate simulated operating systems, web applications, and desktop software by generating actionable commands based on visual or DOM-based perception. In these environments, the human performance gap has recently inverted; top automated runs have achieved success rates between 73.1% and 82.6%, matching or exceeding the human baseline of 72.4% on OSWorld. However, performance on GUI benchmarks is highly susceptible to the inference methodology. Shifting a model from a single-shot policy to a best-of-N sampling strategy can artificially inflate scores by over 4 percentage points, highlighting the tension between inference-time compute optimization and intrinsic agentic intelligence.
+
+| Benchmark Suite | Primary Domain | Evaluation Mechanism | Key Challenge Assessed | Ground Truth Validation |
+| :--- | :--- | :--- | :--- | :--- |
+| **SWE-bench** | Software Engineering | Repository navigation & code patching | Deep context reasoning, codebase modification | Execution of isolated unit test suites |
+| **GAIA** | General Assistance | Multi-step tool use (web, parsing) | Broad synthesis, long-horizon tool chaining | Exact string matching / LLM judge fallback |
+| **OSWorld** | Operating Systems | GUI/Desktop manipulation | Visual perception, multimodal interaction | Post-execution state evaluation (LLM judge) |
+| **WebArena** | Web Automation | DOM-based interaction | Dynamic web navigation, form completion | State tracking and functional validation |
+| **Terminal-Bench** | CLI Interaction | Command-line execution | System administration, bash scripting | Exit codes, output diffs, semantic checks |
+
+## The Holographic Agent Assessment Framework (HAAF) and Trustworthiness
+
+The transition to agentic execution introduces risks that capability benchmarks inherently fail to capture. An agent demonstrating a high success rate on SWE-bench might simultaneously exhibit unsafe tool use, such as executing arbitrary downloaded binaries, or unauthorized resource modification. To reconcile this, the Holographic Agent Assessment Framework (HAAF) proposes a paradigm shift that evaluates agentic trustworthiness across a comprehensive profile rather than isolated task success.
+
+Trustworthiness in the HAAF paradigm is decomposed into five specific operational properties:
+1. **Reliability:** Moves beyond mere accuracy to measure whether the agent maintains fidelity to the user's intended goal across a long temporal trajectory, scrutinizing the agent for goal drift, the generation of hallucinated tool calls, and the improper refusal of benign requests. 
+2. **Robustness:** Evaluates agent behavior under adversarial inputs, such as prompt injections hidden within retrieved documents, or noisy, malformed environment signals.
+3. **Safety:** Strictly refers to respecting permission boundaries. Evaluators must test whether an agent attempts unauthorized, irreversible actions—such as dropping a database—or whether it correctly gates high-risk operations behind human-in-the-loop confirmation.
+4. **Social-Ethical Alignment:** Ensures the autonomous agent resists emotional coercion, manipulation, or role-play exploitation, and safeguards sensitive third-party information encountered during open-ended environment exploration.
+5. **Operational Integrity:** Assesses graceful degradation. It measures whether the agent can recover from tool failures, respect predefined step and compute budget envelopes, and generate audit-traceable logs of its decision-making trajectory.
+
+Evaluating these properties requires abandoning narrow benchmark islands. Instead, the HAAF methodology utilizes a distribution-aware representative sampling engine combined with interactive sandbox simulations. It employs an iterative "Trustworthy Optimization Factory," where red-team probing exposes vulnerability surfaces across task types and tool interfaces, and blue-team hardening designs targeted interventions to ensure the deployed system meets rigorous operational standards.
+
+## Trajectory Analysis and High-Resolution Failure Taxonomies
+
+In traditional NLP evaluation, failure is binary: the generated text is either factually correct or incorrect. In agentic evaluation, failures manifest dynamically across the sequence of actions, demanding a high-resolution failure taxonomy to isolate the precise cognitive or mechanical breakdown. Recent research dissects trajectory failures into eight distinct, granular categories.
+
+| Trajectory Failure Category | Mechanistic Description |
+| :--- | :--- |
+| **Goal Misinterpretation** | The agent operates under a misread constraint or attempts to solve the wrong overarching problem due to poor instruction comprehension. |
+| **Wrong Tool Selection** | The agent attempts to use an inappropriate tool modality (e.g., executing a web search tool instead of a local file parser to read a document). |
+| **Wrong Argument / Target** | The agent selects the correct tool but passes malformed paths, incorrect IDs, or hallucinated parameter structures. |
+| **Observation Failure** | The agent misreads the simulated UI state or fails to synthesize the textual output returned by a prior tool execution. |
+| **Constraint Violation** | The agent breaks a user-imposed policy, budgetary limit, or permission constraint during execution. |
+| **Recovery Failure** | The agent encounters a runtime error (e.g., a Python traceback or a 404 HTTP code) but fails to adapt its subsequent plan, instead looping the same erroneous action. |
+| **Looping / Over-action** | The agent continues executing actions past a logical task-completion point, unnecessarily consuming the context window and compute budget. |
+| **Unsafe Trust of External Content** | Malicious content from a retrieved web page or external file hijacks the agent's trajectory, successfully executing an indirect prompt injection attack. |
+
+Capturing these failures requires the rigorous recording of the full agent trace, including every prompt, intermediate tool call, token count, and execution latency metric. Evaluators must subsequently correlate specific behavior patterns with the ultimate task outcome to diagnose whether the underlying LLM lacks fundamental reasoning capacity, or if the agent's orchestration scaffolding is brittle.
+
+## Enforcing Operational Integrity in Agentic Evaluation Environments
+
+Because agentic evaluation requires dynamic interactions, executing these benchmarks carries profound security and operational risks. An agent designed to manipulate a bash terminal or write to a filesystem can easily corrupt its host environment, rendering the evaluation void and potentially compromising the host system's security. The industry has thus converged on a rigorous "Agent-Eval Checklist" to guarantee operational integrity during evaluation.
+
+Absolute evaluator isolation is the foundational requirement. The system under test must never have access to the evaluation environment's backend or ground-truth logic. Tasks must be evaluated by extracting raw artifacts—such as logs and generated patches—through a strictly controlled communication channel, which are subsequently scored on a separate, read-only host. Furthermore, the prohibition of untrusted execution is paramount. Evaluation metrics must never utilize functions like `eval()` on an agent's output string. Structured outputs, such as JSON schemas, must be enforced and parsed safely to minimize the attack surface.
+
+When utilizing LLM-as-a-judge frameworks, inputs must be heavily sanitized. Agent output must be treated as untrusted user input, delimited with clear structural markers that the judge is instructed to treat strictly as data, not as executable instructions. Finally, before a benchmark is validated, it must be subjected to adversarial evaluator stress-testing. This involves deploying null agents that take no actions, random-action agents, and prompt-injection agents. If an evaluator awards a score above zero to an agent that attempts to modify the evaluation environment instead of solving the task, the isolation protocol is fundamentally compromised. High-fidelity setups deploy massive parallelization utilizing tools like Ray clusters, requiring pinned Docker images validated by digest, deterministic configuration states (such as fixed `PYTHONHASHSEED`), and zeroed temperature parameters to ensure evaluations remain perfectly reproducible.
+
+## Optimizing Agentic Trajectories via Advanced Reinforcement Learning
+
+To elevate performance on these rigorous agentic benchmarks, standard Supervised Fine-Tuning (SFT) and basic Reinforcement Learning from Human Feedback (RLHF) are insufficient. Because agents operate via sequential decision-making, researchers are adapting and extending RL algorithms to optimize entire trajectories rather than isolated token-level probabilities.
+
+One significant challenge in training agentic LLMs is the sparse nature of episode-wise rewards. An agent may execute 50 correct bash commands but fail on the 51st, resulting in a failed task and a zero reward signal. Generating multi-turn trajectory data for training is computationally expensive. Frameworks like BOOST (Bilevel Optimization of Synthetic Trajectories) address this by utilizing synthetic trajectories generated by simulators. Because synthetic data varies drastically in quality, BOOST employs a bilevel optimization framework: the inner level trains the LLM on reweighted data, while the outer level trains a lightweight reweighting head on real validation tasks to assign continuous trajectory-level weights. This approach relies on PAC-Bayesian bounds to navigate a critical mathematical trade-off—synthetic data increases exploration diversity, but concentrating optimization on high-quality paths prevents task-shift and improves effective sample efficiency.
+
+When optimizing agents using group-based reinforcement learning (such as Group Relative Policy Optimization, GRPO), traditional methods assign identical credit to every step within a successful trajectory. However, not all steps are equally critical; navigating to a webpage is a prerequisite, but extracting the specific DOM element is the critical bottleneck. Graph-Enhanced Policy Optimization (GEPO) introduces dual-level structural credit assignment. By building an online state-transition graph from sampled trajectories, GEPO calculates a Task-Conditioned Criticality score based on topological betweenness and semantic similarity to the prompt. Trajectory-level credit is then reshaped via a state-adaptive discount, concentrating gradient signals on the most structurally critical reasoning steps. This technique has been shown to reduce across-seed variance and significantly boost success rates on multi-step benchmarks like ALFWorld and WebShop.
+
+Another emerging paradigm bridges offline Behavioral Cloning (BC) with online preference-based reinforcement learning. Under the BRIDGE framework, an initial safe policy is established from a reward-free dataset of expert demonstrations. Following this, a confidence set—defined as a Hellinger ball in the space of trajectory distributions—is constructed offline. Theoretical analysis proves that the radius of this ball shrinks at a rate of $O(1/n)$, where $n$ is the number of offline expert demonstrations. During the subsequent online preference-based RL phase, the agent's exploration is mathematically constrained to policies within this pre-computed sphere. This hybrid methodology prevents the agent from exploring highly suboptimal or unsafe policy spaces during online refinement, dramatically improving sample efficiency while ensuring the agent remains aligned with human preferences.
+
+Furthermore, methods like EvoPref introduce multi-objective evolutionary algorithms to handle preference optimization. Utilizing the Non-dominated Sorting Genetic Algorithm II (NSGA-II) with archive-based diversity preservation, EvoPref maintains populations of Low-Rank Adaptation (LoRA) adapters optimized simultaneously across helpfulness, harmlessness, and honesty, actively preventing the preference collapse frequently observed in gradient-based alignment.
+
+## Evolutionary Prompt Optimization and Scaffold Tuning
+
+The scaffold enveloping the LLM—which includes system prompts, tool documentation, few-shot exemplars, and retry heuristics—is responsible for massive variance in benchmark performance. Manually tuning these frameworks is a fragile, high-dimensional problem where gradient descent cannot be applied because the prompt space is discrete.
+
+To automate this, the industry has turned to treating prompts as genetic sequences. EvoPrompt represents a foundational framework for discrete prompt optimization that connects LLMs with Evolutionary Algorithms (EAs). Because traditional evolutionary operators mutate individual tokens blindly—destroying natural language coherence—EvoPrompt leverages the LLM itself as the evolutionary operator. The framework initiates a population of prompts and employs a roulette wheel selection method based on task fitness. It then applies specialized operators based on either Genetic Algorithms (GA) or Differential Evolution (DE). In the GA instantiation, the LLM performs semantic crossover by blending two parent prompts, followed by localized mutation. In the DE instantiation, the algorithm identifies the differing parts of two randomly selected prompts and mutates only those segments, preserving shared, high-performing components. These derivative-free optimizations consistently outperform human-engineered prompts across dozens of language understanding and generation datasets.
+
+Scaling beyond individual prompts, platforms like Artemis perform no-code evolutionary optimization of entire LLM-based agent configurations. By treating the multi-component agent pipeline as a holistic optimization problem, Artemis applies semantically-aware genetic algorithms to evolve both textual and parametric configurations simultaneously. For isolated components, local genetic algorithms undergo semantic mutations and crossovers. However, for interactive components where the efficacy of a prompt relies on specific hyperparameter tunings, Artemis employs Bayesian optimization to explore the combinatorial space globally, identifying synergistic configurations. By systematically automating the tuning of LLM pipelines, these evolutionary optimization frameworks have achieved statistically significant improvements—such as a 13.6% acceptance rate increase on competitive programming tasks and a 22% accuracy improvement on GSM8K mathematics problems—without requiring any architectural modifications to the base model.
+
+## Architectural Enablers: The Mixture-of-Experts (MoE) Paradigm
+
+The feasibility of agentic execution is intrinsically tied to the underlying efficiency and capacity of foundation models. Multi-step workflows require massive context windows, dense reasoning logic, and iterative generation. If inference is computationally prohibitive, running an agent through a 100-step trajectory becomes economically inviable. The Mixture-of-Experts (MoE) architecture resolves this by decoupling a model's total parameter count from its per-token active compute cost.
+
+By replacing dense feed-forward networks (FFNs) with a sparse mixture of specialized expert blocks, a router mechanism selects only a subset of experts to process any given token. For instance, Mixtral 8x7B features 47 billion total parameters but only activates 13 billion parameters per token during inference, utilizing a top-2 routing mechanism across 8 experts per layer. Frontier models have pushed this sparsity to the extreme. DeepSeek-V3 features an immense 671 billion parameters but activates merely 37 billion parameters (approximately 5.5%) for each token across 256 routed experts.
+
+A critical innovation in modern MoE architectures, directly benefiting agentic AI, is the handling of load balancing. Traditional MoE systems utilized auxiliary losses to force a balanced distribution of tokens across all experts, preventing routing collapse. However, forcing balance via auxiliary loss often degraded model performance by contradicting the router's semantic preferences. DeepSeek-V3 pioneers an auxiliary-loss-free load balancing strategy. By utilizing a Sigmoid function to compute affinity scores rather than traditional Softmax, and dynamically adjusting expert bias terms during training—decreasing bias for overloaded experts and increasing bias for underutilized ones—the model maintains high throughput without compromising strict functional specialization.
+
+Furthermore, to ensure the router accurately understands each expert's capacity, novel mechanisms like the Expert-Router Coupling (ERC) loss have been introduced. By interpreting the router parameter matrix as cluster centers, the ERC loss augments inputs with bounded random noise to simulate token variations, aligning router decisions tightly with the intermediate activation norms of the experts.
+
+In an agentic context, this architectural specialization is profound, but it defies human intuition. Recent research into the "myth of expert specialization" reveals that routing patterns are heavily dependent on the geometry of LLM hidden states rather than semantic domain abstraction. Because the MoE router is a linear projection from token hidden states to expert logits, tokens with similar hidden states must activate similar experts, creating a data-geometry-aware upper bound on logit distance. Consequently, different models solving the exact same math question may activate wildly dissimilar expert patterns, proving that specialization is a consequence of how the model organizes its representation space geometrically, not a property of the routing mechanism itself. This enables a single model to act as a highly proficient generalist agent without incurring the latency penalties of a massive dense network.
+
+## Hardware Constraints and Edge Deployment of Agentic MoEs
+
+While MoE models drastically reduce active compute, their massive total parameter counts create severe memory-access and VRAM bottlenecks, complicating deployment on edge devices or commodity hardware. Local deployments traditionally rely on quantized or distilled models, which suffer severe capability degradation, making them unsuitable for complex agentic tasks.
+
+Serving low-resource MoE models on consumer GPUs is fundamentally a working-set management problem. Expert weights and the Key-Value (KV) cache act as two distinct memory-reference streams competing for limited VRAM. Systems utilizing layer-level CPU offloading lose the benefits of MoE sparsity because they transfer all experts across the PCIe bus on every forward pass.
+
+To optimize this, memory allocation techniques such as MV-WSA (Marginal-Value Working-Set Allocation) have been developed. MV-WSA equalizes the marginal latency benefit per byte between the expert weights and the KV cache, dynamically dividing VRAM while preserving sufficient capacity for request admission. Additionally, hybrid CPU-GPU frameworks like KTransformers specifically target the decode-phase bottlenecks. By persisting MoE layer weights in CPU memory and executing expert computations on the CPU while densely activated weights remain on the GPU, these systems optimize memory bandwidth utilization. However, because decode throughput is primarily bound by the PCIe transfer rates and effective memory bandwidth (e.g., extracting only 221 GB/s from dual-socket DDR5 systems), advanced Stream-Loading Prefill (SLP) techniques are required to achieve the 20+ tokens-per-second responsiveness expected in agentic workflows.
+
+## Evolutionary Model Merging: Parameter and Data Flow Spaces
+
+While MoE enables massive scaling during pre-training, Evolutionary Model Merging enables the cost-effective creation of highly specialized agentic backbones post-training. Model merging combines multiple pre-trained models into a single unified system without requiring resource-intensive, from-scratch retraining. Traditional merging relied on linear weight averaging or human heuristics, which frequently resulted in catastrophic interference when merging models from disparate domains.
+
+The paradigm has shifted toward automated optimization using evolutionary algorithms, specifically the Covariance Matrix Adaptation Evolution Strategy (CMA-ES) and its variants like CatCMAwM (Categorical CMA with Margin). As demonstrated by Sakana AI, evolutionary algorithms treat model merging as a black-box optimization problem, searching for the mathematically optimal combination across two distinct topological dimensions:
+
+| Optimization Space | Mechanistic Framework | Mathematical and Algorithmic Execution |
+| :--- | :--- | :--- |
+| **Parameter Space (PS)** | Optimizing the weights and scaling factors within the same architecture. | Enhances TIES-Merging (resolving sign conflicts) with DARE (sparsifying redundant parameters). CMA-ES optimizes the exact blending coefficients ($\lambda$) used to merge weights at the layer level. Advanced frameworks also apply Hessian-Aware Router Calibration (HARC) for MoE merging and ACTMat to approximate layer-wise covariances via task vectors. |
+| **Data Flow Space (DFS)** | Optimizing the actual sequence of information flow through the network. | Searches a configuration space defined by an indicator array $T = M \times r$ (where $M$ is total layers and $r$ is repetitions) to select and permute layers from distinct models. To mitigate distribution shifts between disparate layers, it applies dynamically evolved scaling matrices ($W$) to the inputs. |
+
+This mixed binary-continuous optimization problem allows for unprecedented cross-domain fusion. The integration of these spaces has successfully generated models capable of simultaneous Japanese language fluency and advanced mathematical reasoning (EvoLLM-JP), achieving state-of-the-art results on 7B parameter models that surpass traditional 70B dense models. By leveraging L2-Stability theory to decouple the excess risk of merged models into optimization and generalization errors, algorithms can mathematically balance task heterogeneity. Practitioners can thus rapidly "breed" bespoke LLMs optimized for specific agentic workflows at a fraction of standard training costs.
+
+## Conclusion
+
+The paradigm shift from evaluating knowledge retrieval to evaluating agentic execution reflects a broader maturation in artificial intelligence. We are transitioning from the generative P2 paradigm—characterized by static language models—into the highly dynamic P4 paradigm of Automated Multi-Agent Systems. In this regime, evaluations must measure not only task success but also operational integrity, trajectory recovery, and strict adherence to safety constraints across long horizons.
+
+Powered by architectural breakthroughs like Mixture-of-Experts and Evolutionary Model Merging, and refined by advanced reinforcement learning and evolutionary prompt optimization, autonomous agents are rapidly bridging the gap between benchmark environments and production reality. Future benchmark suites will inevitably migrate from assessing single-agent task completion toward evaluating the emergent global behavior of decentralized swarms. Success in this era will not be defined by a model's ability to recite a fact, but by its capacity to securely, reliably, and autonomously navigate the chaotic reality of the digital world.
+
+---
+
+### References
+*   [Beyond Benchmark Islands: Toward Representative Trustworthiness Evaluation for Agentic AI - arXiv](https://arxiv.org)
+*   [Agentic Artificial Intelligence (AI): Architectures, Taxonomies, and Evaluation of Large Language Model Agents - arXiv](https://arxiv.org)
+*   [[2401.04088] Mixtral of Experts - ar5iv](https://ar5iv.labs.arxiv.org)
+*   [AgentAtlas: Beyond Outcome Leaderboards for LLM Agents - arXiv](https://arxiv.org)
+*   [AI Agent Benchmarks: SWE-bench, GAIA, WebArena, and Private Evals - OpenLegion](https://openlegion.ai)
+*   [AI Agent Benchmarking Infrastructure on GPU Cloud: Run SWE-bench, GAIA, Terminal-Bench, and OSWorld at Scale (2026 Guide) - Spheron Blog](https://spheron.network)
+*   [How We Broke Top AI Agent Benchmarks: And What Comes Next - Hao Wang](https://moogician.github.io)
+*   [A Survey on the Optimization of Large Language Model-based Agents - arXiv](https://arxiv.org)
+*   [Fine-tuning Behavioral Cloning Policies with Preference-Based Reinforcement Learning - arXiv](https://arxiv.org)
+*   [[2605.24743] Bilevel Optimization of Synthetic Trajectories for Multi-Turn LLM Fine-Tuning - arXiv](https://arxiv.org)
+*   [[2510.26270] Graph-Enhanced Policy Optimization in LLM Agent Training - arXiv](https://arxiv.org)
+*   [Finetuning Generative Trajectory Model with Reinforcement Learning from Human Feedback - arXiv](https://arxiv.org)
+*   [EvoPref: Multi-Objective Evolutionary Optimization Discovers Diverse LLM Alignments Beyond Gradient Descent - OpenReview](https://openreview.net)
+*   [Evolving Excellence: Automated Optimization of LLM-based Agents - arXiv](https://arxiv.org)
+*   [MARFT: Multi-Agent Reinforcement Fine-Tuning - arXiv](https://arxiv.org)
+*   [EvoPrompt: Connecting LLMs with Evolutionary Algorithms Yields Powerful Prompt Optimizers - arXiv](https://arxiv.org)
+*   [EvoPrompt – Evolutionary Algorithms Meets Prompt Engineering. A Powerful Duo - AI Advances](https://ai.gopubby.com)
+*   [Mixture of Experts in Large Language Models - arXiv](https://arxiv.org)
+*   [Tying the Loop - Tied Expert Layers in Mixture-of-Experts Language Models - arXiv](https://arxiv.org)
+*   [The Myth of Expert Specialization in MoEs: Why Routing Reflects Geometry, Not Necessarily Domain Expertise - arXiv](https://arxiv.org)
+*   [Arxiv Dives - How Mixture of Experts works with Mixtral 8x7B - Oxen.ai](https://ghost.oxen.ai)
+*   [DeepSeek-V3 Technical Report - arXiv](https://arxiv.org)
+*   [Mixture of Experts for Low-Resource LLMs - arXiv](https://arxiv.org)
+*   [Inside DeepSeek V3 - AI Advances](https://ai.gopubby.com)
+*   [Coupling Experts and Routers in Mixture-of-Experts via an Auxiliary Loss - arXiv](https://arxiv.org)
+*   [Achieving Cloud-Grade SLOs for Local Mixture-of-Experts Inference through CPU–GPU Hybrid Design - arXiv](https://arxiv.org)
+*   [A Scheduling Framework for Efficient MoE Inference on Edge GPU-NDP Systems - arXiv](https://arxiv.org)
+*   [WiSP: A Working-Set View of Mixture-of-Experts Serving on Extremely Low-Resource Hardware - arXiv](https://arxiv.org)
+*   [Rotary GPU: Exploring Local Execution Paths for Large Mixture-of-Experts Models Under Limited GPU Memory - arXiv](https://arxiv.org)
+*   [Black-Box Optimization of Mixed Binary-Continuous Variables: Challenges and Opportunities in Evolutionary Model Merging - arXiv](https://arxiv.org)
+*   [Evolutionary Model Merging Techniques - Scribd](https://scribd.com)
+*   [Tailoring Intelligence Part 2: Model merging — Flybridge](https://flybridge.com)
+*   [A Complete Guide to Sakana AI: How Evolutionary Model Merging is Changing the Future of Generative AI - note](https://note.com)
+*   [Evolutionary Optimization of Model Merging Recipes - arXiv](https://arxiv.org)
+*   [It's Morphing Time: Unleashing the Potential of Multiple LLMs via Multi-objective Optimization - arXiv](https://arxiv.org)
+*   [cmaes: Python library for CMA Evolution Strategy - GitHub](https://github.com)
+*   [Evolving New Foundation Models: Unleashing the Power of Automating Model Development - Sakana AI](https://sakana.ai)
+*   [A Unified Generalization Framework for Model Merging: Trade-offs, Non-Linearity, and Scaling Laws - arXiv](https://arxiv.org)
+*   [When Model Merging Breaks Routing: Training-Free Calibration for MoE - arXiv](https://arxiv.org)
+*   [Model Merging via Data-Free Covariance Estimation - arXiv](https://arxiv.org)
+*   [Understanding Sakana.ai's Evolutionary Model Merging - Paper Notes](https://en.bioerrorlog.work)
+*   [Variational Model Merging for Pareto Front Estimation in Multitask Finetuning - arXiv](https://arxiv.org)
+*   [The Evolving Blueprint: A Survey on Automated Optimization of LLM-Based Multi-Agent Systems - Preprints.org](https://preprints.org)

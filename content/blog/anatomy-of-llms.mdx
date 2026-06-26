@@ -1,0 +1,204 @@
+---
+title: "The Anatomy of LLMs: From Dense Attention to Sparse Mixture of Experts"
+description: "An deep dive into the architectural shift from dense transformers to Sparse Mixture of Experts (SMoE), including routing dynamics, hardware constraints, and evolutionary optimization."
+date: "2026-06-26"
+tags: ["ai", "llms", "moe", "deepseek", "mixtral", "model-merging"]
+---
+
+# The Anatomy of LLMs: From Dense Attention to Sparse Mixture of Experts
+
+The trajectory of Large Language Model (LLM) engineering has undergone a profound architectural metamorphosis, driven by the unsustainable computational economics of dense neural networks. In a traditional dense transformer, every parameter is activated for every token processed during both the pre-training and inference phases. While scaling laws reliably demonstrated that increasing parameter counts yielded predictable reductions in cross-entropy loss, the linear correlation between model size and active computation eventually hit a hard physical and economic ceiling. The latency, power consumption, and hardware requirements of densely activating hundreds of billions of parameters per token rendered further monolithic scaling impractical. In response, the field engineered a paradigm shift toward conditional computation, fundamentally redefining the anatomy of the LLM through the Sparse Mixture of Experts (SMoE) architecture.
+
+This evolution from dense attention mechanisms to sparse expert networks represents merely the foundational layer of modern LLM engineering. The contemporary LLM is not defined solely by its pre-trained weights but by its highly intricate, dynamic routing topologies, hardware-aware memory allocation strategies, and the post-training alchemy of model merging. As the industry transitions from training singular models from scratch to synthesizing existing expert models, techniques such as L2-stability-guided non-linear merging and evolutionary algorithmic optimization have become paramount. This analysis explores the deep mechanics of the SMoE architecture, the complex dynamics of expert routing, the hardware constraints dictating deployment, and the evolutionary optimization of the parameter and data flow spaces that govern next-generation foundation models.
+
+## The Architectural Shift to Conditional Computation
+
+The Mixture of Experts (MoE) architecture fundamentally decouples a model's total parameter capacity from its active computational cost. In a standard dense transformer block, the self-attention mechanism is followed by a Feed-Forward Network (FFN) that applies a uniform transformation to every token's hidden state. The SMoE architecture dismantles this monolithic FFN, replacing it with a routing mechanism and a distributed pool of specialized sub-networks, designated as "experts".   
+
+When a token enters an MoE layer, it is not processed by the entire parameter pool. Instead, a lightweight gating network evaluates the token's continuous hidden state representation and computes an affinity score—often via a linear projection—for each available expert. The router then enforces sparsity by selecting only the top-k experts to process the token. The outputs from these selected experts are combined via a gated linear sum, leaving the vast majority of the model's parameters dormant for that specific computational step. This conditional activation enables the training of models with parameter counts approaching the trillion scale while maintaining the inference latency and active floating-point operations per second (FLOPs) of a significantly smaller model.   
+
+### The Open-Weight Milestone: Mixtral 8x7B
+
+The theoretical benefits of conditional computation were heavily validated in the open-weights community with the release of the Mixtral 8x7B architecture. Built upon the foundation of the dense Mistral 7B model, Mixtral replaces the standard FFN in each of its 32 transformer layers with eight distinct expert blocks.   
+
+For every token traversing a layer, the router network generates logits for the eight experts, applies a softmax function to normalize these affinities, and selects the two experts with the highest probabilities (k=2). Consequently, while the Mixtral 8x7B model houses a total of 47 billion parameters across all layers and experts, any single token strictly interacts with only 13 billion active parameters during a forward pass. This architectural efficiency enables the model to achieve evaluation metrics that rival or exceed dense models scaling up to 70 billion parameters, particularly in domains demanding rigorous logical deduction such as mathematics and code generation.   
+
+| Benchmark Metric | LLaMA 2 70B (Dense) | Mistral 7B (Dense) | Mixtral 8x7B (SMoE) |
+| :--- | :--- | :--- | :--- |
+| **Active Parameters** | 70 Billion | 7 Billion | 13 Billion |
+| **MMLU (Massive Multitask)** | 69.9% | 62.5% | 70.6% |
+| **HellaSwag** | 85.4% | 81.0% | 84.4% |
+| **ARC Challenge** | 56.5% | 54.9% | 59.7% |
+| **GSM8K (Math)** | 69.6% | 50.0% | 74.4% |
+| **MBPP (Code Generation)** | 49.8% | 50.2% | 60.7% |
+
+The performance differentials observed in the Mixtral architecture underscore the efficiency of the SMoE paradigm. By allocating specialized capacity for distinct representational states, the model circumvents the representational bottlenecks inherent in smaller dense networks without incurring the latency penalties of massive dense networks.
+
+## Advanced Routing Dynamics and Load Balancing
+
+While traditional top-k routing effectively introduces sparsity, it introduces a severe optimization vulnerability known as "routing collapse." Without explicit regularization, the gating network frequently falls into a degenerate state where it overwhelmingly favors a narrow subset of experts, creating a self-reinforcing cycle where heavily utilized experts receive the majority of the gradient updates and become even more favored, while the remaining experts suffer from starvation.   
+
+Historically, architectural designs combated routing collapse by appending a differentiable auxiliary load-balancing loss to the primary training objective. This loss penalized uneven token distribution across the expert pool. However, this introduced a detrimental trade-off: forcing tokens into suboptimal experts purely to satisfy the balancing regularization inherently degraded the model's primary objective—language modeling accuracy. Balancing regularization strength therefore became a precarious hyperparameter, trading off expert specialization for hardware utilization.   
+
+### Auxiliary-Loss-Free Balancing: The DeepSeek-V3 Architecture
+
+Frontier architectures have engineered sophisticated bypasses to the auxiliary loss dilemma. DeepSeek-V3, a model encompassing 671 billion total parameters while activating only 37 billion parameters per token, fundamentally redesigned the MoE routing anatomy to achieve auxiliary-loss-free load balancing.   
+
+DeepSeek-V3 eschews the coarse architecture of a few massive experts in favor of highly fine-grained experts, bifurcating the pool into "shared" and "routed" classifications. The shared experts capture universal, cross-domain syntactic and semantic representations and are perpetually activated for every token. The routed experts are selectively activated based on specific token contexts.   
+
+Mathematically, the forward pass for the FFN output $h'_t$ of the $t$-th token with input $u_t$ is formalized as:
+<Callout type="formula" title="Forward Pass for FFN Output">
+$$ h'_t = u_t + \sum_{i=1}^{N_s} FFN_i^{(s)}(u_t) + \sum_{i=1}^{N_r} g_{i,t} FFN_i^{(r)}(u_t) $$
+</Callout>
+
+Where $N_s$ represents the shared experts and $N_r$ represents the routed experts. DeepSeek-V3 deviates from the standard softmax routing operator, instead utilizing an element-wise sigmoid function to calculate affinity scores, followed by unit-sum normalization among the selected top-k experts. The affinity score $s_{i,t}$ for expert $i$ is derived as:
+<Callout type="formula" title="Affinity Score Calculation">
+$$ s_{i,t} = \mathrm{Sigmoid}(u_t^T e_i) $$
+</Callout>
+
+To enforce load balancing without corrupting the gradient updates with an auxiliary loss penalty, DeepSeek-V3 injects a dynamic expert bias term directly into the routing computation. The system continuously monitors expert load during training; if an expert exceeds its target utilization, its bias scalar is dynamically decreased by a predefined update speed parameter, artificially suppressing its selection probability. Conversely, underutilized experts receive a bias increase. This auxiliary-loss-free paradigm ensures balanced hardware utilization while preserving the integrity of the language modeling loss landscape, enabling the model to effectively consolidate information from long-tailed experts without gradient starvation.   
+
+Furthermore, DeepSeek-V3 accelerates inference and lowers memory pressure through Multi-Head Latent Attention (MLA), wherein the input sequence is projected into a low-dimensional latent space for queries, keys, and values before applying decoupled Rotary Positional Embeddings (RoPE), significantly optimizing the attention mechanism prior to the MoE routing layer.   
+
+## Deconstructing the Myth of Expert Specialization
+
+A pervasive intuition regarding MoE architectures is the notion of semantic "expert specialization"—the belief that individual experts naturally modularize human-interpretable concepts, such as dedicating one expert to mathematics, another to Python code, and a third to multilingual translation. Extensive gradient-based and activation-based analyses reveal this intuitive compartmentalization to be a misconception.   
+
+Specialization patterns are entirely governed by the high-dimensional, continuous geometry of the model's hidden states, rather than discrete, human-defined semantic boundaries. Because the MoE router operates strictly as a linear projection from the token's hidden state to the expert logits, tokens occupying proximal regions in the latent representation space will inherently activate identical experts, regardless of their semantic divergence. Research demonstrates that semantically distinct prompts can activate nearly identical expert pools during the prefilling phase, yet drastically diverge during the autoregressive generation phase. Conversely, different foundational models attempting to solve the identical mathematical reasoning task often trigger entirely dissimilar expert patterns, indicating that routing is a function of idiosyncratic spatial organization rather than objective semantic clustering.   
+
+The geometric nature of routing is vividly illustrated in cross-lingual studies. When evaluating morphologically rich, low-resource languages such as Hebrew against high-resource languages like English, pre-trained MoE models exhibit a pronounced deep-layer routing collapse. While English tokens maintain a diverse entropy of expert utilization throughout the network depth, Hebrew tokens experience a sharp entropy drop in the final transformer layers, concentrating heavily into a narrow subset of experts. This deep-layer collapse confirms that the router is driven by functional specialization—organizing the hidden states necessary to output the correct target vocabulary—rather than dedicating an expert to the concept of the Hebrew language itself.   
+
+To mitigate the gap between the router's spatial linear projections and the actual representational capabilities of the underlying experts, advanced constraint mechanisms such as the Expert-Router Coupling (ERC) loss have been proposed. The ERC loss treats the router's parameter matrix as a set of mathematical cluster centers. By injecting bounded random noise into each cluster center, it simulates input variations within the target token set. The loss measures the intermediate activation norms of the experts processing these noisy centers, effectively enforcing a tight coupling between the router's geometric clustering decisions and the true, underlying capabilities of the expert networks, minimizing gradient interference without requiring dense activations.   
+
+## Hardware Deployment Bottlenecks and Working-Set VRAM Management
+
+While the SMoE paradigm elegantly solves the compute-bound limitations inherent in dense scaling laws, it introduces a severe, often critical, memory-bandwidth bottleneck during local or edge deployment. In a dense model, the ratio of memory accesses to FLOPs remains relatively balanced. However, in an MoE model, the entirety of the model's expert weights must physically reside in GPU Video RAM (VRAM)—or be rapidly streamed across the PCIe bus from host memory—even though less than ten percent of those parameters are utilized for any individual token.   
+
+In high-concurrency cloud environments, this sparsity is advantageous; batched requests naturally activate diverse experts, resulting in highly overlapped parameter utilization that pushes hardware toward peak efficiency. Conversely, in low-concurrency local deployments (e.g., a batch size of 1), decode throughput collapses precipitously. Generating tokens sequentially requires pulling massive weight matrices from memory at every autoregressive step, rendering the system entirely bound by memory bandwidth long before it reaches compute saturation. Static CPU offloading—keeping weights in host memory and executing them on the CPU—preserves VRAM but destroys throughput due to synchronization and kernel launch overheads, reducing decode speeds to a fraction of cloud-level responsiveness.   
+
+### The Marginal-Value Working-Set Allocation (MV-WSA)
+
+To address this dichotomy, low-resource MoE serving has been re-conceptualized as a working-set management problem, deeply analogous to classical operating system paging algorithms. In this framework, the Key-Value (KV) cache (the memory required to retain the context of past tokens) and the routed expert weights are modeled as two competing memory-demand streams fighting for the limited commodity of VRAM.   
+
+If too much VRAM is allocated to holding expert weights, the KV cache budget shrinks, preventing the admission of long-context prompts. If too much VRAM is dedicated to the KV cache, the system relies too heavily on PCIe transfers for expert weights, inducing massive thrashing and destroying throughput. This is resolved through Marginal-Value Working-Set Allocation (MV-WSA). MV-WSA mathematically dynamically partitions VRAM between the KV cache and the expert pools by equalizing the marginal latency benefit per byte, subject to a minimum KV-capacity constraint required to prevent request denial.   
+
+### Stream-Loading Prefill (SLP) and Real-Time Telemetry
+
+To further mitigate the PCIe bottleneck, advanced local inference engines implement Stream-Loading Prefill (SLP). Rather than blindly reacting to the router's decisions during decode, SLP systems leverage the prefill phase—where the initial prompt is processed in parallel—as a predictive telemetry window. During prefill, the system continuously monitors the sequence of expert activation statistics. Because MoE routing decisions exhibit strong temporal locality (tokens representing a sustained concept tend to activate the same experts repeatedly), the system proactively pre-fetches the experts predicted to be active in the upcoming decode phase directly into VRAM. By transforming reactive, scattered PCIe reads into highly predictable, continuous block transfers, SLP radically elevates decode throughput, enabling low-resource hardware to sustain functional token generation rates.   
+
+## Post-Training Engineering: The Science of Model Merging
+
+As the financial and computational expenditures required to train foundation models from random initialization have escalated into the tens of millions of dollars, the field of LLM engineering has increasingly pivoted toward post-training architectural synthesis. Model merging has emerged as a transformative, gradient-free paradigm that consolidates the capabilities of multiple fine-tuned models into a single, unified entity, operating entirely within the parameter space without requiring access to the original training datasets.   
+
+Traditional transfer learning adapts a base model to a new task but inherently suffers from catastrophic forgetting, wherein the optimization steps that instill the new capability simultaneously overwrite the weights responsible for previously learned behaviors. Model merging circumvents this by structurally amalgamating independently fine-tuned experts, enabling multitask, continual learning while retaining foundational knowledge.   
+
+### Linear Interpolation and the Late NTK Regime
+
+Early merging techniques relied heavily on linear parameter arithmetic. Methods such as Model Soups demonstrated that simply averaging the weights of multiple models fine-tuned from the identical base checkpoint under different hyperparameters could yield a model that settled into a wider, flatter basin in the loss landscape, thereby enhancing out-of-distribution generalization. Similarly, Task Arithmetic approaches isolated "task vectors"—the algebraic subtraction of the pre-trained base model's weights from the fine-tuned model's weights—allowing engineers to add, subtract, and scale specific capabilities linearly.   
+
+The empirical success of linear weight averaging is theoretically anchored in the "Late Neural Tangent Kernel (NTK) Regime." While models at initialization do not exhibit stable kernel geometries, models that undergo Supervised Fine-Tuning (SFT) from a shared foundational checkpoint develop a highly correlated curvature geometry near convergence. Because these models reside within the same geometric basin and their loss landscapes possess aligned Hessians, simple linear combinations of their parameters reliably avoid catastrophic interference.   
+
+### Resolving the Federated Learning Paradox via L2-Stability
+
+Linear merging, however, completely disintegrates when attempting to fuse expert models that have been over-trained or subjected to severe hyperparameter heterogeneity (e.g., highly divergent learning rates, batch sizes, or data distributions). Pure optimization theory posits that merging highly optimized individual experts should yield an aggregated model approaching the global minimum. Yet, empirical observations document catastrophic merging collapse, presenting a paradox where stronger individual models produce a weaker merged output.   
+
+This paradox is mathematically resolved through the lens of L2-Stability theory, which decouples the merged model's excess risk into two distinct variables: optimization error and generalization error. Theoretical analysis proves that while increasing fine-tuning steps (K) or escalating the learning rate successfully drives down the individual model's optimization error, it simultaneously causes the stability penalty (generalization error) to explode. Consequently, linearly averaging over-trained models forces the aggregated weights into regions of high task interference.   
+
+### Non-Linear Sparsification: TIES and DARE
+
+To suppress the exploding stability penalty caused by task heterogeneity, the field developed advanced non-linear sparsification algorithms designed to strictly tighten the generalization bound.   
+
+**TIES-Merging (Trim, Elect, Merge):** This algorithm identifies that parameter interference is driven by redundant updates and sign conflicts across task vectors. TIES resolves this via a three-step process: First, it trims the task vectors by zeroing out the smallest magnitude delta parameters, enforcing sparsity. Second, it elects a consensus sign direction for each parameter across all models, discarding any updates that contradict the majority direction. Finally, it merges only the surviving, directionally aligned parameters, drastically reducing destructive interference.   
+
+**DARE (Drop And REscale):** DARE pushes sparsification to the extreme. It operates on the principle that the vast majority of fine-tuning updates are functionally redundant. DARE randomly drops a massive percentage (often between 70% to 90%) of the fine-tuned delta parameters back to their base model values. Crucially, it then rescales the remaining active parameters by a factor of `1/(1−p)` (where `p` is the drop rate) to maintain the expected magnitude of the model's activations. By merging highly sparse task vectors, DARE forcibly minimizes the non-linear deviations that cause catastrophic collapse.   
+
+### Hessian-Aware Router Calibration (HARC) for MoE Merging
+
+While TIES and DARE revolutionized dense model merging, applying these weight-space manipulations to SMoE architectures introduced an entirely new failure mode: routing breakdown. The core vulnerability lies in the gating network. The non-linear softmax and discrete top-k routing mechanisms are hyper-sensitive to the parameter perturbations induced by merging. When multiple MoE models are merged via linear or sparse arithmetic, the underlying expert feed-forward weights may successfully align, but the routing logic becomes critically corrupted. Even minor numeric deviations in the merged router lead to massive expert assignment errors, routing tokens to entirely inappropriate experts and destroying the output representations.   
+
+This breakdown is rectified through Hessian-Aware Router Calibration (HARC). HARC operates as a training-free framework that extracts the second-order curvature information (the Hessian) from the source models' routing spaces. By employing a scalable, matrix-free conjugate gradient solver, HARC analytically realigns the merged router's parameters to match the expected activation distributions of the aggregated experts. This demonstrates a fundamental principle of MoE engineering: preserving the integrity of the routing logic is of equal, if not greater, importance than aligning the parameter weights of the experts themselves.   
+
+## Evolutionary Model Merging: Automating Architectural Synthesis
+
+Despite the mathematical elegance of algorithms like TIES and DARE, executing a successful merge requires determining the exact hyperparameter configurations: which layers from which specific models should be merged, at what sparsity drop rates, and utilizing what specific interpolation ratios. As the pool of available open-source models expands, the combinatorial search space for these configurations explodes exponentially. Human intuition, heuristics, and brute-force grid-search methodologies fundamentally fail to scale in this high-dimensional environment.   
+
+To transcend human limitations, researchers pioneered Evolutionary Model Merging, an architecture-synthesis paradigm that frames the creation of foundation models as a multi-objective, black-box optimization problem. By deploying evolutionary algorithms—inspired by the mechanics of biological natural selection—this methodology automates the discovery of highly optimal, non-intuitive model combinations without relying on gradient-based backpropagation. The evolutionary process operates concurrently across two distinct search spaces: the Parameter Space and the Data Flow Space.   
+
+<Callout type="tip" title="Dual-Space Optimization">
+**1. Parameter Space (PS):** The continuous domain of network weights. Algorithms like CMA-ES search for optimal layer-wise configurations, learning how to perfectly mix the sparsified task vectors to maximize fitness.
+**2. Data Flow Space (DFS):** The discrete domain defining structural topology. DFS optimization treats the actual route of information passing through transformer blocks as an evolvable construct, optimizing which layers are utilized, sequenced, skipped, or swapped.
+</Callout>
+
+| Optimization Domain | Search Variable Type | Core Algorithms | Structural Consequence |
+| :--- | :--- | :--- | :--- |
+| **Parameter Space (PS)** | Continuous (Interpolation ratios, scaling weights) | CMA-ES, DARE, TIES-Merging | Modifies internal parameter values layer-by-layer; resolves weight interference. |
+| **Data Flow Space (DFS)** | Discrete (Layer selection, sequential ordering) | Permutations, Indicator Arrays | Alters macro-architecture; dictates the physical inference path of the tensor. |
+| **Hybrid (PS + DFS)** | Mixed Binary-Continuous | CatCMAwM, NSGA-II | Synthesizes entirely novel foundation architectures with customized depth and weight distributions. |
+
+### The Mixed Binary-Continuous Optimization Challenge
+
+Integrating both PS and DFS merging into a singular, automated workflow creates a notoriously rugged and mathematically complex optimization landscape. This is classified as a mixed binary-continuous optimization problem, requiring the simultaneous resolution of discrete binary variables (e.g., whether a layer is structurally included in the DFS path) and continuous variables (e.g., the precise interpolation weights in the PS).   
+
+To overcome this, advanced evolutionary frameworks utilize specialized solvers like CatCMA with Margin (CatCMAwM), which is explicitly designed to handle arbitrary combinations of continuous, integer, and categorical variables simultaneously. Frameworks also employ algorithms like the Non-dominated Sorting Genetic Algorithm II (NSGA-II) to handle multi-objective optimization, utilizing Pareto-front sorting and crowding distance calculations to balance competing objectives.   
+
+## Evolutionary Optimization Beyond Weights: Prompts and Autonomous Agents
+
+The success of evolutionary algorithms in manipulating deep parameter topologies has catalyzed their application outward to the very interfaces that control LLM behavior: discrete natural language prompts and multi-agent coordination pipelines.
+
+**EvoPrompt: Traversing the Discrete Token Space**
+While techniques like soft-prompt tuning operate within the continuous parameter space, they require direct access to model gradients. For black-box LLMs accessible only via APIs, optimization must occur within the discrete, non-differentiable space of natural language tokens. The EvoPrompt framework resolves this by utilizing an LLM itself as the intelligent evolutionary operator, connecting the optimization efficiency of Genetic Algorithms (GA) with the natural language processing capabilities of the model.
+
+The framework formalizes discrete prompt optimization as finding the optimal sequence $p^*$ that maximizes expected performance over a given dataset:
+
+<Callout type="formula" title="Discrete Prompt Optimization">
+$$ p^* = \arg\max_{p \in P} \mathbb{E}_{q \sim A} [\text{Score}(p \oplus q)] $$
+</Callout>
+
+Starting with an initial, diverse population of human-engineered and LLM-generated prompts, EvoPrompt evaluates the fitness of each candidate against a development set. To generate the next generation of prompts, parents are selected via roulette wheel selection proportional to their fitness scores.
+
+**Artemis: Evolving Complex Agentic Pipelines**
+As LLMs transition from isolated chat interfaces into autonomous, multi-component agents, the configuration space expands dramatically. Artemis serves as a comprehensive, evolutionary optimization platform designed specifically to jointly tune the textual and parametric configurations of LLM-based agents. It operates via complementary optimization strategies: Local Evolutionary Optimization for isolated prompt instructions, and Global Bayesian Optimization for heavily interacting components, delivering statistically significant improvements in complex agent tasks.
+
+## Conclusion
+
+The anatomy of the modern Large Language Model is no longer defined by the monolithic scaling of dense transformer parameters. It is an intricately designed, sparsely activated engine dictated by Mixture-of-Experts routing topology. The evolution from naive top-k gating to auxiliary-loss-free load balancing and dynamic bias injection demonstrates a maturation in aligning active compute with underlying latent geometry.
+
+Crucially, the lifecycle of an LLM extends far beyond its initial pre-training. Through the rigorous application of L2-stability theory, Hessian-aware router calibration, and the sophisticated deployment of evolutionary algorithms, engineers can now perform zero-shot architectural synthesis. By automating the exploration of both continuous parameter spaces and discrete data flow topologies, evolutionary model merging synthesizes disparate domain expertise into highly optimized, resource-efficient foundation models. Coupled with evolutionary prompt engineering and agentic pipeline tuning, these methodologies represent a profound shift in machine learning: moving from manually instilling intelligence via gradient descent to autonomously breeding it via the mathematically guided principles of natural selection.
+
+---
+
+### References
+*   [From Score Distributions to Balance: Plug-and-Play Mixture-of-Experts Routing](https://arxiv.org)
+*   [Coupling Experts and Routers in Mixture-of-Experts via an Auxiliary Loss](https://arxiv.org)
+*   [Mixture of Experts in Large Language Models](https://arxiv.org)
+*   [DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices](https://arxiv.org)
+*   [Mixtral of Experts](https://ar5iv.labs.arxiv.org/html/2401.04088)
+*   [Safety-Oriented Routing Analysis of Mixtral MoE Under Benign and Harmful Prompts](https://arxiv.org)
+*   [Arxiv Dives - How Mixture of Experts works with Mixtral 8x7B](https://ghost.oxen.ai)
+*   [Expert Upcycling: Shifting the Compute-Efficient Frontier of Mixture-of-Experts](https://arxiv.org)
+*   [Mixture of Experts for Low-Resource LLMs](https://arxiv.org)
+*   [DeepSeek-V3 Technical Report](https://arxiv.org)
+*   [Tying the Loop - Tied Expert Layers in Mixture-of-Experts Language Models](https://arxiv.org)
+*   [Inside DeepSeek V3 - AI Advances](https://ai.gopubby.com)
+*   [Preserving Long-Tailed Expert Information in Mixture-of-Experts Tuning](https://arxiv.org)
+*   [The Myth of Expert Specialization in MoEs: Why Routing Reflects Geometry, Not Necessarily Domain Expertise](https://arxiv.org)
+*   [WiSP: A Working-Set View of Mixture-of-Experts Serving on Extremely Low-Resource Hardware](https://arxiv.org)
+*   [Achieving Cloud-Grade SLOs for Local Mixture-of-Experts Inference through CPU–GPU Hybrid Design](https://arxiv.org)
+*   [A Scheduling Framework for Efficient MoE Inference on Edge GPU-NDP Systems](https://arxiv.org)
+*   [It's Morphing Time: Unleashing the Potential of Multiple LLMs via Multi-objective Optimization](https://arxiv.org)
+*   [A Unified Generalization Framework for Model Merging: Trade-offs, Non-Linearity, and Scaling Laws](https://arxiv.org)
+*   [Arcee's MergeKit: A Toolkit for Merging Large Language Models](https://arxiv.org)
+*   [Evolutionary Optimization of Model Merging Recipes](https://arxiv.org)
+*   [When Model Merging Breaks Routing: Training-Free Calibration for MoE](https://arxiv.org)
+*   [Closed-Form Spectral Regularization for Multi-Task Model Merging](https://arxiv.org)
+*   [Harnessing Optimization Dynamics for Curvature-Informed Model Merging](https://arxiv.org)
+*   [Model Merging via Data-Free Covariance Estimation](https://arxiv.org)
+*   [Black-Box Optimization of Mixed Binary-Continuous Variables: Challenges and Opportunities in Evolutionary Model Merging](https://arxiv.org)
+*   [Understanding Sakana.ai's Evolutionary Model Merging | Paper Notes](https://en.bioerrorlog.work)
+*   [cmaes: A Simple yet Practical Python Library for CMA-ES](https://arxiv.org)
+*   [Evolving New Foundation Models: Unleashing the Power of Automating Model Development](https://sakana.ai)
+*   [Evolutionary Multi-Objective Optimization of Large Language Model Prompts for Balancing Sentiments](https://arxiv.org)
+*   [evoprompt: connecting llms with evolution](https://arxiv.org)
+*   [GAAPO: Genetic Algorithmic Applied to Prompt Optimization](https://arxiv.org)
+*   [Evolutionary Prompt Optimization - Emergent Mind](https://emergentmind.com)
+*   [Evolving Excellence: Automated Optimization of LLM-based Agents](https://arxiv.org/abs/2512.09108)
