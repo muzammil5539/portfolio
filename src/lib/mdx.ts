@@ -38,13 +38,7 @@ export function getBlogPosts(): Omit<BlogPost, 'content'>[] {
       };
     });
     
-  return allPostsData.sort((a, b) => {
-    if (new Date(a.date) < new Date(b.date)) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+  return allPostsData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getBlogPost(slug: string): BlogPost | null {
