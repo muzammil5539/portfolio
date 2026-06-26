@@ -41,7 +41,7 @@ const MermaidRenderer = React.memo(({ chart }: { chart: string }) => {
           // Manually expand the viewBox to ensure outer strokes are never clipped!
           const viewBox = svgElement.getAttribute('viewBox');
           if (viewBox) {
-            const [x, y, w, h] = viewBox.split(' ').map(Number);
+            const [x = 0, y = 0, w = 0, h = 0] = viewBox.split(' ').map(Number);
             // Expand the box by 20px on all sides
             svgElement.setAttribute('viewBox', `${x - 20} ${y - 20} ${w + 40} ${h + 40}`);
             // Also increase the explicit height/width attributes so the parent scroll container grows

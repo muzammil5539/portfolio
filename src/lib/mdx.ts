@@ -60,7 +60,7 @@ export function getBlogPost(slug: string): BlogPost | null {
       tags: matterResult.data.tags || [],
       content: matterResult.content,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

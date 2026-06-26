@@ -3,11 +3,11 @@ import Mermaid from './Mermaid';
 import Callout from './mdx/Callout';
 
 export const MDXComponents = {
-  code: ({ className, children, ...props }: any) => {
+  code: ({ className, children, ...props }: React.ComponentPropsWithoutRef<'code'>) => {
     const isMermaid = className && className.includes('language-mermaid');
     
     if (isMermaid) {
-      return <Mermaid chart={children} />;
+      return <Mermaid chart={String(children)} />;
     }
     
     return (
