@@ -1,0 +1,3 @@
+## 2025-03-08 - [Optimize NeuralNetworkDiagram Layout Calculations]
+**Learning:** In Next.js with React 19, parsing visual lengths using DOM calls (`.querySelectorAll`, `.getAttribute`) within a `useEffect` triggers layout thrashing and prevents static rendering/SSR, frequently causing build or runtime failures. This is highly problematic for components that could otherwise statically precalculate lengths.
+**Action:** Always use `useMemo` to precalculate coordinate distances mathematically during the render phase and pass them declaratively via CSS variables or the style prop to animations, eliminating imperative DOM queries.
