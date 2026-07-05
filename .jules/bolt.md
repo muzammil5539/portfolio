@@ -1,0 +1,3 @@
+## 2023-10-25 - [SVG Layout Thrashing Anti-Pattern]
+**Learning:** Found a severe performance bottleneck where visual lengths for SVG animations were parsed using imperative DOM calls (`.querySelectorAll`, `.getAttribute`) within a `useEffect`. This approach causes layout thrashing and prevents static rendering/SSR in Next.js applications, potentially leading to build or runtime failures.
+**Action:** Always precalculate coordinate distances mathematically during the render phase (using `useMemo`) and pass them declaratively via inline CSS styles to eliminate imperative DOM queries. Ensure that default object/array props (like `nodeCount`) are extracted as constants outside the component body to avoid referential equality issues in dependency arrays.
