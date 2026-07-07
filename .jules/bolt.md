@@ -1,0 +1,3 @@
+## 2024-05-18 - Optimize SVG rendering in NeuralNetworkDiagram
+**Learning:** Parsing visual lengths and imperatively updating SVG elements via DOM queries (`querySelectorAll`, `.getAttribute`) within `useEffect` forces browser layout recalculations (layout thrashing) and prevents server-side rendering (SSR) from providing correct initial styles, a notable anti-pattern in Next.js applications.
+**Action:** Always pre-calculate coordinate distances mathematically during the component render phase (e.g., inside a `useMemo` hook) and apply these values declaratively to the SVG tags using React's `style` or equivalent properties to bypass imperative DOM manipulation.
