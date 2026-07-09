@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useMemo } from "react";
 
 interface NeuralNetworkDiagramProps {
   className?: string;
@@ -7,73 +7,66 @@ interface NeuralNetworkDiagramProps {
   animated?: boolean;
 }
 
+const DEFAULT_NODE_COUNT = [4, 6, 6, 4, 2];
+const WIDTH = 600;
+const HEIGHT = 400;
+
 export default function NeuralNetworkDiagram({
   className = "",
-  nodeCount = [4, 6, 6, 4, 2],
+  nodeCount = DEFAULT_NODE_COUNT,
   animated = true,
 }: NeuralNetworkDiagramProps) {
-  const svgRef = useRef<SVGSVGElement>(null);
 
-  useEffect(() => {
-    if (!animated || !svgRef.current) return;
-
-    const connections = svgRef.current.querySelectorAll(".neural-connection");
-    connections.forEach((connection, index) => {
-      const line = connection as SVGLineElement;
-      const length = Math.sqrt(
-        Math.pow(parseFloat(line.getAttribute("x2") || "0") - parseFloat(line.getAttribute("x1") || "0"), 2) +
-        Math.pow(parseFloat(line.getAttribute("y2") || "0") - parseFloat(line.getAttribute("y1") || "0"), 2)
-      );
-      line.style.strokeDasharray = `${length}`;
-      line.style.strokeDashoffset = `${length}`;
-      line.style.animation = `lineFlow 3s ${index * 0.05}s ease-in-out infinite`;
+  // Bolt Optimization: Pre-calculate complex layouts via useMemo.
+  // Moving constants out of the component and memoizing the node
+  // coordinates prevents unnecessary recalculations on every render.
+  const layers = useMemo(() => {
+    const layerSpacing = WIDTH / (nodeCount.length + 1);
+    return nodeCount.map((count, layerIndex) => {
+      const nodes = [];
+      for (let i = 0; i < count; i++) {
+        const x = layerSpacing * (layerIndex + 1);
+        const nodeSpacing = HEIGHT / (count + 1);
+        const y = nodeSpacing * (i + 1);
+        nodes.push({ x, y, layerIndex, nodeIndex: i });
+      }
+      return nodes;
     });
-  }, [animated]);
+  }, [nodeCount]);
 
-  const width = 600;
-  const height = 400;
-  const layerSpacing = width / (nodeCount.length + 1);
-
-  const getNodePosition = (layerIndex: number, nodeIndex: number, totalNodes: number) => {
-    const x = layerSpacing * (layerIndex + 1);
-    const nodeSpacing = height / (totalNodes + 1);
-    const y = nodeSpacing * (nodeIndex + 1);
-    return { x, y };
-  };
-
-  const layers = nodeCount.map((count, layerIndex) => {
-    const nodes = [];
-    for (let i = 0; i < count; i++) {
-      const { x, y } = getNodePosition(layerIndex, i, count);
-      nodes.push({ x, y, layerIndex, nodeIndex: i });
-    }
-    return nodes;
-  });
-
-  const connections: { x1: number; y1: number; x2: number; y2: number; key: string }[] = [];
-  for (let i = 0; i < layers.length - 1; i++) {
-    const currentLayer = layers[i];
-    const nextLayer = layers[i + 1];
-    if (currentLayer && nextLayer) {
-      currentLayer.forEach((node, ni) => {
-        nextLayer.forEach((nextNode, nj) => {
-          connections.push({
-            x1: node.x,
-            y1: node.y,
-            x2: nextNode.x,
-            y2: nextNode.y,
-            key: `${i}-${ni}-${nj}`,
+  // Bolt Optimization: Calculate connections and segment lengths (Math.sqrt, Math.pow)
+  // mathematically inside useMemo during render instead of querying DOM elements
+  // (.querySelectorAll) inside a useEffect. This eliminates layout thrashing
+  // and enables stable Next.js SSR performance.
+  const connections = useMemo(() => {
+    const conns: { x1: number; y1: number; x2: number; y2: number; length: number; key: string }[] = [];
+    layers.forEach((currentLayer, i) => {
+      const nextLayer = layers[i + 1];
+      if (currentLayer && nextLayer) {
+        currentLayer.forEach((node, ni) => {
+          nextLayer.forEach((nextNode, nj) => {
+            const length = Math.sqrt(
+              Math.pow(nextNode.x - node.x, 2) + Math.pow(nextNode.y - node.y, 2)
+            );
+            conns.push({
+              x1: node.x,
+              y1: node.y,
+              x2: nextNode.x,
+              y2: nextNode.y,
+              length,
+              key: `${i}-${ni}-${nj}`,
+            });
           });
         });
-      });
-    }
-  }
+      }
+    });
+    return conns;
+  }, [layers]);
 
   return (
     <div className={`relative ${className}`}>
       <svg
-        ref={svgRef}
-        viewBox={`0 0 ${width} ${height}`}
+        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         className="w-full h-full"
         style={{ filter: "drop-shadow(0 0 8px rgba(0, 217, 255, 0.2))" }}
       >
@@ -105,7 +98,7 @@ export default function NeuralNetworkDiagram({
         </defs>
 
         {/* Connections */}
-        {connections.map((conn) => (
+        {connections.map((conn, index) => (
           <line
             key={conn.key}
             x1={conn.x1}
@@ -116,6 +109,9 @@ export default function NeuralNetworkDiagram({
             stroke="url(#nodeGradient)"
             strokeWidth="1"
             opacity="0.3"
+            strokeDasharray={animated ? conn.length : undefined}
+            strokeDashoffset={animated ? conn.length : undefined}
+            style={animated ? { animation: `lineFlow 3s ${index * 0.05}s ease-in-out infinite` } : undefined}
           />
         ))}
 
@@ -165,8 +161,8 @@ export default function NeuralNetworkDiagram({
         {["Input", "Hidden", "Hidden", "Hidden", "Output"].slice(0, nodeCount.length).map((label, i) => (
           <text
             key={`label-${i}`}
-            x={layerSpacing * (i + 1)}
-            y={height - 20}
+            x={(WIDTH / (nodeCount.length + 1)) * (i + 1)}
+            y={HEIGHT - 20}
             textAnchor="middle"
             fill="#64748B"
             fontSize="12"
