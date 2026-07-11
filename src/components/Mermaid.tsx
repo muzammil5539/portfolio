@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import mermaid from "mermaid";
 import { Maximize2, Minimize2 } from "lucide-react";
 
@@ -18,7 +18,8 @@ interface MermaidProps {
 // This prevents React and Mermaid from fighting over the same elements.
 const MermaidRenderer = React.memo(({ chart }: { chart: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const id = `mermaid-${Math.random().toString(36).slice(2, 11)}`;
+  const reactId = useId();
+  const id = `mermaid-${reactId.replace(/:/g, "")}`;
 
   useEffect(() => {
     if (containerRef.current) {
