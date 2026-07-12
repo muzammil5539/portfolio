@@ -71,10 +71,8 @@ export default function NeuralNetworkDiagram({
       }
     }
 
-    return { layers: computedLayers, connections: computedConnections };
+    return { layers: computedLayers, connections: computedConnections, layerSpacing };
   }, [nodeCount, width, height]);
-
-  const layerSpacing = width / (nodeCount.length + 1);
 
   return (
     <div className={`relative ${className}`}>
