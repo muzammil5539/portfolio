@@ -17,6 +17,8 @@ export default function NeuralNetworkDiagram({
   const width = 600;
   const height = 400;
 
+  // UseMemo prevents layout thrashing by pre-calculating the distances mathematically during render
+  // instead of imperatively reading from the DOM (getAttribute/querySelectorAll) inside useEffect.
   const { layers, connections } = useMemo(() => {
     const layerSpacing = width / (nodeCount.length + 1);
 
@@ -53,6 +55,7 @@ export default function NeuralNetworkDiagram({
       if (currentLayer && nextLayer) {
         currentLayer.forEach((node, ni) => {
           nextLayer.forEach((nextNode, nj) => {
+            // Calculate line length mathematically instead of imperatively reading from the DOM
             const length = Math.sqrt(Math.pow(nextNode.x - node.x, 2) + Math.pow(nextNode.y - node.y, 2));
             computedConnections.push({
               x1: node.x,
