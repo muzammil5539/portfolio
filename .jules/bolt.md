@@ -1,0 +1,3 @@
+## 2025-03-22 - [Refactor SVG Connection Length Calc in NeuralNetworkDiagram]
+**Learning:** Imperative measurement of SVG line distances (using `.getAttribute` on live DOM nodes within a `useEffect`) triggers severe layout thrashing and prevents Next.js Server-Side Rendering (SSR). This causes visual jarring upon hydration, and degrades interaction rendering performance when repeatedly firing node events.
+**Action:** Always pre-calculate coordinate distances mathematically inside `useMemo` hooks during the React render phase. These values should then be passed declaratively via CSS custom properties and inline `style` objects (`as CSSProperties`) to animations, allowing the browser and SSR to handle layout natively without DOM queries.
