@@ -18,6 +18,7 @@ export default function NeuralNetworkDiagram({
   const height = 400;
   const layerSpacing = width / (nodeCount.length + 1);
 
+  // ⚡ Bolt: Memoize layout to prevent recalculation on every render
   const layers = useMemo(() => {
     const getNodePosition = (layerIndex: number, nodeIndex: number, totalNodes: number) => {
       const x = layerSpacing * (layerIndex + 1);
@@ -36,6 +37,8 @@ export default function NeuralNetworkDiagram({
     });
   }, [nodeCount, layerSpacing, height]);
 
+  // ⚡ Bolt: Calculate SVG line lengths purely mathematically in memory to avoid
+  // imperative DOM queries (querySelectorAll/getAttribute) and layout thrashing in useEffect.
   const connections = useMemo(() => {
     const conns: { x1: number; y1: number; x2: number; y2: number; key: string; length: number; index: number }[] = [];
     let connIndex = 0;
