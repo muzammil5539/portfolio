@@ -1,0 +1,4 @@
+
+## 2025-03-09 - [Prevent Next.js SSR hydration mismatches by precalculating lengths in useMemo]
+**Learning:** Parsing visual lengths using DOM calls (`querySelectorAll`, `getAttribute`) inside `useEffect` triggers forced layout thrashing, delaying render on dynamic Next.js components. When mapping structural networks with known static dimensions, mathematically precalculating SVG path lengths via the Pythagorean theorem during the render phase is significantly more efficient than imperative DOM manipulation and prevents potential layout failures on hydration.
+**Action:** When designing complex dynamic SVG architectures (e.g. diagrams), encapsulate the coordinate calculations directly in `useMemo` hooks. Use these calculated properties declaratively via inline CSS rather than retrieving element styles after render. Avoid querying DOM nodes in `useEffect` when sizes are computationally deterministic.
