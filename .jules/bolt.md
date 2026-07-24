@@ -1,0 +1,3 @@
+## 2024-03-24 - Layout Thrashing in Next.js/React SVGs
+**Learning:** Found an anti-pattern in `NeuralNetworkDiagram.tsx` where an imperative `useEffect` queried DOM elements using `querySelectorAll` to calculate geometry (distances) and apply CSS animations directly. This causes double-renders, layout thrashing, and breaks static/server-side rendering.
+**Action:** Always precalculate layout geometries and lengths mathematically during the React render phase using `useMemo` hooks, and apply dynamic animation values declaratively through inline custom CSS variables (e.g., `--path-length: conn.length` mapped to `stroke-dashoffset: var(--path-length)`).
