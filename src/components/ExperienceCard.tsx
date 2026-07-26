@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext";
 
 interface ExperienceCardProps {
@@ -20,11 +19,6 @@ export default function ExperienceCard({
   video,
 }: ExperienceCardProps) {
   const { isDarkMode } = useTheme();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   return (
     <div className={`group overflow-hidden rounded-2xl border transition-all duration-300 ${
@@ -53,7 +47,13 @@ export default function ExperienceCard({
         </div>
       </div>
 
-      {video && isClient && (
+      {/*
+        ⚡ Bolt Performance Optimization:
+        Native HTML elements (like <video>) do not typically cause Next.js hydration mismatches.
+        Rendering them immediately prevents a double-render lifecycle (mount -> useEffect -> re-render),
+        improving Time to Interactive (TTI) and reducing client-side processing overhead.
+      */}
+      {video && (
         <div className="relative">
           <video
             className="w-full h-48 object-cover"
