@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { CSSProperties } from "react";
 
 interface NeuralNetworkDiagramProps {
   className?: string;
@@ -7,28 +7,13 @@ interface NeuralNetworkDiagramProps {
   animated?: boolean;
 }
 
+const DEFAULT_NODE_COUNT = [4, 6, 6, 4, 2];
+
 export default function NeuralNetworkDiagram({
   className = "",
-  nodeCount = [4, 6, 6, 4, 2],
+  nodeCount = DEFAULT_NODE_COUNT,
   animated = true,
 }: NeuralNetworkDiagramProps) {
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    if (!animated || !svgRef.current) return;
-
-    const connections = svgRef.current.querySelectorAll(".neural-connection");
-    connections.forEach((connection, index) => {
-      const line = connection as SVGLineElement;
-      const length = Math.sqrt(
-        Math.pow(parseFloat(line.getAttribute("x2") || "0") - parseFloat(line.getAttribute("x1") || "0"), 2) +
-        Math.pow(parseFloat(line.getAttribute("y2") || "0") - parseFloat(line.getAttribute("y1") || "0"), 2)
-      );
-      line.style.strokeDasharray = `${length}`;
-      line.style.strokeDashoffset = `${length}`;
-      line.style.animation = `lineFlow 3s ${index * 0.05}s ease-in-out infinite`;
-    });
-  }, [animated]);
 
   const width = 600;
   const height = 400;
@@ -50,20 +35,25 @@ export default function NeuralNetworkDiagram({
     return nodes;
   });
 
-  const connections: { x1: number; y1: number; x2: number; y2: number; key: string }[] = [];
+  const connections: { x1: number; y1: number; x2: number; y2: number; length: number; delay: number; key: string }[] = [];
+  let connectionIndex = 0;
   for (let i = 0; i < layers.length - 1; i++) {
     const currentLayer = layers[i];
     const nextLayer = layers[i + 1];
     if (currentLayer && nextLayer) {
       currentLayer.forEach((node, ni) => {
         nextLayer.forEach((nextNode, nj) => {
+          const length = Math.hypot(nextNode.x - node.x, nextNode.y - node.y);
           connections.push({
             x1: node.x,
             y1: node.y,
             x2: nextNode.x,
             y2: nextNode.y,
+            length,
+            delay: connectionIndex * 0.05,
             key: `${i}-${ni}-${nj}`,
           });
+          connectionIndex++;
         });
       });
     }
@@ -72,7 +62,6 @@ export default function NeuralNetworkDiagram({
   return (
     <div className={`relative ${className}`}>
       <svg
-        ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
         className="w-full h-full"
         style={{ filter: "drop-shadow(0 0 8px rgba(0, 217, 255, 0.2))" }}
@@ -112,10 +101,14 @@ export default function NeuralNetworkDiagram({
             y1={conn.y1}
             x2={conn.x2}
             y2={conn.y2}
-            className="neural-connection"
             stroke="url(#nodeGradient)"
             strokeWidth="1"
             opacity="0.3"
+            style={{
+              strokeDasharray: animated ? conn.length : undefined,
+              strokeDashoffset: animated ? conn.length : undefined,
+              animation: animated ? `lineFlow 3s ${conn.delay}s ease-in-out infinite` : undefined,
+            } as CSSProperties}
           />
         ))}
 
