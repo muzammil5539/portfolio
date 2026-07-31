@@ -1,0 +1,3 @@
+## 2025-03-04 - Prevent Layout Thrashing in SVG Neural Network Diagram
+**Learning:** Calculating SVG path lengths via DOM APIs like `querySelectorAll` and `getAttribute` within a `useEffect` forces a layout recalculation (layout thrashing) and prevents server-side rendering (SSR). Additionally, passing array defaults in component signatures breaks referential equality, causing `useMemo` hooks to needlessly re-evaluate.
+**Action:** Extract default array props to external constants. Move line length calculations to the render phase (or `useMemo`), passing the math-derived values directly to the SVG elements via inline styles. Conditionally pass `undefined` to `strokeDasharray` when animations are disabled to avoid invisible lines.
