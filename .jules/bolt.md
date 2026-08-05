@@ -1,0 +1,3 @@
+## 2025-08-05 - Refactoring DOM imperativeness in Next.js
+**Learning:** Next.js Server-Side Rendering (SSR) requires mathematical derivations during the render phase rather than `useEffect` DOM length queries for static or initial SVG properties, since imperative manipulation causes layout thrashing and prevents standard static rendering.
+**Action:** When calculating SVG path lengths (e.g. connections in a neural network diagram) dynamically, do not query the DOM (e.g. using `querySelectorAll` and `getAttribute`). Instead, compute distances via Math functions wrapped in `useMemo` and assign them declaratively using CSS custom variables passed via inline styles.
