@@ -1,11 +1,15 @@
 "use client";
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import ProjectCard from "./ProjectCard";
+import ProjectDetail from "./ProjectDetail";
 import { useTheme } from "@/context/ThemeContext";
-import { projects } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
 
 export default function Projects() {
   const { isDarkMode } = useTheme();
-  
+  const [selected, setSelected] = useState<Project | null>(null);
+
   return (
     <section
       id="projects"
@@ -51,17 +55,19 @@ export default function Projects() {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <ProjectCard
-              key={index}
-              title={project.title}
-              description={project.description}
-              technologies={project.tags || []}
-              image={project.image}
+              key={project.id}
+              project={project}
+              onSelect={() => setSelected(project)}
             />
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selected && <ProjectDetail project={selected} onClose={() => setSelected(null)} />}
+      </AnimatePresence>
     </section>
   );
 }

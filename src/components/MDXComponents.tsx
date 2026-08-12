@@ -1,5 +1,5 @@
 import React from 'react';
-import Mermaid from './Mermaid';
+import Mermaid from './MermaidLazy';
 import Callout from './mdx/Callout';
 
 export const MDXComponents = {

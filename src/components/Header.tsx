@@ -1,21 +1,27 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
-    { name: "Skills", href: "#skills" },
-    { name: "Certifications", href: "#certifications" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "about" },
+    { name: "Projects", href: "projects" },
+    { name: "Experience", href: "experience" },
+    { name: "Skills", href: "skills" },
+    { name: "Certifications", href: "certifications" },
+    { name: "Contact", href: "contact" },
     { name: "Blog", href: "/blog" },
-  ];
+  ].map((item) => ({
+    ...item,
+    href: item.href.startsWith("/") ? item.href : `${isHome ? "" : "/"}#${item.href}`,
+  }));
 
   return (
     <header className={`fixed w-full backdrop-blur-lg border-b z-50 transition-colors duration-300 ${
@@ -26,8 +32,8 @@ export default function Header() {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo with gradient accent */}
-          <Link href="/" className="group">
-            <div className="flex items-center gap-3">
+          <Link href="/" className="group min-w-0">
+            <div className="flex items-center gap-3 min-w-0">
               <div className="relative">
                 <div className={`w-10 h-10 bg-gradient-to-br from-ai-cyan to-ai-blue rounded-lg flex items-center justify-center font-bold text-lg shadow-glow-cyan ${
                   isDarkMode ? "text-ai-navy" : "text-white"
@@ -36,15 +42,15 @@ export default function Header() {
                 </div>
                 <div className="absolute -inset-0.5 bg-gradient-to-br from-ai-cyan to-ai-blue rounded-lg opacity-30 blur-sm group-hover:opacity-50 transition-opacity"></div>
               </div>
-              <div className="flex flex-col">
-                <span className={`text-xl font-semibold tracking-tight transition-colors ${
-                  isDarkMode 
-                    ? "text-ai-text group-hover:text-ai-cyan" 
+              <div className="flex flex-col min-w-0">
+                <span className={`truncate text-base sm:text-xl font-semibold tracking-tight transition-colors ${
+                  isDarkMode
+                    ? "text-ai-text group-hover:text-ai-cyan"
                     : "text-gray-900 group-hover:text-cyan-600"
                 }`}>
                   Muzammil Nawaz Khan
                 </span>
-                <span className={`text-xs font-medium tracking-wider uppercase ${
+                <span className={`hidden sm:block text-xs font-medium tracking-wider uppercase ${
                   isDarkMode ? "text-ai-cyan" : "text-cyan-600"
                 }`}>
                   AI Engineer
@@ -119,7 +125,7 @@ export default function Header() {
 
               <div className={`ml-4 pl-4 border-l ${isDarkMode ? "border-ai-charcoal" : "border-gray-200"}`}>
                 <a
-                  href="/Muzammil Nawaz Khan Resume.pdf"
+                  href="/Resume - Muzammil Nawaz Khan CV.pdf"
                   download
                   className={`relative inline-flex items-center gap-2 bg-gradient-to-r from-ai-cyan to-ai-blue px-5 py-2.5 text-sm font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 group overflow-hidden ${
                     isDarkMode ? "text-ai-navy" : "text-white"
@@ -222,7 +228,7 @@ export default function Header() {
               
               <div className={`pt-4 mt-4 border-t ${isDarkMode ? "border-ai-charcoal" : "border-gray-200"}`}>
                 <a
-                  href="/Muzammil Nawaz Khan Resume.pdf"
+                  href="/Resume - Muzammil Nawaz Khan CV.pdf"
                   download
                   className={`flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-ai-cyan to-ai-blue rounded-lg font-semibold text-sm ${
                     isDarkMode ? "text-ai-navy" : "text-white"

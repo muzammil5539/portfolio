@@ -1,11 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { certificates, Certificate } from "@/data/certificates";
 
 export default function Certifications() {
   const { isDarkMode } = useTheme();
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+
+  // Lock background scroll while the modal is open — otherwise the page behind
+  // the fixed overlay keeps scrolling and bleeds through the PDF iframe.
+  useEffect(() => {
+    if (!selectedCert) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedCert]);
 
   const openPDF = (cert: Certificate) => {
     // Open PDF in new tab

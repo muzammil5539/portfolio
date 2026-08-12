@@ -20,12 +20,12 @@ export default function Callout({ type = 'fact', title, children }: CalloutProps
 
   return (
     <div className={`my-8 p-6 rounded-xl border ${bgColor} ${borderColor} flex gap-4 items-start`}>
-      <div className={`p-2 rounded-lg bg-slate-900/50 shadow-inner ${iconColor}`}>
+      <div className={`p-2 rounded-lg bg-surface shadow-inner ${iconColor}`}>
         <Icon className="w-5 h-5" />
       </div>
       <div className="flex-1">
         <h4 className={`text-lg font-bold mb-2 m-0 ${iconColor}`}>{title || defaultTitle}</h4>
-        <div className="text-slate-300 text-sm leading-relaxed m-0 prose-p:m-0">
+        <div className="text-text-secondary text-sm leading-relaxed m-0 prose-p:m-0">
           {children}
         </div>
       </div>

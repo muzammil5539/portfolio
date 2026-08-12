@@ -1,207 +1,64 @@
 "use client";
-import Link from "next/link";
+
 import Image from "next/image";
-import NeuralNetworkDiagram from "./NeuralNetworkDiagram";
-import CodeSnippet from "./CodeSnippet";
-import DataNodes from "./DataNodes";
+import Link from "next/link";
+import { ArrowDownRight, ArrowUpRight, MapPin } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
+
+const roles = ["AI engineer", "computer vision builder", "research-minded developer"];
 
 export default function Hero() {
   const { isDarkMode } = useTheme();
-  
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [typedRole, setTypedRole] = useState(roles[0] ?? "");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentRole = roles[roleIndex] ?? roles[0] ?? "";
+    const isComplete = typedRole === currentRole;
+    const delay = isComplete && !isDeleting ? 1800 : isDeleting ? 45 : 85;
+    const timeout = window.setTimeout(() => {
+      if (!isDeleting && isComplete) setIsDeleting(true);
+      else if (isDeleting && typedRole.length === 0) {
+        setIsDeleting(false);
+        setRoleIndex((index) => (index + 1) % roles.length);
+      } else {
+        const nextLength = typedRole.length + (isDeleting ? -1 : 1);
+        setTypedRole(currentRole.slice(0, nextLength));
+      }
+    }, delay);
+    return () => window.clearTimeout(timeout);
+  }, [isDeleting, roleIndex, typedRole]);
+
+  const textClass = isDarkMode ? "text-ai-text" : "text-[#18211f]";
+  const mutedClass = isDarkMode ? "text-ai-text-muted" : "text-[#66716c]";
+
   return (
-    <section
-      id="about"
-      className={`relative min-h-screen pt-24 pb-20 overflow-hidden transition-colors duration-300 ${
-        isDarkMode ? "bg-ai-navy" : "bg-gradient-to-br from-gray-50 to-blue-50"
-      }`}
-    >
-      {/* Background Grid Pattern */}
-      <div className={`absolute inset-0 bg-grid-pattern bg-grid ${isDarkMode ? "opacity-30" : "opacity-10"}`}></div>
-      
-      {/* Gradient Overlays */}
-      <div className="absolute inset-0">
-        <div className={`absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl ${
-          isDarkMode ? "bg-ai-cyan/5" : "bg-cyan-200/30"
-        }`}></div>
-        <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl ${
-          isDarkMode ? "bg-ai-purple/5" : "bg-purple-200/30"
-        }`}></div>
-      </div>
-
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* Left Content */}
-          <div className="flex-1 order-2 lg:order-1">
-            <div className="space-y-8">
-              {/* Title Section */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`h-px w-12 bg-gradient-to-r to-transparent ${
-                    isDarkMode ? "from-ai-cyan" : "from-cyan-500"
-                  }`}></div>
-                  <span className={`text-sm font-medium tracking-wider uppercase ${
-                    isDarkMode ? "text-ai-cyan" : "text-cyan-600"
-                  }`}>AI Engineer</span>
-                </div>
-                <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${
-                  isDarkMode ? "text-ai-text" : "text-gray-900"
-                }`}>
-                  Muzammil{" "}
-                  <span className="gradient-text">Nawaz Khan</span>
-                </h1>
-                <p className={`text-xl max-w-lg ${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>
-                  Computer Engineering Graduate from{" "}
-                  <span className={isDarkMode ? "text-ai-cyan" : "text-cyan-600"}>NUST</span>, specializing in 
-                  AI, Machine Learning, and Computer Vision.
-                </p>
-              </div>
-
-              {/* Research Interests Card */}
-              <div className={`p-6 rounded-2xl border backdrop-blur-sm transition-all ${
-                isDarkMode 
-                  ? "glass-card" 
-                  : "bg-white/80 border-gray-200 shadow-lg"
-              }`}>
-                <h3 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${
-                  isDarkMode ? "text-ai-text" : "text-gray-900"
-                }`}>
-                  <span className={`w-2 h-2 rounded-full animate-pulse-glow ${
-                    isDarkMode ? "bg-ai-cyan" : "bg-cyan-500"
-                  }`}></span>
-                  Research Interests
-                </h3>
-                <div className="grid gap-4">
-                  <div className="flex items-start gap-3 group">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center group-hover:shadow-glow-cyan transition-shadow ${
-                      isDarkMode ? "bg-ai-charcoal text-ai-cyan" : "bg-cyan-50 text-cyan-600"
-                    }`}>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className={`font-medium ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>Artificial Intelligence</h4>
-                      <p className={`text-sm ${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>Deep learning architectures & neural network optimization</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 group">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center group-hover:shadow-glow-purple transition-shadow ${
-                      isDarkMode ? "bg-ai-charcoal text-ai-purple" : "bg-purple-50 text-purple-600"
-                    }`}>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className={`font-medium ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>Computer Vision</h4>
-                      <p className={`text-sm ${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>Image processing & pattern recognition systems</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 group">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center group-hover:shadow-glow-green transition-shadow ${
-                      isDarkMode ? "bg-ai-charcoal text-ai-green" : "bg-green-50 text-green-600"
-                    }`}>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className={`font-medium ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>Biomedical AI</h4>
-                      <p className={`text-sm ${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>Medical image segmentation & diagnostic systems</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="#projects"
-                  className={`inline-flex items-center justify-center gap-2 bg-gradient-to-r from-ai-cyan to-ai-blue px-8 py-4 font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 group ${
-                    isDarkMode ? "text-ai-navy" : "text-white"
-                  }`}
-                >
-                  View Projects
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-                <Link
-                  href="#contact"
-                  className={`inline-flex items-center justify-center gap-2 border px-8 py-4 font-semibold rounded-lg transition-all duration-300 ${
-                    isDarkMode 
-                      ? "border-ai-cyan/50 text-ai-cyan hover:bg-ai-cyan/10 hover:border-ai-cyan" 
-                      : "border-cyan-500/50 text-cyan-600 hover:bg-cyan-50 hover:border-cyan-500"
-                  }`}
-                >
-                  Get in Touch
-                </Link>
-              </div>
+    <section id="about" className={`relative overflow-hidden border-b pt-32 pb-16 md:pt-40 md:pb-24 ${isDarkMode ? "border-white/10 bg-ai-navy" : "border-[#18211f]/10 bg-[#f5f4ef]"}`}>
+      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-[0.07]" aria-hidden="true" />
+      <div className="absolute -right-24 top-24 h-64 w-64 rounded-full bg-ai-cyan/10 blur-3xl" aria-hidden="true" />
+      <div className="container relative z-10 mx-auto max-w-7xl px-6">
+        <div className="grid items-end gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+          <div>
+            <div className={`mb-8 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] ${mutedClass}`}><span className="h-2 w-2 rounded-full bg-ai-cyan" />Available for thoughtful work</div>
+            <p className={`mb-5 font-mono text-sm ${mutedClass}`}>Lahore, Pakistan / 2026</p>
+            <h1 className={`max-w-3xl text-5xl font-semibold leading-[0.96] tracking-[-0.06em] sm:text-7xl lg:text-[6.8rem] ${textClass}`}>Building useful intelligence<span className="text-ai-cyan">.</span></h1>
+            <div className={`mt-8 flex min-h-10 items-center gap-2 text-xl sm:text-2xl ${mutedClass}`}><span>I&apos;m a</span><span className={`border-b border-ai-cyan pb-1 font-medium ${textClass}`} aria-live="polite">{typedRole}<span className="animate-pulse text-ai-cyan">|</span></span></div>
+            <p className={`mt-8 max-w-xl text-base leading-7 sm:text-lg ${mutedClass}`}>I work across machine learning, computer vision, and voice AI to turn complex research into systems people can actually use.</p>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link href="#projects" className="btn-3d inline-flex min-h-12 items-center justify-center gap-3 px-6 text-sm">See selected work <ArrowDownRight size={17} /></Link>
+              <Link href="#contact" className={`inline-flex min-h-12 items-center justify-center gap-3 border px-6 text-sm font-semibold transition-colors hover:border-ai-cyan hover:text-ai-cyan ${isDarkMode ? "border-white/20 text-ai-text" : "border-[#18211f]/20 text-[#18211f]"}`}>Start a conversation <ArrowUpRight size={17} /></Link>
             </div>
+            <div className={`mt-14 flex flex-wrap gap-x-8 gap-y-3 border-t pt-5 text-sm ${isDarkMode ? "border-white/10" : "border-[#18211f]/10"}`}><span className={`inline-flex items-center gap-2 ${mutedClass}`}><MapPin size={15} />Remote / Pakistan</span><span className={mutedClass}>NUST · Computer Engineering</span></div>
           </div>
-
-          {/* Right Side - Technical Visualizations */}
-          <div className="flex-1 order-1 lg:order-2 w-full max-w-lg lg:max-w-none">
-            <div className="relative">
-              {/* Profile Image with Glow Effect */}
-              <div className="relative mx-auto w-64 h-64 lg:w-80 lg:h-80 mb-8">
-                <div className={`absolute inset-0 bg-gradient-to-br rounded-2xl blur-2xl ${
-                  isDarkMode ? "from-ai-cyan to-ai-purple opacity-20" : "from-cyan-300 to-purple-300 opacity-40"
-                }`}></div>
-                <div className={`relative w-full h-full rounded-2xl overflow-hidden border ${
-                  isDarkMode ? "glass-card border-ai-cyan/20" : "bg-white border-gray-200 shadow-xl"
-                }`}>
-                  <Image
-                    src="/portfolio.jpg"
-                    alt="Muzammil Nawaz Khan - AI Engineer"
-                    fill
-                    sizes="(max-width: 768px) 256px, 320px"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-                {/* Decorative corner elements */}
-                <div className={`absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 rounded-tl-lg ${
-                  isDarkMode ? "border-ai-cyan" : "border-cyan-400"
-                }`}></div>
-                <div className={`absolute -top-2 -right-2 w-6 h-6 border-t-2 border-r-2 rounded-tr-lg ${
-                  isDarkMode ? "border-ai-cyan" : "border-cyan-400"
-                }`}></div>
-                <div className={`absolute -bottom-2 -left-2 w-6 h-6 border-b-2 border-l-2 rounded-bl-lg ${
-                  isDarkMode ? "border-ai-cyan" : "border-cyan-400"
-                }`}></div>
-                <div className={`absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 rounded-br-lg ${
-                  isDarkMode ? "border-ai-cyan" : "border-cyan-400"
-                }`}></div>
-              </div>
-
-              {/* Neural Network Diagram */}
-              <div className={`hidden lg:block absolute -top-10 -right-20 w-64 h-48 ${
-                isDarkMode ? "opacity-60" : "opacity-40"
-              }`}>
-                <NeuralNetworkDiagram className="w-full h-full" nodeCount={[3, 4, 4, 2]} />
-              </div>
-
-              {/* Code Snippet - Positioned below on mobile, side on desktop */}
-              <div className="lg:absolute lg:-bottom-10 lg:-left-20 lg:w-80">
-                <CodeSnippet className="transform lg:scale-75 origin-top-left" />
-              </div>
-
-              {/* Data Nodes */}
-              <div className="hidden lg:block absolute top-1/2 -right-10 w-32 h-32">
-                <DataNodes className="w-full h-full" count={6} />
-              </div>
-            </div>
+          <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:ml-auto">
+            <div className={`absolute -left-5 -top-5 z-10 border px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] ${isDarkMode ? "border-white/20 bg-ai-charcoal text-ai-text" : "border-[#18211f]/15 bg-[#fffefa] text-[#18211f]"}`}>01 / profile</div>
+            <div className="relative aspect-[4/5] overflow-hidden bg-ai-charcoal"><Image src="/portfolio.jpg" alt="Muzammil Nawaz Khan" fill priority sizes="(max-width: 1024px) 90vw, 34vw" className="object-cover grayscale-[15%] transition duration-700 hover:scale-105" /><div className="absolute inset-0 bg-gradient-to-t from-[#18211f]/70 via-transparent to-transparent" /><div className="absolute bottom-5 left-5 right-5 flex items-end justify-between text-white"><div><p className="text-2xl font-semibold tracking-tight">Muzammil Nawaz Khan</p><p className="mt-1 text-sm text-white/70">AI engineer · NUST graduate</p></div><span className="h-3 w-3 rounded-full bg-ai-cyan shadow-[0_0_18px_rgba(198,243,107,0.9)]" /></div></div>
+            <div className={`mt-4 flex justify-between border-t pt-4 font-mono text-xs ${mutedClass} ${isDarkMode ? "border-white/10" : "border-[#18211f]/10"}`}><span>ML / CV / VOICE AI</span><span>EST. 2024</span></div>
           </div>
         </div>
       </div>
-
-      {/* Bottom gradient fade */}
-      <div className={`absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t to-transparent ${
-        isDarkMode ? "from-ai-navy-light" : "from-gray-100"
-      }`}></div>
     </section>
   );
 }

@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://muzammil5539.vercel.app"),
   title: {
     default: "Muzammil Nawaz Khan | AI Engineer Portfolio",
     template: "%s | Muzammil Nawaz Khan",
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
   keywords: ["AI Engineer", "Machine Learning", "Deep Learning", "Computer Vision", "Python", "TensorFlow", "PyTorch", "Next.js", "React"],
   authors: [{ name: "Muzammil Nawaz Khan" }],
   creator: "Muzammil Nawaz Khan",
+  alternates: {
+    canonical: "/",
+  },
+  category: "technology",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -43,8 +48,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="font-sans bg-ai-navy text-ai-text antialiased">
+    <html lang="en">
+      <body className="font-sans bg-background text-foreground antialiased">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

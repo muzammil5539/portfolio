@@ -39,24 +39,24 @@ module.exports = {
         "text-muted": "var(--text-muted)",
         
         // Legacy support - AI Engineer Dark Theme Palette
-        'ai-navy': '#0A1628',
-        'ai-navy-light': '#0D1B2A',
-        'ai-charcoal': '#1A1F2E',
-        'ai-charcoal-light': '#242938',
-        'ai-slate': '#2D3344',
+        'ai-navy': 'var(--background)',
+        'ai-navy-light': 'var(--background-secondary)',
+        'ai-charcoal': 'var(--surface)',
+        'ai-charcoal-light': 'var(--surface-elevated)',
+        'ai-slate': 'var(--surface-hover)',
         
         // Legacy Accent Colors
-        'ai-cyan': '#00D9FF',
-        'ai-cyan-glow': 'rgba(0, 217, 255, 0.4)',
-        'ai-blue': '#3B82F6',
-        'ai-purple': '#8B5CF6',
-        'ai-green': '#10B981',
+        'ai-cyan': 'var(--accent-cyan)',
+        'ai-cyan-glow': 'var(--accent-cyan-glow)',
+        'ai-blue': 'var(--accent-blue)',
+        'ai-purple': 'var(--accent-purple)',
+        'ai-green': 'var(--accent-green)',
         'ai-amber': '#F59E0B',
         
         // Legacy Text Colors
-        'ai-text': '#E2E8F0',
-        'ai-text-muted': '#94A3B8',
-        'ai-text-dim': '#64748B',
+        'ai-text': 'var(--text-primary)',
+        'ai-text-muted': 'var(--text-muted)',
+        'ai-text-dim': 'var(--foreground-muted)',
         
         // Other legacy support (kept for backward compatibility)
         'neon-cyan': '#00D9FF',

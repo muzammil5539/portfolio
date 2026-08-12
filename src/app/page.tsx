@@ -7,6 +7,7 @@ import Skills from "@/components/Skills";
 import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import ConnectPrompt from "@/components/ConnectPrompt";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <Certifications />
       <Contact />
       <Footer />
+      <ConnectPrompt />
     </>
   );
 }

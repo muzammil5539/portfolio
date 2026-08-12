@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedinIn, FaEnvelope } from "react-icons/fa";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function Footer() {
   const { isDarkMode } = useTheme();
   const currentYear = new Date().getFullYear();
+  const isHome = usePathname() === "/";
 
   return (
     <footer className={`py-16 relative overflow-hidden transition-colors duration-300 ${
@@ -49,7 +51,7 @@ export default function Footer() {
               {["About", "Projects", "Experience", "Skills", "Contact"].map((item) => (
                 <li key={item}>
                   <Link
-                    href={`#${item.toLowerCase()}`}
+                    href={`${isHome ? "" : "/"}#${item.toLowerCase()}`}
                     className={`relative py-2 transition-colors group ${
                       isDarkMode ? "text-ai-text-muted hover:text-ai-text" : "text-gray-600 hover:text-gray-900"
                     }`}
