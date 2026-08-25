@@ -1,0 +1,3 @@
+## 2024-10-18 - Eliminated Layout Thrashing in NeuralNetworkDiagram
+**Learning:** Parsing visual lengths using DOM calls (`.querySelectorAll`, `.getAttribute`) within a `useEffect` triggers layout thrashing and prevents static rendering/SSR on Next.js, frequently causing build or runtime failures.
+**Action:** Use `useMemo` to precalculate coordinate distances mathematically during the render phase and pass them declaratively via CSS variables or inline styles with `as CSSProperties`, eliminating imperative DOM queries and double-renders. Also, extract default array props (e.g., `[4,6,6,4,2]`) into constants outside the component body to maintain referential equality and prevent unnecessary re-renders.
