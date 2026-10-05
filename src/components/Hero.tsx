@@ -41,7 +41,7 @@ export default function Hero() {
           <div>
             <div className={`mb-8 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] ${mutedClass}`}><span className="h-2 w-2 rounded-full bg-ai-cyan" />Open to remote work and relocation</div>
             <p className={`mb-5 font-mono text-sm ${mutedClass}`}>Islamabad, Pakistan / 2026</p>
-            <h1 className={`max-w-3xl text-5xl font-semibold leading-[0.96] tracking-[-0.06em] sm:text-7xl lg:text-[6.8rem] ${textClass}`}>Building useful intelligence<span className="text-ai-cyan">.</span></h1>
+            <h1 className={`max-w-3xl text-5xl font-semibold leading-[0.96] tracking-[-0.06em] sm:text-7xl lg:text-[5.2rem] ${textClass}`}>AI systems that ship, and keep working after launch<span className="text-ai-cyan">.</span></h1>
             <div className={`mt-8 flex min-h-10 items-center gap-2 text-xl sm:text-2xl ${mutedClass}`}><span>I&apos;m a</span><span className={`border-b border-ai-cyan pb-1 font-medium ${textClass}`} aria-live="polite">{typedRole}<span className="animate-pulse text-ai-cyan">|</span></span></div>
             <p className={`mt-8 max-w-xl text-base leading-7 sm:text-lg ${mutedClass}`}>AI engineer with 1+ year of production experience in ML, LLM and RAG systems. Shipped a 95%-accuracy claims classifier across 42,900+ cases, cut claim denials from 3.2% to 2.4%, and cut inference costs 35% with prompt caching.</p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -56,6 +56,18 @@ export default function Hero() {
             <div className={`mt-4 flex justify-between border-t pt-4 font-mono text-xs ${mutedClass} border-border`}><span>ML / LLM / RAG / CV</span><span>CARECLOUD · 2025</span></div>
           </div>
         </div>
+        <dl className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-border bg-border sm:grid-cols-3">
+          {[
+            ["95%", "claims classification accuracy across 42,900+ cases"],
+            ["3.2 → 2.4%", "claim denial rate; resubmission wait from 2 weeks to 3 days"],
+            ["−35%", "inference cost through prompt caching"],
+          ].map(([value, label]) => (
+            <div key={value} className="bg-surface p-8">
+              <dt className="text-4xl font-semibold tracking-tight text-accent-blue md:text-5xl">{value}</dt>
+              <dd className="mt-2 text-sm text-text-secondary">{label}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );

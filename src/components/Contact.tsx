@@ -1,4 +1,5 @@
 "use client";
+import SectionHeader from "./SectionHeader";
 import { useForm, ValidationError } from "@formspree/react";
 import { useState } from "react";
 
@@ -61,21 +62,7 @@ export default function Contact() {
       <div className={`absolute bottom-1/4 right-0 w-96 h-96 rounded-full blur-3xl bg-accent-cyan/20`}></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className={`h-px w-12 bg-gradient-to-r from-transparent to-accent-blue`}></div>
-            <span className={`text-sm font-medium tracking-wider uppercase text-accent-blue`}>Contact</span>
-            <div className={`h-px w-12 bg-gradient-to-l from-transparent to-accent-blue`}></div>
-          </div>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-foreground`}>
-            Get in <span className="gradient-text">Touch</span>
-          </h2>
-          <p className={`text-lg max-w-2xl mx-auto text-text-secondary`}>
-            Ready to collaborate on cutting-edge AI projects? Let&apos;s connect
-            and build the future of technology together.
-          </p>
-        </div>
+        <SectionHeader index="06" label="Contact" title="Have a hard problem? Let's talk." intro="Ready to collaborate on AI projects? Send a message and I'll reply soon." />
 
         <div className="max-w-2xl mx-auto">
           <div className={`p-6 sm:p-8 rounded-2xl border bg-surface border-border shadow-lg`}>

@@ -1,4 +1,5 @@
 "use client";
+import SectionHeader from "./SectionHeader";
 import ExperienceCard from "./ExperienceCard";
 import { experiences } from "@/data/experience";
 
@@ -13,17 +14,7 @@ export default function Experience() {
       <div className={`absolute top-1/3 right-0 w-96 h-96 rounded-full blur-3xl bg-accent-cyan/20`}></div>
 
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className={`h-px w-12 bg-gradient-to-r from-transparent to-accent-blue`}></div>
-            <span className={`text-sm font-medium tracking-wider uppercase text-accent-blue`}>Career</span>
-            <div className={`h-px w-12 bg-gradient-to-l from-transparent to-accent-blue`}></div>
-          </div>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-foreground`}>
-            Professional <span className="gradient-text">Experience</span>
-          </h2>
-        </div>
+        <SectionHeader index="02" label="Experience" title="Where I've worked" />
 
         {/* Timeline */}
         <div className="max-w-6xl mx-auto relative">

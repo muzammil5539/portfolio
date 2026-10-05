@@ -1,4 +1,5 @@
 "use client";
+import SectionHeader from "./SectionHeader";
 import { useEffect, useState } from "react";
 import { certificates, Certificate } from "@/data/certificates";
 
@@ -39,22 +40,7 @@ export default function Certifications() {
       <div className={`absolute top-1/4 left-0 w-96 h-96 rounded-full blur-3xl bg-accent-cyan/20`}></div>
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className={`h-px w-12 bg-gradient-to-r from-transparent to-accent-blue`}></div>
-            <span className={`text-sm font-medium tracking-wider uppercase text-accent-blue`}>
-              Credentials
-            </span>
-            <div className={`h-px w-12 bg-gradient-to-l from-transparent to-accent-blue`}></div>
-          </div>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-foreground`}>
-            Professional <span className="gradient-text">Certifications</span>
-          </h2>
-          <p className={`text-lg max-w-2xl mx-auto text-text-secondary`}>
-            Industry-recognized certifications validating expertise in AI, Machine Learning, and Software Development
-          </p>
-        </div>
+        <SectionHeader index="05" label="Credentials" title="Certifications" intro="Industry-recognized certifications in AI, machine learning and software development." />
 
         {/* Certificates Grid - Responsive: 1 col mobile, 2 col tablet, 3 col desktop */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
