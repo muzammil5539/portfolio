@@ -3,6 +3,8 @@ export interface Project {
   title: string;
   description: string;
   image: string;
+  /** Generated pipeline diagram (scripts/generate-workflows.mjs). */
+  workflow: string;
   images?: string[];
   tags: string[];
   github?: string;
@@ -13,16 +15,18 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "verifiable-agent-kernel",
+    workflow: "/projects/workflows/verifiable-agent-kernel.svg",
     title: "Verifiable Agent Kernel (VAK)",
     description:
       "Deterministic control plane for LLM agents. Least-privilege ABAC, WASM-sandboxed tools, Z3 formal verification before execution, 3-tier memory (Merkle DAG), multi-agent debate with quadratic-voting consensus, and a PRM fine-tuning toolkit. v1.0 with 80%+ test coverage and LangChain/AutoGPT/MCP adapters.",
-    image: "/projects/placeholder.svg",
+    image: "/projects/workflows/verifiable-agent-kernel.svg",
     tags: ["Rust", "Python", "WASM", "Cedar/ABAC", "Z3", "MCP"],
     github: "https://github.com/muzammil5539/Verifiable-Agent-Kernel-VAK-",
     category: "ai",
   },
   {
     id: "claims-classification",
+    workflow: "/projects/workflows/claims-classification.svg",
     title: "Healthcare Claims Classification",
     description:
       "Production classification system (CatBoost, XGBoost, AutoGluon) at 95% accuracy across 42,900+ claims with daily feedback-loop retraining, paired with a denial-prediction and First-Time Pass Rate module that cut the denial rate from 3.2% to 2.4%.",
@@ -32,10 +36,11 @@ export const projects: Project[] = [
   },
   {
     id: "eld-trip-planner",
+    workflow: "/projects/workflows/eld-trip-planner.svg",
     title: "ELD Trip Planner",
     description:
       "Plans truck trips against FMCSA hours-of-service rules and draws daily ELD log sheets, with route planning on Leaflet, Nominatim and OSRM.",
-    image: "/projects/placeholder.svg",
+    image: "/projects/workflows/eld-trip-planner.svg",
     tags: ["Django", "DRF", "React", "Vite", "Leaflet", "OSRM"],
     github: "https://github.com/muzammil5539/eld-trip-planner",
     live: "https://eld-trip-planner-sepia.vercel.app/",
@@ -43,35 +48,39 @@ export const projects: Project[] = [
   },
   {
     id: "fuel-route-optimizer",
+    workflow: "/projects/workflows/fuel-route-optimizer.svg",
     title: "Fuel Route Optimizer",
     description:
       "Geocoded ~8,150 fuel stations with OSRM routing, an 8-mile corridor filter and a Dijkstra cheapest-fuel plan with a 500-mile range. Regression-tested.",
-    image: "/projects/placeholder.svg",
+    image: "/projects/workflows/fuel-route-optimizer.svg",
     tags: ["Django", "OSRM", "Dijkstra", "Geocoding"],
     github: "https://github.com/muzammil5539/django_application",
     category: "web",
   },
   {
     id: "freight-rates-predictor",
+    workflow: "/projects/workflows/freight-rates-predictor.svg",
     title: "Freight Rates Predictor",
     description:
       "End-to-end ML pipeline on spatial, load, market-index and temporal features.",
-    image: "/projects/placeholder.svg",
+    image: "/projects/workflows/freight-rates-predictor.svg",
     tags: ["scikit-learn", "Python", "Feature Engineering"],
     github: "https://github.com/muzammil5539/Machine-Learning-Engineer-Assessment-Ena-Spotter",
     category: "ml",
   },
   {
     id: "qadri-traders",
+    workflow: "/projects/workflows/qadri-traders.svg",
     title: "Qadri Traders",
     description: "E-commerce website built and deployed on Vercel.",
-    image: "/projects/placeholder.svg",
+    image: "/projects/workflows/qadri-traders.svg",
     tags: ["Next.js", "E-commerce"],
     live: "https://qadri-traders.vercel.app/",
     category: "web",
   },
   {
     id: "document-summarizer",
+    workflow: "/projects/workflows/document-summarizer.svg",
     title: "Document Summarizer",
     description:
       "Production-grade, multi-strategy document summarization platform. Upload a PDF, DOCX, TXT, Markdown, HTML file or URL and get a structured summary streamed live, with automatic strategy routing (Stuff / Map-Reduce / Refine / Recursive), PII scanning, and LLM-as-judge faithfulness scoring.",
@@ -93,6 +102,7 @@ export const projects: Project[] = [
   },
   {
     id: "conversational-ai-agent",
+    workflow: "/projects/workflows/conversational-ai-agent.svg",
     title: "Conversational AI Agent",
     description:
       "ReAct-style AI agent with tool calling, a visible live thinking panel, and real-time streaming. Built on a LangGraph state graph with persistent SQLite-backed memory, custom tools, and a Next.js chat frontend talking to a FastAPI + WebSocket backend.",
@@ -116,6 +126,7 @@ export const projects: Project[] = [
   },
   {
     id: "rag-custom-engine",
+    workflow: "/projects/workflows/rag-custom-engine.svg",
     title: "RAG Custom Engine",
     description:
       "A complete Retrieval-Augmented Generation pipeline built entirely from scratch — no LangChain, no vector database. Custom HNSW vector store, Okapi BM25 and Reciprocal Rank Fusion, a 3-stage Self-RAG gate (retrieval decision, relevance grading, hallucination check) and contextual compression, all in pure Python. ~20% precision gain over dense-vector baselines.",
@@ -136,6 +147,7 @@ export const projects: Project[] = [
   },
   {
     id: "rag-langchain-chroma",
+    workflow: "/projects/workflows/rag-langchain-chroma.svg",
     title: "RAG LangChain Chroma",
     description:
       "Production-ready RAG application built with FastAPI and LangChain, featuring hybrid search (HNSW vector search + BM25), a dual-layer memory system that summarizes past sessions, and a clean single-page UI for grounded, cited answers over your own documents.",
@@ -152,6 +164,7 @@ export const projects: Project[] = [
   },
   {
     id: "voice-ai-front-desk",
+    workflow: "/projects/workflows/voice-ai-front-desk.svg",
     title: "Voice AI Front Desk Agent",
     description: "Developing a real-time conversational AI agent using LiveKit, OpenAI, and ElevenLabs, integrating Silero VAD for seamless voice activity detection. Configured SIP Trunking with logic-based transfer functionality.",
     image: "/projects/voice-ai.png",
@@ -160,6 +173,7 @@ export const projects: Project[] = [
   },
   {
     id: "camera-data-pipeline",
+    workflow: "/projects/workflows/camera-data-pipeline.svg",
     title: "Data Pipeline & Integrity System",
     description: "Engineered Python scripts to interface with Hikvision NVR systems for fetching raw logs, and designed logic filters to clean noisy camera data (duplicate records/non-attendance) for accurate HR tracking.",
     image: "/projects/data-pipeline.png",
@@ -168,6 +182,7 @@ export const projects: Project[] = [
   },
   {
     id: "luggage-threat-detection",
+    workflow: "/projects/workflows/luggage-threat-detection.svg",
     title: "Luggage Threat Detection",
     description:
       "Developed ANN architecture for image classification of potential threats in luggage images with high accuracy in threat identification.",
@@ -177,6 +192,7 @@ export const projects: Project[] = [
   },
   {
     id: "license-plate-recognition",
+    workflow: "/projects/workflows/license-plate-recognition.svg",
     title: "License Plate Recognition",
     description:
       "Created pipeline for license plate localization using edge detection and implemented robust plate isolation system.",
@@ -186,6 +202,7 @@ export const projects: Project[] = [
   },
   {
     id: "braille-digits-recognition",
+    workflow: "/projects/workflows/braille-digits-recognition.svg",
     title: "Braille Digits Recognition",
     description:
       "Built system to recognize Braille characters through dot pattern analysis and distance metrics for character differentiation.",
@@ -195,6 +212,7 @@ export const projects: Project[] = [
   },
   {
     id: "cat-dog-classification",
+    workflow: "/projects/workflows/cat-dog-classification.svg",
     title: "Cat Dog Classification",
     description:
       "Implemented CNN models with and without pooling and dropout layers, demonstrating regularization techniques.",
@@ -204,6 +222,7 @@ export const projects: Project[] = [
   },
   {
     id: "skin-image-segmentation",
+    workflow: "/projects/workflows/skin-image-segmentation.svg",
     title: "Skin Image Segmentation",
     description:
       "Designed segmentation system using Connected Component Labeling and achieved accurate results with IoU metrics.",
@@ -213,6 +232,7 @@ export const projects: Project[] = [
   },
   {
     id: "retinal-image-segmentation",
+    workflow: "/projects/workflows/retinal-image-segmentation.svg",
     title: "Retinal Image Segmentation",
     description:
       "Developed method for segmenting retinal structures using point and multi-level thresholding techniques.",

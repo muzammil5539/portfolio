@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="rag-langchain-chroma workflow">
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c6f36b"/></marker></defs>
+<rect width="800" height="500" fill="#17211e"/>
+<g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#abb6ae" letter-spacing="2"><text x="40" y="52">WORKFLOW</text></g>
+<line x1="230" y1="196" x2="298" y2="196" stroke="#c6f36b" stroke-width="2" marker-end="url(#a)"/>
+<line x1="500" y1="196" x2="568" y2="196" stroke="#c6f36b" stroke-width="2" marker-end="url(#a)"/>
+<line x1="670" y1="242" x2="670" y2="310" stroke="#c6f36b" stroke-width="2" marker-end="url(#a)"/>
+<line x1="570" y1="358" x2="502" y2="358" stroke="#c6f36b" stroke-width="2" marker-end="url(#a)"/>
+<line x1="300" y1="358" x2="232" y2="358" stroke="#c6f36b" stroke-width="2" marker-end="url(#a)"/>
+<rect x="30" y="150" width="200" height="92" rx="14" fill="#22302a" stroke="#c6f36b" stroke-opacity="0.5"/>
+<text x="44" y="174" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#c6f36b">01</text>
+<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="130" y="198">Documents</tspan></text>
+<rect x="300" y="150" width="200" height="92" rx="14" fill="#22302a" stroke="#c6f36b" stroke-opacity="0.5"/>
+<text x="314" y="174" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#c6f36b">02</text>
+<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="400" y="198">ChromaDB and BM25</tspan></text>
+<rect x="570" y="150" width="200" height="92" rx="14" fill="#22302a" stroke="#c6f36b" stroke-opacity="0.5"/>
+<text x="584" y="174" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#c6f36b">03</text>
+<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="670" y="198">Hybrid search</tspan></text>
+<rect x="570" y="312" width="200" height="92" rx="14" fill="#22302a" stroke="#c6f36b" stroke-opacity="0.5"/>
+<text x="584" y="336" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#c6f36b">04</text>
+<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="670" y="351">Session and</tspan><tspan x="670" y="369">cross-chat memory</tspan></text>
+<rect x="300" y="312" width="200" height="92" rx="14" fill="#22302a" stroke="#c6f36b" stroke-opacity="0.5"/>
+<text x="314" y="336" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#c6f36b">05</text>
+<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="400" y="360">GPT-4o-mini</tspan></text>
+<rect x="30" y="312" width="200" height="92" rx="14" fill="#c6f36b" stroke="#c6f36b" stroke-opacity="1"/>
+<text x="44" y="336" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#25483d">06</text>
+<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#18211f" text-anchor="middle"><tspan x="130" y="360">Cited answer</tspan></text>
+</svg>
