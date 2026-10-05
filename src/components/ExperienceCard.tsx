@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useTheme } from "@/context/ThemeContext";
 
 interface ExperienceCardProps {
   title: string;
@@ -19,7 +18,6 @@ export default function ExperienceCard({
   technologies,
   video,
 }: ExperienceCardProps) {
-  const { isDarkMode } = useTheme();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -27,27 +25,17 @@ export default function ExperienceCard({
   }, []);
 
   return (
-    <div className={`group overflow-hidden rounded-2xl border transition-all duration-300 ${
-      isDarkMode 
-        ? "glass-card hover:border-ai-cyan/30" 
-        : "bg-surface border-border shadow-md hover:shadow-xl hover:border-accent-blue"
-    }`}>
+    <div className={`group overflow-hidden rounded-2xl border transition-all duration-300 bg-surface border-border shadow-md hover:shadow-xl hover:border-accent-blue`}>
       {/* Header */}
-      <div className={`p-6 border-b ${isDarkMode ? "border-ai-slate/50" : "border-border"}`}>
+      <div className={`p-6 border-b border-border`}>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h3 className={`text-lg font-semibold transition-colors ${
-              isDarkMode ? "text-ai-text group-hover:text-ai-cyan" : "text-foreground group-hover:text-accent-blue"
-            }`}>
+            <h3 className={`text-lg font-semibold transition-colors text-foreground group-hover:text-accent-blue`}>
               {title}
             </h3>
-            <p className={`font-medium mt-1 ${isDarkMode ? "text-ai-cyan" : "text-accent-blue"}`}>{company}</p>
+            <p className={`font-medium mt-1 text-accent-blue`}>{company}</p>
           </div>
-          <span className={`px-3 py-1 text-sm font-medium rounded-full border whitespace-nowrap ${
-            isDarkMode 
-              ? "bg-ai-navy text-ai-text-muted border-ai-slate/50" 
-              : "bg-background-secondary text-text-secondary border-border"
-          }`}>
+          <span className={`px-3 py-1 text-sm font-medium rounded-full border whitespace-nowrap bg-background-secondary text-text-secondary border-border`}>
             {date}
           </span>
         </div>
@@ -64,44 +52,34 @@ export default function ExperienceCard({
             <source src={video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className={`absolute inset-0 bg-gradient-to-t to-transparent pointer-events-none ${
-            isDarkMode ? "from-ai-charcoal" : "from-surface"
-          }`}></div>
+          <div className={`absolute inset-0 bg-gradient-to-t to-transparent pointer-events-none from-surface`}></div>
         </div>
       )}
 
       <div className="p-6">
         {/* Accomplishments */}
-        <h4 className={`text-sm font-semibold uppercase tracking-wider mb-4 ${
-          isDarkMode ? "text-ai-text-muted" : "text-text-secondary"
-        }`}>
+        <h4 className={`text-sm font-semibold uppercase tracking-wider mb-4 text-text-secondary`}>
           Key Accomplishments
         </h4>
         <ul className="space-y-3 mb-6">
           {description.map((item, index) => (
-            <li key={index} className={`flex items-start text-sm ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
-              <span className={`mr-3 mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${isDarkMode ? "bg-ai-cyan" : "bg-accent-blue"}`}></span>
+            <li key={index} className={`flex items-start text-sm text-text-secondary`}>
+              <span className={`mr-3 mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-accent-blue`}></span>
               <span>{item}</span>
             </li>
           ))}
         </ul>
 
         {/* Technologies */}
-        <div className={`pt-4 border-t ${isDarkMode ? "border-ai-slate/50" : "border-border"}`}>
-          <h4 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${
-            isDarkMode ? "text-ai-text-muted" : "text-text-secondary"
-          }`}>
+        <div className={`pt-4 border-t border-border`}>
+          <h4 className={`text-xs font-semibold uppercase tracking-wider mb-3 text-text-secondary`}>
             Technologies & Methods
           </h4>
           <div className="flex flex-wrap gap-2">
             {technologies.map((tech, index) => (
               <span
                 key={index}
-                className={`px-2.5 py-1 text-xs font-medium rounded-md border ${
-                  isDarkMode 
-                    ? "bg-ai-navy/80 text-ai-cyan border-ai-cyan/20" 
-                    : "bg-surface-hover text-accent-blue border-accent-blue/30"
-                }`}
+                className={`px-2.5 py-1 text-xs font-medium rounded-md border bg-surface-hover text-accent-blue border-accent-blue/30`}
               >
                 {tech}
               </span>

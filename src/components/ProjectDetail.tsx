@@ -3,12 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Github, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
 import type { Project } from "@/data/projects";
 
 const AUTO_ADVANCE_MS = 4000;
 
-function Gallery({ images, alt, isDarkMode }: { images: string[]; alt: string; isDarkMode: boolean }) {
+function Gallery({ images, alt }: { images: string[]; alt: string }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
@@ -25,7 +24,7 @@ function Gallery({ images, alt, isDarkMode }: { images: string[]; alt: string; i
 
   return (
     <div
-      className={`relative h-64 w-full sm:h-80 select-none ${isDarkMode ? "bg-ai-navy" : "bg-surface-hover"}`}
+      className={`relative h-64 w-full sm:h-80 select-none bg-surface-hover`}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={(e) => {
@@ -88,8 +87,6 @@ interface ProjectDetailProps {
 }
 
 export default function ProjectDetail({ project, onClose }: ProjectDetailProps) {
-  const { isDarkMode } = useTheme();
-
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -119,25 +116,21 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
       <motion.div
         layoutId={`project-card-${project.id}`}
         onClick={(e) => e.stopPropagation()}
-        className={`relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl ${
-          isDarkMode ? "bg-ai-charcoal border border-ai-slate/50" : "bg-surface"
-        }`}
+        className={`relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl bg-surface`}
       >
         <button
           onClick={onClose}
           aria-label="Close"
-          className={`absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full transition-colors ${
-            isDarkMode ? "bg-ai-navy/80 text-ai-text hover:bg-ai-slate" : "bg-surface/90 text-text-secondary hover:bg-surface-hover"
-          }`}
+          className={`absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full transition-colors bg-surface/90 text-text-secondary hover:bg-surface-hover`}
         >
           <X size={18} />
         </button>
 
         <div className="relative">
           {project.images && project.images.length > 1 ? (
-            <Gallery images={project.images} alt={project.title} isDarkMode={isDarkMode} />
+            <Gallery images={project.images} alt={project.title} />
           ) : (
-            <div className={`relative h-64 w-full sm:h-80 ${isDarkMode ? "bg-ai-navy" : "bg-surface-hover"}`}>
+            <div className={`relative h-64 w-full sm:h-80 bg-surface-hover`}>
               <Image
                 src={project.image}
                 alt={project.title}
@@ -147,16 +140,14 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
               />
             </div>
           )}
-          <div className={`pointer-events-none absolute inset-0 bg-gradient-to-t via-transparent to-transparent ${
-            isDarkMode ? "from-ai-charcoal" : "from-surface"
-          }`} />
+          <div className={`pointer-events-none absolute inset-0 bg-gradient-to-t via-transparent to-transparent from-surface`} />
         </div>
 
         <div className="p-6">
-          <h3 className={`text-2xl font-bold ${isDarkMode ? "text-ai-text" : "text-foreground"}`}>
+          <h3 className={`text-2xl font-bold text-foreground`}>
             {project.title}
           </h3>
-          <p className={`mt-3 text-sm leading-relaxed ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
+          <p className={`mt-3 text-sm leading-relaxed text-text-secondary`}>
             {project.description}
           </p>
 
@@ -164,11 +155,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className={`px-2.5 py-1 text-xs font-medium rounded-md border ${
-                  isDarkMode
-                    ? "bg-ai-navy/80 text-ai-cyan border-ai-cyan/20"
-                    : "bg-surface-hover text-accent-blue border-accent-blue/30"
-                }`}
+                className={`px-2.5 py-1 text-xs font-medium rounded-md border bg-surface-hover text-accent-blue border-accent-blue/30`}
               >
                 {tag}
               </span>
@@ -192,11 +179,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition-colors ${
-                    isDarkMode
-                      ? "border-white/20 text-ai-text hover:border-ai-cyan hover:text-ai-cyan"
-                      : "border-border text-foreground hover:border-accent-blue hover:text-accent-blue"
-                  }`}
+                  className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition-colors border-border text-foreground hover:border-accent-blue hover:text-accent-blue`}
                 >
                   <ExternalLink size={16} /> Live
                 </a>
