@@ -1,10 +1,9 @@
 "use client";
+import SectionHeader from "./SectionHeader";
 import { useEffect, useState } from "react";
-import { useTheme } from "@/context/ThemeContext";
 import { certificates, Certificate } from "@/data/certificates";
 
 export default function Certifications() {
-  const { isDarkMode } = useTheme();
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
   // Lock background scroll while the modal is open — otherwise the page behind
@@ -34,56 +33,29 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className={`py-20 md:py-28 relative overflow-hidden transition-colors duration-300 ${
-        isDarkMode ? "bg-ai-charcoal" : "bg-surface"
-      }`}
+      className={`py-20 md:py-28 relative overflow-hidden transition-colors duration-300 bg-surface`}
     >
       {/* Background Elements */}
-      <div className={`absolute inset-0 bg-grid-pattern bg-grid ${isDarkMode ? "opacity-10" : "opacity-5"}`}></div>
-      <div className={`absolute top-1/4 left-0 w-96 h-96 rounded-full blur-3xl ${
-        isDarkMode ? "bg-ai-purple/5" : "bg-accent-cyan/20"
-      }`}></div>
+      <div className={`absolute inset-0 bg-grid-pattern bg-grid opacity-5`}></div>
+      <div className={`absolute top-1/4 left-0 w-96 h-96 rounded-full blur-3xl bg-accent-cyan/20`}></div>
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className={`h-px w-12 bg-gradient-to-r from-transparent ${isDarkMode ? "to-ai-cyan" : "to-accent-blue"}`}></div>
-            <span className={`text-sm font-medium tracking-wider uppercase ${isDarkMode ? "text-ai-cyan" : "text-accent-blue"}`}>
-              Credentials
-            </span>
-            <div className={`h-px w-12 bg-gradient-to-l from-transparent ${isDarkMode ? "to-ai-cyan" : "to-accent-blue"}`}></div>
-          </div>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${isDarkMode ? "text-ai-text" : "text-foreground"}`}>
-            Professional <span className="gradient-text">Certifications</span>
-          </h2>
-          <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
-            Industry-recognized certifications validating expertise in AI, Machine Learning, and Software Development
-          </p>
-        </div>
+        <SectionHeader index="05" label="Credentials" title="Certifications" intro="Industry-recognized certifications in AI, machine learning and software development." />
 
         {/* Certificates Grid - Responsive: 1 col mobile, 2 col tablet, 3 col desktop */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {certificates.map((cert, index) => (
             <div
               key={cert.id}
-              className={`group relative rounded-2xl overflow-hidden transition-all duration-500 cursor-pointer transform hover:-translate-y-2 hover:shadow-2xl ${
-                isDarkMode 
-                  ? "glass-card border border-ai-slate/30 hover:border-ai-cyan/50" 
-                  : "bg-surface border border-border hover:border-accent-blue shadow-lg"
-              }`}
+              className={`group relative rounded-2xl overflow-hidden transition-all duration-500 cursor-pointer transform hover:-translate-y-2 hover:shadow-2xl bg-surface border border-border hover:border-accent-blue shadow-lg`}
               onClick={() => openModal(cert)}
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Certificate Preview/Thumbnail */}
-              <div className={`relative h-64 overflow-hidden ${
-                isDarkMode ? "bg-gradient-to-br from-ai-navy to-ai-charcoal" : "bg-gradient-to-br from-background-secondary to-surface-hover"
-              }`}>
+              <div className={`relative h-64 overflow-hidden bg-gradient-to-br from-background-secondary to-surface-hover`}>
                 <div className="absolute inset-0 flex items-center justify-center p-8">
                   {/* PDF Icon */}
-                  <div className={`transition-transform duration-300 group-hover:scale-110 ${
-                    isDarkMode ? "text-ai-cyan" : "text-accent-blue"
-                  }`}>
+                  <div className={`transition-transform duration-300 group-hover:scale-110 text-accent-blue`}>
                     <svg className="w-24 h-24" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M10,19L12,15H9V10H13V15L15,19H13L12,17L11,19H10Z" />
                     </svg>
@@ -91,15 +63,13 @@ export default function Certifications() {
                 </div>
                 
                 {/* Hover Overlay */}
-                <div className={`absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  isDarkMode ? "bg-ai-navy/90" : "bg-surface/90"
-                }`}>
+                <div className={`absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface/90`}>
                   <div className="text-center">
-                    <svg className={`w-16 h-16 mx-auto mb-2 ${isDarkMode ? "text-ai-cyan" : "text-accent-blue"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-16 h-16 mx-auto mb-2 text-accent-blue`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
-                    <p className={`text-sm font-medium ${isDarkMode ? "text-ai-text" : "text-foreground"}`}>
+                    <p className={`text-sm font-medium text-foreground`}>
                       Click to view certificate
                     </p>
                   </div>
@@ -108,22 +78,20 @@ export default function Certifications() {
 
               {/* Certificate Info */}
               <div className="p-6">
-                <h3 className={`text-xl font-bold mb-2 line-clamp-2 transition-colors ${
-                  isDarkMode ? "text-ai-text group-hover:text-ai-cyan" : "text-foreground group-hover:text-accent-blue"
-                }`}>
+                <h3 className={`text-xl font-bold mb-2 line-clamp-2 transition-colors text-foreground group-hover:text-accent-blue`}>
                   {cert.title}
                 </h3>
                 
                 <div className="flex items-center gap-2 mb-3">
-                  <span className={`text-sm font-medium ${isDarkMode ? "text-ai-cyan" : "text-accent-blue"}`}>
+                  <span className={`text-sm font-medium text-accent-blue`}>
                     {cert.issuer}
                   </span>
-                  <span className={`text-sm ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
+                  <span className={`text-sm text-text-secondary`}>
                     • {cert.date}
                   </span>
                 </div>
 
-                <p className={`text-sm mb-4 line-clamp-2 ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
+                <p className={`text-sm mb-4 line-clamp-2 text-text-secondary`}>
                   {cert.description}
                 </p>
 
@@ -132,17 +100,13 @@ export default function Certifications() {
                   {cert.skills.slice(0, 3).map((skill, idx) => (
                     <span
                       key={idx}
-                      className={`px-2 py-1 text-xs font-medium rounded-md ${
-                        isDarkMode 
-                          ? "bg-ai-navy/80 text-ai-cyan border border-ai-cyan/20" 
-                          : "bg-surface-hover text-accent-blue border border-accent-blue/30"
-                      }`}
+                      className={`px-2 py-1 text-xs font-medium rounded-md bg-surface-hover text-accent-blue border border-accent-blue/30`}
                     >
                       {skill}
                     </span>
                   ))}
                   {cert.skills.length > 3 && (
-                    <span className={`px-2 py-1 text-xs font-medium ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
+                    <span className={`px-2 py-1 text-xs font-medium text-text-secondary`}>
                       +{cert.skills.length - 3} more
                     </span>
                   )}
@@ -156,11 +120,7 @@ export default function Certifications() {
                     e.stopPropagation();
                     openPDF(cert);
                   }}
-                  className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
-                    isDarkMode
-                      ? "bg-gradient-to-r from-ai-cyan to-ai-blue text-ai-navy hover:shadow-glow-cyan"
-                      : "bg-gradient-to-r from-accent-blue to-accent-blue text-white hover:shadow-lg"
-                  }`}
+                  className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 bg-ai-cyan text-on-accent hover:shadow-lg`}
                 >
                   Open in New Tab
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -179,31 +139,23 @@ export default function Certifications() {
             onClick={closeModal}
           >
             <div
-              className={`relative w-full max-w-5xl h-[90vh] rounded-2xl overflow-hidden flex flex-col ${
-                isDarkMode ? "bg-ai-charcoal border border-ai-slate/50" : "bg-surface"
-              }`}
+              className={`relative w-full max-w-5xl h-[90vh] rounded-2xl overflow-hidden flex flex-col bg-surface`}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className={`flex items-center justify-between p-4 border-b ${
-                isDarkMode ? "border-ai-slate/30" : "border-border"
-              }`}>
+              <div className={`flex items-center justify-between p-4 border-b border-border`}>
                 <div className="flex-1 min-w-0 pr-4">
-                  <h3 className={`text-lg font-bold truncate ${isDarkMode ? "text-ai-text" : "text-foreground"}`}>
+                  <h3 className={`text-lg font-bold truncate text-foreground`}>
                     {selectedCert.title}
                   </h3>
-                  <p className={`text-sm ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
+                  <p className={`text-sm text-text-secondary`}>
                     {selectedCert.issuer} • {selectedCert.date}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => openPDF(selectedCert)}
-                    className={`p-2 rounded-lg transition-colors ${
-                      isDarkMode 
-                        ? "bg-ai-navy hover:bg-ai-slate text-ai-cyan" 
-                        : "bg-surface-hover hover:bg-surface-hover text-text-secondary"
-                    }`}
+                    className={`p-2 rounded-lg transition-colors bg-surface-hover hover:bg-surface-hover text-text-secondary`}
                     title="Open in new tab"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,11 +164,7 @@ export default function Certifications() {
                   </button>
                   <button
                     onClick={closeModal}
-                    className={`p-2 rounded-lg transition-colors ${
-                      isDarkMode 
-                        ? "bg-ai-navy hover:bg-ai-slate text-ai-cyan" 
-                        : "bg-surface-hover hover:bg-surface-hover text-text-secondary"
-                    }`}
+                    className={`p-2 rounded-lg transition-colors bg-surface-hover hover:bg-surface-hover text-text-secondary`}
                     title="Close"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,7 +175,7 @@ export default function Certifications() {
               </div>
 
               {/* PDF Viewer using iframe */}
-              <div className={`flex-1 overflow-hidden ${isDarkMode ? "bg-gray-800" : "bg-surface-hover"}`}>
+              <div className={`flex-1 overflow-hidden bg-surface-hover`}>
                 <iframe
                   src={selectedCert.pdfUrl}
                   className="w-full h-full"
@@ -236,18 +184,12 @@ export default function Certifications() {
               </div>
 
               {/* Modal Footer with skills */}
-              <div className={`p-4 border-t ${
-                isDarkMode ? "border-ai-slate/30" : "border-border"
-              }`}>
+              <div className={`p-4 border-t border-border`}>
                 <div className="flex flex-wrap gap-2">
                   {selectedCert.skills.map((skill, idx) => (
                     <span
                       key={idx}
-                      className={`px-3 py-1 text-sm font-medium rounded-md ${
-                        isDarkMode 
-                          ? "bg-ai-navy text-ai-cyan border border-ai-cyan/20" 
-                          : "bg-surface-hover text-accent-blue border border-accent-blue/30"
-                      }`}
+                      className={`px-3 py-1 text-sm font-medium rounded-md bg-surface-hover text-accent-blue border border-accent-blue/30`}
                     >
                       {skill}
                     </span>

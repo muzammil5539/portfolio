@@ -37,6 +37,7 @@ module.exports = {
         "text-primary": "var(--text-primary)",
         "text-secondary": "var(--text-secondary)",
         "text-muted": "var(--text-muted)",
+        "on-accent": "var(--on-accent)",
         
         // Legacy support - AI Engineer Dark Theme Palette
         'ai-navy': 'var(--background)',

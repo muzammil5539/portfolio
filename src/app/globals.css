@@ -28,6 +28,7 @@
   --text-primary: #18211f;
   --text-secondary: #40504a;
   --text-muted: #66716c;
+  --on-accent: #18211f;
 }
 
 /* Dark Theme */
@@ -52,6 +53,7 @@
   --text-primary: #f2f2e9;
   --text-secondary: #d1d9d0;
   --text-muted: #abb6ae;
+  --on-accent: #18211f;
 }
 
 @theme inline {
@@ -93,7 +95,7 @@ body {
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: var(--accent-cyan);
-  color: var(--background);
+  color: var(--on-accent);
   border: none;
   border-radius: 3px;
   padding: 0.875rem 2rem;
@@ -116,7 +118,7 @@ body {
 }
 
 .dark .glass-card {
-  background: rgba(26, 31, 46, 0.8);
+  background: var(--surface);
 }
 
 .glass-card:hover {
@@ -125,14 +127,14 @@ body {
 
 /* Dark glass card variant */
 .glass-card-dark {
-  background: rgba(241, 245, 249, 0.9);
+  background: var(--surface);
   backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: 16px;
 }
 
 .dark .glass-card-dark {
-  background: rgba(10, 22, 40, 0.9);
+  background: var(--surface);
 }
 
 /* Gradient backgrounds */
@@ -161,7 +163,7 @@ body {
 
 /* Gradient text for headings */
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
