@@ -28,7 +28,7 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
       className={`group relative rounded-xl overflow-hidden transition-all duration-300 hover:shadow-glow-cyan cursor-pointer ${
         isDarkMode
           ? "bg-ai-charcoal border border-ai-slate/50 hover:border-ai-cyan/30"
-          : "bg-white border border-gray-200 hover:border-cyan-300 shadow-md hover:shadow-xl"
+          : "bg-surface border border-border hover:border-accent-blue shadow-md hover:shadow-xl"
       }`}
     >
       {/* Glow effect on hover */}
@@ -39,7 +39,7 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
       }`}></div>
 
       {/* Image Container */}
-      <div className={`relative h-48 w-full overflow-hidden ${isDarkMode ? "bg-ai-navy" : "bg-gray-100"}`}>
+      <div className={`relative h-48 w-full overflow-hidden ${isDarkMode ? "bg-ai-navy" : "bg-surface-hover"}`}>
         <Image
           src={imageUrl}
           alt={title}
@@ -50,7 +50,7 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
         />
         {/* Image overlay gradient */}
         <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent ${
-          isDarkMode ? "from-ai-charcoal" : "from-white"
+          isDarkMode ? "from-ai-charcoal" : "from-surface"
         }`}></div>
       </div>
 
@@ -60,14 +60,14 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
         <h3 className={`text-lg font-semibold mb-2 transition-colors ${
           isDarkMode
             ? "text-ai-text group-hover:text-ai-cyan"
-            : "text-gray-900 group-hover:text-cyan-600"
+            : "text-foreground group-hover:text-accent-blue"
         }`}>
           {title}
         </h3>
 
         {/* Description (kept concise, full text is in the detail view) */}
         <p className={`text-sm leading-relaxed mb-4 line-clamp-2 ${
-          isDarkMode ? "text-ai-text-muted" : "text-gray-600"
+          isDarkMode ? "text-ai-text-muted" : "text-text-secondary"
         }`}>
           {description}
         </p>
@@ -80,14 +80,14 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
               className={`px-2.5 py-1 text-xs font-medium rounded-md border ${
                 isDarkMode
                   ? "bg-ai-navy/80 text-ai-cyan border-ai-cyan/20"
-                  : "bg-cyan-50 text-cyan-700 border-cyan-200"
+                  : "bg-surface-hover text-accent-blue border-accent-blue/30"
               }`}
             >
               {tech}
             </span>
           ))}
           {tags && tags.length > 4 && (
-            <span className={`px-2.5 py-1 text-xs font-medium ${isDarkMode ? "text-ai-text-muted" : "text-gray-500"}`}>
+            <span className={`px-2.5 py-1 text-xs font-medium ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
               +{tags.length - 4}
             </span>
           )}

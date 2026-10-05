@@ -59,7 +59,7 @@ export const certificates: Certificate[] = [
   {
     id: "generative-ai-engineering-llms",
     title: "Generative AI Engineering with LLMs",
-    issuer: "Coursera",
+    issuer: "IBM - Coursera",
     date: "2024",
     description: "Advanced engineering practices for working with Large Language Models in production environments.",
     pdfUrl: "/certificates/Generative AI Engineering with LLMs.pdf",
@@ -68,7 +68,7 @@ export const certificates: Certificate[] = [
   {
     id: "llmops",
     title: "Large Language Model Operations (LLMOps)",
-    issuer: "Coursera",
+    issuer: "Duke University - Coursera",
     date: "2024",
     description: "Operations and deployment strategies for Large Language Models including monitoring, scaling, and maintenance.",
     pdfUrl: "/certificates/Large Language Model Operations (LLMOps).pdf",
@@ -86,7 +86,7 @@ export const certificates: Certificate[] = [
   {
     id: "modern-data-strategy",
     title: "Modern Data Strategy for Enterprise Generative AI",
-    issuer: "Coursera",
+    issuer: "Fractal - Coursera",
     date: "2024",
     description: "Enterprise-level data strategy and architecture for implementing Generative AI solutions.",
     pdfUrl: "/certificates/Modern Data Strategy for Enterprise Generative AI.pdf",
@@ -95,7 +95,7 @@ export const certificates: Certificate[] = [
   {
     id: "clinical-decision-making",
     title: "Informed Clinical Decision Making using Deep Learning",
-    issuer: "Coursera",
+    issuer: "University of Glasgow - Coursera",
     date: "2024",
     description: "Application of deep learning techniques for medical and clinical decision-making systems.",
     pdfUrl: "/certificates/Informed Clinical Decision Making using Deep Learning.pdf",
@@ -104,7 +104,7 @@ export const certificates: Certificate[] = [
   {
     id: "modern-cpp",
     title: "Complete Modern C++ (C++11/14/17)",
-    issuer: "Udemy",
+    issuer: "Packt",
     date: "2024",
     description: "Comprehensive training in modern C++ features including C++11, C++14, and C++17 standards.",
     pdfUrl: "/certificates/Complete Modern Cpp Cpp11_14_17.pdf",

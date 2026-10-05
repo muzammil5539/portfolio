@@ -14,16 +14,16 @@ export default function Projects() {
     <section
       id="projects"
       className={`py-20 md:py-28 relative overflow-hidden transition-colors duration-300 ${
-        isDarkMode ? "bg-ai-navy-light" : "bg-gray-50"
+        isDarkMode ? "bg-ai-navy-light" : "bg-background-secondary"
       }`}
     >
       {/* Background Elements */}
       <div className={`absolute inset-0 bg-grid-pattern bg-grid ${isDarkMode ? "opacity-20" : "opacity-10"}`}></div>
       <div className={`absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl ${
-        isDarkMode ? "bg-ai-purple/5" : "bg-purple-200/30"
+        isDarkMode ? "bg-ai-purple/5" : "bg-accent-cyan/20"
       }`}></div>
       <div className={`absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-3xl ${
-        isDarkMode ? "bg-ai-cyan/5" : "bg-cyan-200/30"
+        isDarkMode ? "bg-ai-cyan/5" : "bg-accent-cyan/20"
       }`}></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -31,22 +31,22 @@ export default function Projects() {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className={`h-px w-12 bg-gradient-to-r from-transparent ${
-              isDarkMode ? "to-ai-cyan" : "to-cyan-500"
+              isDarkMode ? "to-ai-cyan" : "to-accent-blue"
             }`}></div>
             <span className={`text-sm font-medium tracking-wider uppercase ${
-              isDarkMode ? "text-ai-cyan" : "text-cyan-600"
+              isDarkMode ? "text-ai-cyan" : "text-accent-blue"
             }`}>Portfolio</span>
             <div className={`h-px w-12 bg-gradient-to-l from-transparent ${
-              isDarkMode ? "to-ai-cyan" : "to-cyan-500"
+              isDarkMode ? "to-ai-cyan" : "to-accent-blue"
             }`}></div>
           </div>
           <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${
-            isDarkMode ? "text-ai-text" : "text-gray-900"
+            isDarkMode ? "text-ai-text" : "text-foreground"
           }`}>
             Featured <span className="gradient-text">Projects</span>
           </h2>
           <p className={`text-lg max-w-2xl mx-auto ${
-            isDarkMode ? "text-ai-text-muted" : "text-gray-600"
+            isDarkMode ? "text-ai-text-muted" : "text-text-secondary"
           }`}>
             Explore my portfolio of AI and machine learning projects, showcasing
             cutting-edge solutions in computer vision, deep learning, and data science.

@@ -12,10 +12,69 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "verifiable-agent-kernel",
+    title: "Verifiable Agent Kernel (VAK)",
+    description:
+      "Deterministic control plane for LLM agents. Least-privilege ABAC, WASM-sandboxed tools, Z3 formal verification before execution, 3-tier memory (Merkle DAG), multi-agent debate with quadratic-voting consensus, and a PRM fine-tuning toolkit. v1.0 with 80%+ test coverage and LangChain/AutoGPT/MCP adapters.",
+    image: "/projects/placeholder.svg",
+    tags: ["Rust", "Python", "WASM", "Cedar/ABAC", "Z3", "MCP"],
+    github: "https://github.com/muzammil5539/Verifiable-Agent-Kernel-VAK-",
+    category: "ai",
+  },
+  {
+    id: "claims-classification",
+    title: "Healthcare Claims Classification",
+    description:
+      "Production classification system (CatBoost, XGBoost, AutoGluon) at 95% accuracy across 42,900+ claims with daily feedback-loop retraining, paired with a denial-prediction and First-Time Pass Rate module that cut the denial rate from 3.2% to 2.4%.",
+    image: "/projects/classification.png",
+    tags: ["CatBoost", "XGBoost", "AutoGluon", "Python", "Healthcare"],
+    category: "ml",
+  },
+  {
+    id: "eld-trip-planner",
+    title: "ELD Trip Planner",
+    description:
+      "Plans truck trips against FMCSA hours-of-service rules and draws daily ELD log sheets, with route planning on Leaflet, Nominatim and OSRM.",
+    image: "/projects/placeholder.svg",
+    tags: ["Django", "DRF", "React", "Vite", "Leaflet", "OSRM"],
+    github: "https://github.com/muzammil5539/eld-trip-planner",
+    live: "https://eld-trip-planner-sepia.vercel.app/",
+    category: "web",
+  },
+  {
+    id: "fuel-route-optimizer",
+    title: "Fuel Route Optimizer",
+    description:
+      "Geocoded ~8,150 fuel stations with OSRM routing, an 8-mile corridor filter and a Dijkstra cheapest-fuel plan with a 500-mile range. Regression-tested.",
+    image: "/projects/placeholder.svg",
+    tags: ["Django", "OSRM", "Dijkstra", "Geocoding"],
+    github: "https://github.com/muzammil5539/django_application",
+    category: "web",
+  },
+  {
+    id: "freight-rates-predictor",
+    title: "Freight Rates Predictor",
+    description:
+      "End-to-end ML pipeline on spatial, load, market-index and temporal features.",
+    image: "/projects/placeholder.svg",
+    tags: ["scikit-learn", "Python", "Feature Engineering"],
+    github: "https://github.com/muzammil5539/Machine-Learning-Engineer-Assessment-Ena-Spotter",
+    category: "ml",
+  },
+  {
+    id: "qadri-traders",
+    title: "Qadri Traders",
+    description: "E-commerce website built and deployed on Vercel.",
+    image: "/projects/placeholder.svg",
+    tags: ["Next.js", "E-commerce"],
+    live: "https://qadri-traders.vercel.app/",
+    category: "web",
+  },
+  {
     id: "document-summarizer",
     title: "Document Summarizer",
     description:
-      "Production-grade, multi-strategy document summarization platform. Upload a PDF, DOCX, TXT, Markdown, HTML file or URL and get a structured summary streamed live, with automatic strategy routing (Stuff / Map-Reduce / Refine), PII scanning, and LLM-as-judge faithfulness scoring.",
+      "Production-grade, multi-strategy document summarization platform. Upload a PDF, DOCX, TXT, Markdown, HTML file or URL and get a structured summary streamed live, with automatic strategy routing (Stuff / Map-Reduce / Refine / Recursive), PII scanning, and LLM-as-judge faithfulness scoring.",
     image: "/projects/document-summarizer/01_login_page.png",
     images: [
       "/projects/document-summarizer/01_login_page.png",
@@ -59,7 +118,7 @@ export const projects: Project[] = [
     id: "rag-custom-engine",
     title: "RAG Custom Engine",
     description:
-      "A complete Retrieval-Augmented Generation pipeline built entirely from scratch — no LangChain, no vector database. Custom HNSW vector store, Okapi BM25 keyword index, hybrid retrieval with Reciprocal Rank Fusion, Self-RAG adaptive retrieval, and a dual-layer memory system, all in pure Python.",
+      "A complete Retrieval-Augmented Generation pipeline built entirely from scratch — no LangChain, no vector database. Custom HNSW vector store, Okapi BM25 and Reciprocal Rank Fusion, a 3-stage Self-RAG gate (retrieval decision, relevance grading, hallucination check) and contextual compression, all in pure Python. ~20% precision gain over dense-vector baselines.",
     image: "/projects/rag-custom-engine/01-app-overview.png",
     images: [
       "/projects/rag-custom-engine/01-app-overview.png",
