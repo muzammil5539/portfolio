@@ -30,7 +30,7 @@ export const projects: Project[] = [
     title: "Healthcare Claims Classification",
     description:
       "Production classification system (CatBoost, XGBoost, AutoGluon) at 95% accuracy across 42,900+ claims with daily feedback-loop retraining, paired with a denial-prediction and First-Time Pass Rate module that cut the denial rate from 3.2% to 2.4%.",
-    image: "/projects/classification.png",
+    image: "/projects/workflows/claims-classification.svg",
     tags: ["CatBoost", "XGBoost", "AutoGluon", "Python", "Healthcare"],
     category: "ml",
   },
