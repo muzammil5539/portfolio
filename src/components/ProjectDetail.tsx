@@ -25,7 +25,7 @@ function Gallery({ images, alt, isDarkMode }: { images: string[]; alt: string; i
 
   return (
     <div
-      className={`relative h-64 w-full sm:h-80 select-none ${isDarkMode ? "bg-ai-navy" : "bg-gray-100"}`}
+      className={`relative h-64 w-full sm:h-80 select-none ${isDarkMode ? "bg-ai-navy" : "bg-surface-hover"}`}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={(e) => {
@@ -72,7 +72,7 @@ function Gallery({ images, alt, isDarkMode }: { images: string[]; alt: string; i
                 key={src}
                 onClick={() => setIndex(i)}
                 aria-label={`Go to screenshot ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all ${i === index ? "w-5 bg-white" : "w-1.5 bg-white/50"}`}
+                className={`h-1.5 rounded-full transition-all ${i === index ? "w-5 bg-surface" : "w-1.5 bg-surface/50"}`}
               />
             ))}
           </div>
@@ -120,14 +120,14 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
         layoutId={`project-card-${project.id}`}
         onClick={(e) => e.stopPropagation()}
         className={`relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl ${
-          isDarkMode ? "bg-ai-charcoal border border-ai-slate/50" : "bg-white"
+          isDarkMode ? "bg-ai-charcoal border border-ai-slate/50" : "bg-surface"
         }`}
       >
         <button
           onClick={onClose}
           aria-label="Close"
           className={`absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full transition-colors ${
-            isDarkMode ? "bg-ai-navy/80 text-ai-text hover:bg-ai-slate" : "bg-white/90 text-gray-700 hover:bg-gray-100"
+            isDarkMode ? "bg-ai-navy/80 text-ai-text hover:bg-ai-slate" : "bg-surface/90 text-text-secondary hover:bg-surface-hover"
           }`}
         >
           <X size={18} />
@@ -137,7 +137,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
           {project.images && project.images.length > 1 ? (
             <Gallery images={project.images} alt={project.title} isDarkMode={isDarkMode} />
           ) : (
-            <div className={`relative h-64 w-full sm:h-80 ${isDarkMode ? "bg-ai-navy" : "bg-gray-100"}`}>
+            <div className={`relative h-64 w-full sm:h-80 ${isDarkMode ? "bg-ai-navy" : "bg-surface-hover"}`}>
               <Image
                 src={project.image}
                 alt={project.title}
@@ -148,15 +148,15 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
             </div>
           )}
           <div className={`pointer-events-none absolute inset-0 bg-gradient-to-t via-transparent to-transparent ${
-            isDarkMode ? "from-ai-charcoal" : "from-white"
+            isDarkMode ? "from-ai-charcoal" : "from-surface"
           }`} />
         </div>
 
         <div className="p-6">
-          <h3 className={`text-2xl font-bold ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
+          <h3 className={`text-2xl font-bold ${isDarkMode ? "text-ai-text" : "text-foreground"}`}>
             {project.title}
           </h3>
-          <p className={`mt-3 text-sm leading-relaxed ${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>
+          <p className={`mt-3 text-sm leading-relaxed ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
             {project.description}
           </p>
 
@@ -167,7 +167,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
                 className={`px-2.5 py-1 text-xs font-medium rounded-md border ${
                   isDarkMode
                     ? "bg-ai-navy/80 text-ai-cyan border-ai-cyan/20"
-                    : "bg-cyan-50 text-cyan-700 border-cyan-200"
+                    : "bg-surface-hover text-accent-blue border-accent-blue/30"
                 }`}
               >
                 {tag}
@@ -195,7 +195,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
                   className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition-colors ${
                     isDarkMode
                       ? "border-white/20 text-ai-text hover:border-ai-cyan hover:text-ai-cyan"
-                      : "border-gray-300 text-gray-900 hover:border-cyan-500 hover:text-cyan-600"
+                      : "border-border text-foreground hover:border-accent-blue hover:text-accent-blue"
                   }`}
                 >
                   <ExternalLink size={16} /> Live

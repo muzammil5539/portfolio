@@ -8,8 +8,8 @@ export const metadata: Metadata = {
     default: "Muzammil Nawaz Khan | AI Engineer Portfolio",
     template: "%s | Muzammil Nawaz Khan",
   },
-  description: "AI Engineer specializing in machine learning, deep learning, and computer vision. NUST graduate with expertise in neural networks and biomedical AI.",
-  keywords: ["AI Engineer", "Machine Learning", "Deep Learning", "Computer Vision", "Python", "TensorFlow", "PyTorch", "Next.js", "React"],
+  description: "AI Engineer building production machine learning, LLM and RAG systems in Python. 95% accuracy claims classification, 35% lower inference cost, and 3D MRI brain tumor segmentation (SegFormer3D). NUST graduate, based in Islamabad.",
+  keywords: ["AI Engineer", "Machine Learning", "Deep Learning", "Computer Vision", "Python", "TensorFlow", "PyTorch", "LLM", "RAG", "LangChain", "FastAPI", "Next.js"],
   authors: [{ name: "Muzammil Nawaz Khan" }],
   creator: "Muzammil Nawaz Khan",
   alternates: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://muzammil5539.vercel.app",
     title: "Muzammil Nawaz Khan | AI Engineer Portfolio",
-    description: "AI Engineer specializing in machine learning, deep learning, and computer vision. NUST graduate with expertise in neural networks and biomedical AI.",
+    description: "AI Engineer building production machine learning, LLM and RAG systems in Python. 95% accuracy claims classification, 35% lower inference cost, and 3D MRI brain tumor segmentation (SegFormer3D). NUST graduate, based in Islamabad.",
     siteName: "Muzammil Nawaz Khan Portfolio",
   },
   twitter: {

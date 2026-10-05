@@ -27,7 +27,7 @@ export default function Header() {
     <header className={`fixed w-full backdrop-blur-lg border-b z-50 transition-colors duration-300 ${
       isDarkMode 
         ? "bg-ai-navy/90 border-ai-charcoal/50" 
-        : "bg-white/90 border-gray-200"
+        : "bg-surface/90 border-border"
     }`}>
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -46,12 +46,12 @@ export default function Header() {
                 <span className={`truncate text-base sm:text-xl font-semibold tracking-tight transition-colors ${
                   isDarkMode
                     ? "text-ai-text group-hover:text-ai-cyan"
-                    : "text-gray-900 group-hover:text-cyan-600"
+                    : "text-foreground group-hover:text-accent-blue"
                 }`}>
                   Muzammil Nawaz Khan
                 </span>
                 <span className={`hidden sm:block text-xs font-medium tracking-wider uppercase ${
-                  isDarkMode ? "text-ai-cyan" : "text-cyan-600"
+                  isDarkMode ? "text-ai-cyan" : "text-accent-blue"
                 }`}>
                   AI Engineer
                 </span>
@@ -70,25 +70,25 @@ export default function Header() {
                     className={`relative px-4 py-2 font-medium text-sm transition-colors duration-200 group ${
                       isDarkMode 
                         ? "text-ai-text-muted hover:text-ai-text" 
-                        : "text-gray-600 hover:text-gray-900"
+                        : "text-text-secondary hover:text-foreground"
                     }`}
                   >
                     <span className="relative z-10">{item.name}</span>
                     <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r group-hover:w-4/5 transition-all duration-300 ${
-                      isDarkMode ? "from-ai-cyan to-ai-blue" : "from-cyan-500 to-blue-500"
+                      isDarkMode ? "from-ai-cyan to-ai-blue" : "from-accent-blue to-accent-blue"
                     }`}></span>
                   </Link>
                 ))}
               </nav>
               
               {/* Theme Toggle Button */}
-              <div className={`ml-4 pl-4 border-l ${isDarkMode ? "border-ai-charcoal" : "border-gray-200"}`}>
+              <div className={`ml-4 pl-4 border-l ${isDarkMode ? "border-ai-charcoal" : "border-border"}`}>
                 <button
                   onClick={toggleTheme}
                   className={`relative w-14 h-7 rounded-full p-1 transition-all duration-300 ${
                     isDarkMode 
                       ? "bg-ai-charcoal border border-ai-slate" 
-                      : "bg-gray-200 border border-gray-300"
+                      : "bg-surface-hover border border-border"
                   }`}
                   aria-label="Toggle theme"
                 >
@@ -117,13 +117,13 @@ export default function Header() {
                     className={`w-5 h-5 rounded-full shadow-md transform transition-all duration-300 ${
                       isDarkMode 
                         ? "translate-x-7 bg-ai-navy" 
-                        : "translate-x-0 bg-white"
+                        : "translate-x-0 bg-surface"
                     }`}
                   />
                 </button>
               </div>
 
-              <div className={`ml-4 pl-4 border-l ${isDarkMode ? "border-ai-charcoal" : "border-gray-200"}`}>
+              <div className={`ml-4 pl-4 border-l ${isDarkMode ? "border-ai-charcoal" : "border-border"}`}>
                 <a
                   href="/Resume - Muzammil Nawaz Khan CV.pdf"
                   download
@@ -136,7 +136,7 @@ export default function Header() {
                   <svg className="w-4 h-4 relative z-10 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
-                  <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                  <span className="absolute inset-0 bg-surface/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
                 </a>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <button
               className={`md:hidden p-2 transition-colors ${
-                isDarkMode ? "text-ai-text-muted hover:text-ai-cyan" : "text-gray-600 hover:text-cyan-600"
+                isDarkMode ? "text-ai-text-muted hover:text-ai-cyan" : "text-text-secondary hover:text-accent-blue"
               }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -172,7 +172,7 @@ export default function Header() {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className={`md:hidden pt-4 pb-3 border-t mt-4 ${
-            isDarkMode ? "border-ai-charcoal" : "border-gray-200"
+            isDarkMode ? "border-ai-charcoal" : "border-border"
           }`}>
             <div className="space-y-1">
               {navItems.map((item) => (
@@ -182,7 +182,7 @@ export default function Header() {
                   className={`block py-3 px-4 rounded-lg font-medium text-sm transition-colors ${
                     isDarkMode 
                       ? "text-ai-text-muted hover:text-ai-text hover:bg-ai-charcoal/50" 
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      : "text-text-secondary hover:text-foreground hover:bg-surface-hover"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -192,9 +192,9 @@ export default function Header() {
               
               {/* Mobile Theme Toggle */}
               <div className={`flex items-center justify-between py-3 px-4 rounded-lg ${
-                isDarkMode ? "bg-ai-charcoal/30" : "bg-gray-50"
+                isDarkMode ? "bg-ai-charcoal/30" : "bg-background-secondary"
               }`}>
-                <span className={`text-sm font-medium ${isDarkMode ? "text-ai-text-muted" : "text-gray-600"}`}>
+                <span className={`text-sm font-medium ${isDarkMode ? "text-ai-text-muted" : "text-text-secondary"}`}>
                   Theme
                 </span>
                 <button
@@ -202,7 +202,7 @@ export default function Header() {
                   className={`relative w-12 h-6 rounded-full p-0.5 transition-all duration-300 ${
                     isDarkMode 
                       ? "bg-ai-charcoal border border-ai-slate" 
-                      : "bg-gray-200 border border-gray-300"
+                      : "bg-surface-hover border border-border"
                   }`}
                   aria-label="Toggle theme"
                 >
@@ -210,7 +210,7 @@ export default function Header() {
                     className={`w-5 h-5 rounded-full shadow-md transform transition-all duration-300 flex items-center justify-center ${
                       isDarkMode 
                         ? "translate-x-6 bg-ai-navy" 
-                        : "translate-x-0 bg-white"
+                        : "translate-x-0 bg-surface"
                     }`}
                   >
                     {isDarkMode ? (
@@ -226,7 +226,7 @@ export default function Header() {
                 </button>
               </div>
               
-              <div className={`pt-4 mt-4 border-t ${isDarkMode ? "border-ai-charcoal" : "border-gray-200"}`}>
+              <div className={`pt-4 mt-4 border-t ${isDarkMode ? "border-ai-charcoal" : "border-border"}`}>
                 <a
                   href="/Resume - Muzammil Nawaz Khan CV.pdf"
                   download

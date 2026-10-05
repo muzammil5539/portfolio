@@ -11,12 +11,12 @@ export default function Footer() {
 
   return (
     <footer className={`py-16 relative overflow-hidden transition-colors duration-300 ${
-      isDarkMode ? "bg-ai-navy" : "bg-white"
+      isDarkMode ? "bg-ai-navy" : "bg-surface"
     }`}>
       {/* Background Elements */}
       <div className={`absolute inset-0 bg-grid-pattern bg-grid ${isDarkMode ? "opacity-10" : "opacity-5"}`}></div>
       <div className={`absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent to-transparent ${
-        isDarkMode ? "via-ai-cyan/30" : "via-cyan-300"
+        isDarkMode ? "via-ai-cyan/30" : "via-accent-blue"
       }`}></div>
       
       <div className="container mx-auto px-6 relative z-10">
@@ -28,16 +28,16 @@ export default function Footer() {
                 <div className="relative">
                   <span className="text-4xl font-bold gradient-text">M</span>
                   <div className={`absolute -inset-2 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity ${
-                    isDarkMode ? "bg-ai-cyan/10" : "bg-cyan-200/50"
+                    isDarkMode ? "bg-ai-cyan/10" : "bg-accent-cyan/20"
                   }`}></div>
                 </div>
                 <div className="flex flex-col">
                   <span className={`text-xl font-medium transition-colors ${
-                    isDarkMode ? "text-ai-text group-hover:text-ai-cyan" : "text-gray-900 group-hover:text-cyan-600"
+                    isDarkMode ? "text-ai-text group-hover:text-ai-cyan" : "text-foreground group-hover:text-accent-blue"
                   }`}>
                     uzammil
                   </span>
-                  <span className={`text-sm font-medium ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>
+                  <span className={`text-sm font-medium ${isDarkMode ? "text-ai-cyan" : "text-accent-blue"}`}>
                     AI Engineer
                   </span>
                 </div>
@@ -53,7 +53,7 @@ export default function Footer() {
                   <Link
                     href={`${isHome ? "" : "/"}#${item.toLowerCase()}`}
                     className={`relative py-2 transition-colors group ${
-                      isDarkMode ? "text-ai-text-muted hover:text-ai-text" : "text-gray-600 hover:text-gray-900"
+                      isDarkMode ? "text-ai-text-muted hover:text-ai-text" : "text-text-secondary hover:text-foreground"
                     }`}
                   >
                     <span className="relative z-10">{item}</span>
@@ -73,7 +73,7 @@ export default function Footer() {
               className={`w-12 h-12 flex items-center justify-center rounded-lg border transition-all duration-300 ${
                 isDarkMode 
                   ? "bg-ai-charcoal border-ai-slate text-ai-text-muted hover:text-ai-cyan hover:border-ai-cyan/50 hover:shadow-glow-cyan" 
-                  : "bg-gray-50 border-gray-200 text-gray-600 hover:text-cyan-600 hover:border-cyan-300 hover:shadow-lg"
+                  : "bg-background-secondary border-border text-text-secondary hover:text-accent-blue hover:border-accent-blue hover:shadow-lg"
               }`}
               aria-label="GitHub"
             >
@@ -86,18 +86,18 @@ export default function Footer() {
               className={`w-12 h-12 flex items-center justify-center rounded-lg border transition-all duration-300 ${
                 isDarkMode 
                   ? "bg-ai-charcoal border-ai-slate text-ai-text-muted hover:text-ai-blue hover:border-ai-blue/50 hover:shadow-glow-blue" 
-                  : "bg-gray-50 border-gray-200 text-gray-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-lg"
+                  : "bg-background-secondary border-border text-text-secondary hover:text-accent-blue hover:border-accent-blue hover:shadow-lg"
               }`}
               aria-label="LinkedIn"
             >
               <FaLinkedinIn className="w-5 h-5" />
             </a>
             <a
-              href="mailto:mnk.muzammil86@gmail.com"
+              href="mailto:mnk.7muzammil86@gmail.com"
               className={`w-12 h-12 flex items-center justify-center rounded-lg border transition-all duration-300 ${
                 isDarkMode 
                   ? "bg-ai-charcoal border-ai-slate text-ai-text-muted hover:text-ai-purple hover:border-ai-purple/50 hover:shadow-glow-purple" 
-                  : "bg-gray-50 border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-300 hover:shadow-lg"
+                  : "bg-background-secondary border-border text-text-secondary hover:text-accent-blue hover:border-accent-blue hover:shadow-lg"
               }`}
               aria-label="Email"
             >
@@ -107,14 +107,14 @@ export default function Footer() {
 
           {/* Divider */}
           <div className={`w-full max-w-md h-px bg-gradient-to-r from-transparent to-transparent mb-8 ${
-            isDarkMode ? "via-ai-slate" : "via-gray-300"
+            isDarkMode ? "via-ai-slate" : "via-border"
           }`}></div>
 
           {/* Copyright */}
-          <div className={`text-sm text-center ${isDarkMode ? "text-ai-text-dim" : "text-gray-500"}`}>
+          <div className={`text-sm text-center ${isDarkMode ? "text-ai-text-dim" : "text-text-secondary"}`}>
             <p>© {currentYear} Muzammil Nawaz Khan. All rights reserved.</p>
             <p className="mt-2 text-xs">
-              Built with <span className={isDarkMode ? "text-ai-cyan" : "text-cyan-600"}>Next.js</span> & <span className={isDarkMode ? "text-ai-cyan" : "text-cyan-600"}>Tailwind CSS</span>
+              Built with <span className={isDarkMode ? "text-ai-cyan" : "text-accent-blue"}>Next.js</span> & <span className={isDarkMode ? "text-ai-cyan" : "text-accent-blue"}>Tailwind CSS</span>
             </p>
           </div>
         </div>

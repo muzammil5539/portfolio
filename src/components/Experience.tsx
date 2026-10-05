@@ -1,78 +1,33 @@
 "use client";
 import ExperienceCard from "./ExperienceCard";
+import { experiences } from "@/data/experience";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function Experience() {
   const { isDarkMode } = useTheme();
 
-  const experiences = [
-    {
-      title: "Junior AI Engineer",
-      company: "CareCloud - Remote / On-site",
-      date: "July 2025 - Present",
-      description: [
-        "Voice AI Front Desk Agent: Developing a real-time conversational AI agent using LiveKit, OpenAI, and ElevenLabs, integrating Silero VAD for seamless voice activity detection.",
-        "Agent Orchestration: Implemented an n8n workflow acting as a Model Context Protocol (MCP) server to manage conversation state, backend prompts, and call routing logic.",
-        "Telephony Integration: Configured SIP Trunking to handle inbound calls with logic-based transfer functionality to human agents.",
-        "Data Pipeline Automation: Engineered Python scripts to interface with Hikvision NVR systems, fetching raw logs for facial recognition and optimizing workforce analytics.",
-        "Data Integrity: Designed logic filters to clean noisy camera data (duplicate records/non-attendance), ensuring accurate HR tracking."
-      ],
-      technologies: [
-        "LiveKit",
-        "OpenAI",
-        "ElevenLabs",
-        "Silero VAD",
-        "n8n",
-        "SIP Trunking",
-        "Python",
-        "Hikvision NVR"
-      ],
-    },
-    {
-      title: "Biomedical AI Research and Development Intern",
-      company: "RiseTech - Islamabad, Pakistan",
-      date: "July 2024 - Sept 2024",
-      description: [
-        "Developed 3D medical image segmentation models using BraTS2020 dataset for brain tumor diagnosis",
-        "Implemented SegFormer3D and UNet 3D architectures using TensorFlow and PyTorch",
-        "Optimized deep learning models for improved accuracy in tumor segmentation",
-        "Evaluated model performance using dice scores and IoU metrics",
-        "Streamlined workflows by establishing models as benchmarks for future comparisons",
-      ],
-      technologies: [
-        "Python",
-        "TensorFlow",
-        "PyTorch",
-        "Medical Imaging",
-        "3D Segmentation",
-        "Deep Learning",
-      ],
-      video: "/projects/Segformer3D.mp4",
-    },
-  ];
-
   return (
     <section
       id="experience"
       className={`py-20 md:py-28 relative overflow-hidden transition-colors duration-300 ${
-        isDarkMode ? "bg-ai-navy" : "bg-gray-50"
+        isDarkMode ? "bg-ai-navy" : "bg-background-secondary"
       }`}
     >
       {/* Background Elements */}
       <div className={`absolute inset-0 bg-grid-pattern bg-grid ${isDarkMode ? "opacity-20" : "opacity-10"}`}></div>
       <div className={`absolute top-1/3 right-0 w-96 h-96 rounded-full blur-3xl ${
-        isDarkMode ? "bg-ai-cyan/5" : "bg-cyan-200/30"
+        isDarkMode ? "bg-ai-cyan/5" : "bg-accent-cyan/20"
       }`}></div>
 
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className={`h-px w-12 bg-gradient-to-r from-transparent ${isDarkMode ? "to-ai-cyan" : "to-cyan-500"}`}></div>
-            <span className={`text-sm font-medium tracking-wider uppercase ${isDarkMode ? "text-ai-cyan" : "text-cyan-600"}`}>Career</span>
-            <div className={`h-px w-12 bg-gradient-to-l from-transparent ${isDarkMode ? "to-ai-cyan" : "to-cyan-500"}`}></div>
+            <div className={`h-px w-12 bg-gradient-to-r from-transparent ${isDarkMode ? "to-ai-cyan" : "to-accent-blue"}`}></div>
+            <span className={`text-sm font-medium tracking-wider uppercase ${isDarkMode ? "text-ai-cyan" : "text-accent-blue"}`}>Career</span>
+            <div className={`h-px w-12 bg-gradient-to-l from-transparent ${isDarkMode ? "to-ai-cyan" : "to-accent-blue"}`}></div>
           </div>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${isDarkMode ? "text-ai-text" : "text-gray-900"}`}>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${isDarkMode ? "text-ai-text" : "text-foreground"}`}>
             Professional <span className="gradient-text">Experience</span>
           </h2>
         </div>
@@ -82,7 +37,7 @@ export default function Experience() {
           {/* Timeline line - visible vertical line connecting experience items */}
           <div 
             className={`absolute left-4 md:left-1/2 w-1 transform md:-translate-x-1/2 z-0 ${
-              isDarkMode ? "bg-cyan-400" : "bg-gray-300"
+              isDarkMode ? "bg-accent-blue" : "bg-gray-300"
             }`}
             style={{ top: '10px', bottom: '10px' }}
           ></div>
@@ -91,7 +46,7 @@ export default function Experience() {
             <div key={index} className="relative mb-16 last:mb-0">
               {/* Timeline dot */}
               <div className={`absolute left-4 md:left-1/2 w-5 h-5 border-2 rounded-full transform -translate-x-1/2 shadow-glow-cyan z-10 ${
-                isDarkMode ? "bg-ai-charcoal border-ai-cyan" : "bg-white border-cyan-500"
+                isDarkMode ? "bg-ai-charcoal border-ai-cyan" : "bg-surface border-accent-blue"
               }`}></div>
               
               {/* Alternating Cards - Even indices on right, Odd on left */}
