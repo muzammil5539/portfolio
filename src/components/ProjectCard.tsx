@@ -9,7 +9,8 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
-  const { title, description, tags, image } = project;
+  const { title, description, tags, image, workflow } = project;
+  const isWorkflow = image === workflow;
   const imageUrl = image.toLowerCase().endsWith(".tif")
     ? "/project-images/default-project.jpg"
     : image;
@@ -35,11 +36,22 @@ export default function ProjectCard({ project, onSelect }: ProjectCardProps) {
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-contain transition-transform duration-500 group-hover:scale-105"
+          className={`${isWorkflow ? "object-cover" : "object-contain"} transition-transform duration-500 group-hover:scale-105`}
           loading="lazy"
         />
         {/* Image overlay gradient */}
-        <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent from-surface`}></div>
+        {!isWorkflow && <div className="absolute inset-0 bg-gradient-to-t via-transparent to-transparent from-surface"></div>}
+        {/* Workflow thumbnail, shown when the card image is a real screenshot */}
+        {!isWorkflow && (
+          <Image
+            src={workflow}
+            alt=""
+            aria-hidden="true"
+            width={112}
+            height={70}
+            className="absolute bottom-2 right-2 h-[70px] w-28 rounded-md border border-border shadow-md"
+          />
+        )}
       </div>
 
       {/* Content Container */}

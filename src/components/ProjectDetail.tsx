@@ -126,10 +126,11 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
           <X size={18} />
         </button>
 
+        {/* A workflow-only project shows its diagram in the Workflow section below, not twice */}
         <div className="relative">
           {project.images && project.images.length > 1 ? (
             <Gallery images={project.images} alt={project.title} />
-          ) : (
+          ) : project.image === project.workflow ? null : (
             <div className={`relative h-64 w-full sm:h-80 bg-surface-hover`}>
               <Image
                 src={project.image}
@@ -161,6 +162,17 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
               </span>
             ))}
           </div>
+
+          <figure className="mt-6">
+            <figcaption className="mb-2 font-mono text-xs uppercase tracking-[0.1em] text-text-muted">Workflow</figcaption>
+            <Image
+              src={project.workflow}
+              alt={`${project.title} workflow diagram`}
+              width={800}
+              height={500}
+              className="h-auto w-full rounded-xl border border-border"
+            />
+          </figure>
 
           {(project.github || project.live) && (
             <div className="mt-6 flex flex-wrap gap-3">
