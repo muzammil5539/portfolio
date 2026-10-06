@@ -1,208 +1,91 @@
 "use client";
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
+import { links } from "@/data/education";
+
+const navItems = [
+  { label: "Work", hash: "#projects" },
+  { label: "Experience", hash: "#experience" },
+  { label: "Skills", hash: "#skills" },
+  { label: "Writing", href: "/blog" },
+  { label: "Contact", hash: "#contact" },
+];
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme();
-  const pathname = usePathname();
-  const isHome = pathname === "/";
+  const [open, setOpen] = useState(false);
+  const isHome = usePathname() === "/";
 
-  const navItems = [
-    { name: "About", href: "about" },
-    { name: "Projects", href: "projects" },
-    { name: "Experience", href: "experience" },
-    { name: "Skills", href: "skills" },
-    { name: "Certifications", href: "certifications" },
-    { name: "Contact", href: "contact" },
-    { name: "Blog", href: "/blog" },
-  ].map((item) => ({
-    ...item,
-    href: item.href.startsWith("/") ? item.href : `${isHome ? "" : "/"}#${item.href}`,
-  }));
+  const hrefFor = (item: (typeof navItems)[number]) => item.href ?? `${isHome ? "" : "/"}${item.hash}`;
+  const linkClass = "inline-flex min-h-11 items-center text-[15px] text-text-secondary transition-colors hover:text-foreground";
 
   return (
-    <header className={`fixed w-full backdrop-blur-lg border-b z-50 transition-colors duration-300 bg-surface/90 border-border`}>
-      <nav className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo with gradient accent */}
-          <Link href="/" className="group min-w-0">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="relative">
-                <div className={`w-10 h-10 bg-ai-cyan rounded-lg flex items-center justify-center font-bold text-lg shadow-glow-cyan text-on-accent`}>
-                  M
-                </div>
-                <div className="absolute -inset-0.5 bg-ai-cyan rounded-lg opacity-30 blur-sm group-hover:opacity-50 transition-opacity"></div>
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className={`truncate text-base sm:text-xl font-semibold tracking-tight transition-colors text-foreground group-hover:text-accent-blue`}>
-                  Muzammil Nawaz Khan
-                </span>
-                <span className={`hidden sm:block text-xs font-medium tracking-wider uppercase text-accent-blue`}>
-                  AI Engineer
-                </span>
-              </div>
-            </div>
-          </Link>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
+        <Link href="/" className="font-mono text-[15px] font-medium tracking-wide text-foreground">
+          MNK<span className="text-accent-blue">/</span>portfolio
+        </Link>
 
-          <div className="flex items-center gap-6">
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center">
-              <nav className="flex items-center space-x-1">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`relative px-4 py-2 font-medium text-sm transition-colors duration-200 group text-text-secondary hover:text-foreground`}
-                  >
-                    <span className="relative z-10">{item.name}</span>
-                    <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r group-hover:w-4/5 transition-all duration-300 from-accent-blue to-accent-blue`}></span>
-                  </Link>
-                ))}
-              </nav>
-              
-              {/* Theme Toggle Button */}
-              <div className={`ml-4 pl-4 border-l border-border`}>
-                <button
-                  onClick={toggleTheme}
-                  className={`relative w-14 h-7 rounded-full p-1 transition-all duration-300 bg-surface-hover border border-border`}
-                  aria-label="Toggle theme"
-                >
-                  {/* Sun Icon */}
-                  <svg
-                    className={`absolute left-1.5 top-1.5 w-4 h-4 transition-all duration-300 ${
-                      isDarkMode ? "opacity-0 scale-50" : "opacity-100 scale-100 text-amber-500"
-                    }`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                  </svg>
-                  {/* Moon Icon */}
-                  <svg
-                    className={`absolute right-1.5 top-1.5 w-4 h-4 transition-all duration-300 opacity-0 scale-50`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                  </svg>
-                  {/* Toggle Ball */}
-                  <div
-                    className={`w-5 h-5 rounded-full shadow-md transform transition-all duration-300 ${
-                      isDarkMode 
-                        ? "translate-x-7 bg-ai-navy" 
-                        : "translate-x-0 bg-surface"
-                    }`}
-                  />
-                </button>
-              </div>
+        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
+          {navItems.map((item) => (
+            <Link key={item.label} href={hrefFor(item)} className={linkClass}>
+              {item.label}
+            </Link>
+          ))}
+          <button
+            onClick={toggleTheme}
+            aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-surface-hover hover:text-foreground"
+          >
+            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <a
+            href={links.resume}
+            download
+            className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85"
+          >
+            Résumé
+          </a>
+        </nav>
 
-              <div className={`ml-4 pl-4 border-l border-border`}>
-                <a
-                  href="/Resume - Muzammil Nawaz Khan CV.pdf"
-                  download
-                  className={`relative inline-flex items-center gap-2 bg-ai-cyan px-5 py-2.5 text-sm font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 group overflow-hidden text-on-accent`}
-                  aria-label="Download Resume PDF"
-                >
-                  <span className="relative z-10">Resume</span>
-                  <svg className="w-4 h-4 relative z-10 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                  <span className="absolute inset-0 bg-surface/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
-                </a>
-              </div>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className={`md:hidden p-2 transition-colors text-text-secondary hover:text-accent-blue`}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              aria-expanded={isMenuOpen}
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
+        <div className="flex items-center gap-1 md:hidden">
+          <button
+            onClick={toggleTheme}
+            aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-text-secondary"
+          >
+            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-foreground"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className={`md:hidden pt-4 pb-3 border-t mt-4 border-border`}>
-            <div className="space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`block py-3 px-4 rounded-lg font-medium text-sm transition-colors text-text-secondary hover:text-foreground hover:bg-surface-hover`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              
-              {/* Mobile Theme Toggle */}
-              <div className={`flex items-center justify-between py-3 px-4 rounded-lg bg-background-secondary`}>
-                <span className={`text-sm font-medium text-text-secondary`}>
-                  Theme
-                </span>
-                <button
-                  onClick={toggleTheme}
-                  className={`relative w-12 h-6 rounded-full p-0.5 transition-all duration-300 bg-surface-hover border border-border`}
-                  aria-label="Toggle theme"
-                >
-                  <div
-                    className={`w-5 h-5 rounded-full shadow-md transform transition-all duration-300 flex items-center justify-center ${
-                      isDarkMode 
-                        ? "translate-x-6 bg-ai-navy" 
-                        : "translate-x-0 bg-surface"
-                    }`}
-                  >
-                    {isDarkMode ? (
-                      <svg className="w-3 h-3 text-ai-cyan" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                      </svg>
-                    ) : (
-                      <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </div>
-                </button>
-              </div>
-              
-              <div className={`pt-4 mt-4 border-t border-border`}>
-                <a
-                  href="/Resume - Muzammil Nawaz Khan CV.pdf"
-                  download
-                  className={`flex items-center justify-center gap-2 py-3 px-4 bg-ai-cyan rounded-lg font-semibold text-sm text-on-accent`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Download Resume
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      {open && (
+        <nav aria-label="Mobile" className="border-t border-border bg-background px-6 pb-6 pt-2 md:hidden">
+          {navItems.map((item) => (
+            <Link key={item.label} href={hrefFor(item)} onClick={() => setOpen(false)} className={`${linkClass} w-full border-b border-border text-base`}>
+              {item.label}
+            </Link>
+          ))}
+          <a
+            href={links.resume}
+            download
+            className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-foreground text-sm font-medium text-background"
+          >
+            Download résumé
+          </a>
+        </nav>
+      )}
     </header>
   );
 }

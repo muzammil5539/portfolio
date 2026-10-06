@@ -29,6 +29,11 @@
   --text-secondary: #40504a;
   --text-muted: #66716c;
   --on-accent: #18211f;
+  --panel: #17211e;
+  --panel-fg: #f2f2e9;
+  --panel-muted: #abb6ae;
+  --panel-chip: #2a3932;
+  --panel-line: rgba(242, 242, 233, 0.16);
 }
 
 /* Dark Theme */
@@ -54,12 +59,17 @@
   --text-secondary: #d1d9d0;
   --text-muted: #abb6ae;
   --on-accent: #18211f;
+  --panel: #22302a;
+  --panel-fg: #f2f2e9;
+  --panel-muted: #abb6ae;
+  --panel-chip: #33443b;
+  --panel-line: rgba(242, 242, 233, 0.16);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-sans: 'Instrument Sans', 'Avenir Next', 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
 }
 
@@ -70,7 +80,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Avenir Next', 'Segoe UI', sans-serif;
+  font-family: 'Instrument Sans', 'Avenir Next', 'Segoe UI', sans-serif;
   overflow-x: hidden;
   line-height: 1.6;
 }

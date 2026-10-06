@@ -1,204 +1,49 @@
-"use client";
+import { ArrowUpRight } from "lucide-react";
 import SectionHeader from "./SectionHeader";
-import { useEffect, useState } from "react";
-import { certificates, Certificate } from "@/data/certificates";
+import { certificates } from "@/data/certificates";
+import { education, honors } from "@/data/education";
 
 export default function Certifications() {
-  const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
-
-  // Lock background scroll while the modal is open — otherwise the page behind
-  // the fixed overlay keeps scrolling and bleeds through the PDF iframe.
-  useEffect(() => {
-    if (!selectedCert) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [selectedCert]);
-
-  const openPDF = (cert: Certificate) => {
-    // Open PDF in new tab
-    window.open(cert.pdfUrl, '_blank');
-  };
-
-  const openModal = (cert: Certificate) => {
-    setSelectedCert(cert);
-  };
-
-  const closeModal = () => {
-    setSelectedCert(null);
-  };
-
   return (
-    <section
-      id="certifications"
-      className={`py-20 md:py-28 relative overflow-hidden transition-colors duration-300 bg-surface`}
-    >
-      {/* Background Elements */}
-      <div className={`absolute inset-0 bg-grid-pattern bg-grid opacity-5`}></div>
-      <div className={`absolute top-1/4 left-0 w-96 h-96 rounded-full blur-3xl bg-accent-cyan/20`}></div>
-
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <SectionHeader index="05" label="Credentials" title="Certifications" intro="Industry-recognized certifications in AI, machine learning and software development." />
-
-        {/* Certificates Grid - Responsive: 1 col mobile, 2 col tablet, 3 col desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {certificates.map((cert, index) => (
-            <div
-              key={cert.id}
-              className={`group relative rounded-2xl overflow-hidden transition-all duration-500 cursor-pointer transform hover:-translate-y-2 hover:shadow-2xl bg-surface border border-border hover:border-accent-blue shadow-lg`}
-              onClick={() => openModal(cert)}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Certificate Preview/Thumbnail */}
-              <div className={`relative h-64 overflow-hidden bg-gradient-to-br from-background-secondary to-surface-hover`}>
-                <div className="absolute inset-0 flex items-center justify-center p-8">
-                  {/* PDF Icon */}
-                  <div className={`transition-transform duration-300 group-hover:scale-110 text-accent-blue`}>
-                    <svg className="w-24 h-24" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M10,19L12,15H9V10H13V15L15,19H13L12,17L11,19H10Z" />
-                    </svg>
-                  </div>
-                </div>
-                
-                {/* Hover Overlay */}
-                <div className={`absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface/90`}>
-                  <div className="text-center">
-                    <svg className={`w-16 h-16 mx-auto mb-2 text-accent-blue`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <p className={`text-sm font-medium text-foreground`}>
-                      Click to view certificate
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Certificate Info */}
-              <div className="p-6">
-                <h3 className={`text-xl font-bold mb-2 line-clamp-2 transition-colors text-foreground group-hover:text-accent-blue`}>
-                  {cert.title}
-                </h3>
-                
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`text-sm font-medium text-accent-blue`}>
-                    {cert.issuer}
-                  </span>
-                  <span className={`text-sm text-text-secondary`}>
-                    • {cert.date}
-                  </span>
-                </div>
-
-                <p className={`text-sm mb-4 line-clamp-2 text-text-secondary`}>
-                  {cert.description}
-                </p>
-
-                {/* Skills Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {cert.skills.slice(0, 3).map((skill, idx) => (
-                    <span
-                      key={idx}
-                      className={`px-2 py-1 text-xs font-medium rounded-md bg-surface-hover text-accent-blue border border-accent-blue/30`}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                  {cert.skills.length > 3 && (
-                    <span className={`px-2 py-1 text-xs font-medium text-text-secondary`}>
-                      +{cert.skills.length - 3} more
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* View Certificate Button */}
-              <div className={`px-6 pb-6 pt-0`}>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openPDF(cert);
-                  }}
-                  className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 bg-ai-cyan text-on-accent hover:shadow-lg`}
-                >
-                  Open in New Tab
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Modal with PDF Viewer */}
-        {selectedCert && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-            onClick={closeModal}
-          >
-            <div
-              className={`relative w-full max-w-5xl h-[90vh] rounded-2xl overflow-hidden flex flex-col bg-surface`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Modal Header */}
-              <div className={`flex items-center justify-between p-4 border-b border-border`}>
-                <div className="flex-1 min-w-0 pr-4">
-                  <h3 className={`text-lg font-bold truncate text-foreground`}>
-                    {selectedCert.title}
-                  </h3>
-                  <p className={`text-sm text-text-secondary`}>
-                    {selectedCert.issuer} • {selectedCert.date}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => openPDF(selectedCert)}
-                    className={`p-2 rounded-lg transition-colors bg-surface-hover hover:bg-surface-hover text-text-secondary`}
-                    title="Open in new tab"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={closeModal}
-                    className={`p-2 rounded-lg transition-colors bg-surface-hover hover:bg-surface-hover text-text-secondary`}
-                    title="Close"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              {/* PDF Viewer using iframe */}
-              <div className={`flex-1 overflow-hidden bg-surface-hover`}>
-                <iframe
-                  src={selectedCert.pdfUrl}
-                  className="w-full h-full"
-                  title={selectedCert.title}
-                />
-              </div>
-
-              {/* Modal Footer with skills */}
-              <div className={`p-4 border-t border-border`}>
-                <div className="flex flex-wrap gap-2">
-                  {selectedCert.skills.map((skill, idx) => (
-                    <span
-                      key={idx}
-                      className={`px-3 py-1 text-sm font-medium rounded-md bg-surface-hover text-accent-blue border border-accent-blue/30`}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+    <section id="certifications" className="bg-background py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeader index="05" label="Education & credentials" title="Education, honors and certifications" />
+        <div className="flex flex-wrap gap-x-16 gap-y-12">
+          <div className="min-w-0 flex-[1_1_320px]">
+            <h3 className="font-display text-2xl font-semibold text-foreground">{education.degree}</h3>
+            <p className="mt-1 text-text-secondary">{education.school}</p>
+            <p className="mt-1 font-mono text-[13px] text-text-muted">
+              {education.period} · CGPA {education.cgpa} · {education.location}
+            </p>
+            <p className="mt-4 text-text-secondary">{education.summary}</p>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {honors.map((honor) => (
+                <li key={honor} className="rounded-full bg-ai-cyan px-3.5 py-1 text-sm font-medium text-on-accent">
+                  {honor}
+                </li>
+              ))}
+            </ul>
           </div>
-        )}
+
+          <ul className="min-w-0 flex-[2_1_480px] border-t border-foreground">
+            {certificates.map((cert) => (
+              <li key={cert.id} className="border-b border-border">
+                <a
+                  href={encodeURI(cert.pdfUrl)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-baseline justify-between gap-4 py-3.5 transition-colors hover:bg-surface-hover"
+                >
+                  <span className="min-w-0">
+                    <span className="font-medium text-foreground">{cert.title}</span>
+                    <span className="block text-sm text-text-muted">{cert.issuer}</span>
+                  </span>
+                  <ArrowUpRight size={16} className="shrink-0 text-text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-label="Open certificate PDF" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

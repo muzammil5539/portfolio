@@ -8,7 +8,7 @@ export default function LatestPosts() {
   if (posts.length === 0) return null;
 
   return (
-    <section id="writing" className="bg-background py-20 md:py-28">
+    <section id="writing" className="bg-background-secondary py-20 md:py-28">
       <div className="container mx-auto max-w-6xl px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeader index="04" label="Writing" title="Notes on LLMs and agents" />

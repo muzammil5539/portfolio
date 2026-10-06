@@ -38,6 +38,11 @@ module.exports = {
         "text-secondary": "var(--text-secondary)",
         "text-muted": "var(--text-muted)",
         "on-accent": "var(--on-accent)",
+        panel: "var(--panel)",
+        "panel-fg": "var(--panel-fg)",
+        "panel-muted": "var(--panel-muted)",
+        "panel-chip": "var(--panel-chip)",
+        "panel-line": "var(--panel-line)",
         
         // Legacy support - AI Engineer Dark Theme Palette
         'ai-navy': 'var(--background)',
@@ -127,7 +132,8 @@ module.exports = {
         'grid': '40px 40px',
       },
       fontFamily: {
-        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        'sans': ['Instrument Sans', 'system-ui', '-apple-system', 'sans-serif'],
+        'display': ['Bricolage Grotesque', 'Instrument Sans', 'system-ui', 'sans-serif'],
         'mono': ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
       },
     },
