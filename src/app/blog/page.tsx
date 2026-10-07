@@ -1,13 +1,15 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BlogList from "@/components/BlogList";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import BlogList from "@/components/blog/BlogList";
+import JsonLd from "@/components/ui/JsonLd";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import { getBlogPosts } from "@/lib/mdx";
 
-export const metadata = {
-  alternates: { types: { 'application/rss+xml': '/feed.xml' } },
-  title: 'Blog | AI & Engineering',
-  description: 'Thoughts, tutorials, and deep dives into Artificial Intelligence, Machine Learning, and modern software engineering.',
-};
+export const metadata = pageMetadata({
+  title: "Blog",
+  description: "Notes on LLMs, agents and how to evaluate them: deep dives into AI, machine learning and software engineering.",
+  path: "/blog",
+});
 
 export default function BlogIndex() {
   const blogs = getBlogPosts();
@@ -15,7 +17,7 @@ export default function BlogIndex() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-32 pb-20 px-6 max-w-6xl mx-auto">
+      <main className="mx-auto min-h-screen max-w-6xl px-6 pb-20 pt-32">
         <div className="mb-12 animate-fade-in">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.1em] text-text-muted">Writing — {blogs.length} posts</p>
           <h1 className="mb-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight text-foreground md:text-6xl">
@@ -29,6 +31,12 @@ export default function BlogIndex() {
         <BlogList posts={blogs} />
       </main>
       <Footer />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Blog", path: "/blog" },
+        ])}
+      />
     </>
   );
 }

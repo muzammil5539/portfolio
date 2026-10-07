@@ -11,6 +11,10 @@ export interface BlogPost {
   date: string;
   readTime: string;
   tags: string[];
+  /** Optional cover image path (e.g. /blog/covers/foo.png). */
+  cover?: string;
+  /** Drafts are hidden from the index, feed, sitemap and static routes in production builds. */
+  draft: boolean;
   content: string;
 }
 
@@ -62,10 +66,13 @@ export function normalizeFrontmatter(
   const tags = Array.isArray(data.tags) ? data.tags.map((t) => String(t).toLowerCase()) : [];
   return {
     title: String(data.title ?? ''),
-    excerpt: String(data.description ?? data.excerpt ?? ''),
+    // `excerpt` is the canonical key; `description` is accepted for older posts.
+    excerpt: String(data.excerpt ?? data.description ?? ''),
     date,
     readTime: estimateReadTime(content), // always derived: a hand-written readTime drifts
     tags,
+    cover: typeof data.cover === 'string' && data.cover ? data.cover : undefined,
+    draft: data.draft === true,
   };
 }
 
@@ -94,11 +101,14 @@ export function getBlogPosts(): Omit<BlogPost, 'content'>[] {
     .readdirSync(contentDirectory)
     .filter((f) => f.endsWith('.md') || f.endsWith('.mdx'))
     .map((f) => readPost(f.replace(/\.mdx?$/, '')))
-    .filter((p): p is BlogPost => p !== null)
+    .filter((p): p is BlogPost => p !== null && isPublished(p))
     .map(({ content: _content, ...meta }) => meta) // eslint-disable-line @typescript-eslint/no-unused-vars
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
+const isPublished = (post: Pick<BlogPost, 'draft'>) => !post.draft || process.env.NODE_ENV !== 'production';
+
 export function getBlogPost(slug: string): BlogPost | null {
-  return readPost(slug);
+  const post = readPost(slug);
+  return post && isPublished(post) ? post : null;
 }

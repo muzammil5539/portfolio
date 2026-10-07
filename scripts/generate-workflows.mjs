@@ -11,7 +11,7 @@ const workflows = {
   "eld-trip-planner": ["Trip inputs", "Nominatim geocoding", "OSRM route", "FMCSA hours-of-service rules", "Daily ELD log sheets", "Leaflet map"],
   "fuel-route-optimizer": ["Route request", "~8,150 geocoded stations", "OSRM routing", "8-mile corridor filter", "Dijkstra cheapest plan", "Fuel stops"],
   "freight-rates-predictor": ["Load and lane data", "Spatial, market and time features", "scikit-learn pipeline", "Train and validate", "Rate prediction"],
-  "qadri-traders": ["Visitor", "Next.js storefront", "Product pages", "Deployed on Vercel"],
+  "qadri-traders": ["Visitor", "Online storefront", "Product pages", "Deployed on Vercel"],
   "document-summarizer": ["Upload PDF, DOCX or URL", "Parse and PII scan", "Strategy router", "LangChain summarizer", "SSE token stream", "Faithfulness score"],
   "conversational-ai-agent": ["User message", "FastAPI WebSocket", "LangGraph ReAct loop", "Tool calls", "SQLite checkpointer", "Streamed reply and reasoning"],
   "rag-custom-engine": ["Documents", "Chunk and embed", "HNSW and BM25 indexes", "Reciprocal Rank Fusion", "Self-RAG gate", "Grounded answer"],
@@ -23,6 +23,7 @@ const workflows = {
   "braille-digits-recognition": ["Braille image", "Dot detection", "Dot-pattern analysis", "Distance-metric matching", "Recognized digit"],
   "cat-dog-classification": ["Cat and dog images", "CNN without pooling or dropout", "CNN with pooling and dropout", "Compare regularization"],
   "skin-image-segmentation": ["Skin image", "Thresholding", "Connected component labeling", "Lesion mask", "IoU evaluation"],
+  "neurofusion-brain-tumor-segmentation": ["Multi-modal MRI (T1-CE, T2, FLAIR)", "BraTS20 preprocessing", "3D U-Net vs SegFormer3D benchmark", "SegFormer3D selected", "GradCAM explainability", "FastAPI serving"],
   "retinal-image-segmentation": ["Retinal image", "Point thresholding", "Multi-level thresholding", "Morphological cleanup", "Vessel mask"],
 };
 

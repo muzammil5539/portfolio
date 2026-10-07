@@ -1,66 +1,81 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { paletteInitScript } from "@/lib/palette-script";
+import { defaultPaletteId, palettes, themesCss } from "@/data/themes";
+import { site } from "@/data/site";
+import { personSchema, websiteSchema } from "@/lib/seo";
+import CustomCursor from "@/components/ui/CustomCursor";
+import MotionProvider from "@/components/ui/MotionProvider";
+import JsonLd from "@/components/ui/JsonLd";
+
+// Self-hosted at build time: no render-blocking request to Google, no layout shift (font-display: swap).
+const display = Bricolage_Grotesque({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-display", display: "swap" });
+const sans = Instrument_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
+
+const description = site.summary;
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FAFAF9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A0A0B" },
+  ],
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://muzammil5539.vercel.app"),
+  metadataBase: new URL(site.url),
   title: {
-    default: "Muzammil Nawaz Khan | AI Engineer Portfolio",
-    template: "%s | Muzammil Nawaz Khan",
+    default: `${site.name} | ${site.role} Portfolio`,
+    template: `%s | ${site.name}`,
   },
-  description: "AI Engineer building production machine learning, LLM and RAG systems in Python. 95% accuracy claims classification, 35% lower inference cost, and 3D MRI brain tumor segmentation (SegFormer3D). NUST graduate, based in Islamabad.",
-  keywords: ["AI Engineer", "Machine Learning", "Deep Learning", "Computer Vision", "Python", "TensorFlow", "PyTorch", "LLM", "RAG", "LangChain", "FastAPI", "Next.js"],
-  authors: [{ name: "Muzammil Nawaz Khan" }],
-  creator: "Muzammil Nawaz Khan",
-  alternates: {
-    canonical: "/",
-  },
+  description,
+  keywords: ["AI Engineer", "Machine Learning", "LLM", "RAG", "Computer Vision", "Python", "PyTorch", "LangChain", "FastAPI", "Islamabad", "Pakistan"],
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  alternates: { canonical: "/", types: { "application/rss+xml": "/feed.xml" } },
   category: "technology",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://muzammil5539.vercel.app",
-    title: "Muzammil Nawaz Khan | AI Engineer Portfolio",
-    description: "AI Engineer building production machine learning, LLM and RAG systems in Python. 95% accuracy claims classification, 35% lower inference cost, and 3D MRI brain tumor segmentation (SegFormer3D). NUST graduate, based in Islamabad.",
-    siteName: "Muzammil Nawaz Khan Portfolio",
+    url: site.url,
+    title: `${site.name} | ${site.role} Portfolio`,
+    description,
+    siteName: `${site.name} Portfolio`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muzammil Nawaz Khan | AI Engineer Portfolio",
-    description: "AI Engineer specializing in machine learning, deep learning, and computer vision.",
+    title: `${site.name} | ${site.role} Portfolio`,
+    description,
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: next-themes and the palette script set class / data-palette before React hydrates.
+    <html lang="en" data-palette={defaultPaletteId} className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* App Router root layout: fonts here apply to every page */}
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-        />
+        <style id="palettes" dangerouslySetInnerHTML={{ __html: themesCss() }} />
+        <script dangerouslySetInnerHTML={{ __html: paletteInitScript(palettes.map((p) => p.id)) }} />
+        <JsonLd data={[personSchema(), websiteSchema()]} />
       </head>
       <body className="font-sans bg-background text-foreground antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <MotionProvider>
+            {children}
+            <CustomCursor />
+          </MotionProvider>
+        </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
