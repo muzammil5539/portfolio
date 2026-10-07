@@ -1,5 +1,5 @@
 "use client";
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Reveal, RevealItem } from "@/components/ui/Reveal";
 import { experiences } from "@/data/experience";
@@ -17,8 +17,8 @@ export default function Experience() {
         <Reveal as="ol" className="flex min-w-0 flex-[2_1_520px] flex-col">
           {experiences.map((exp, i) => (
             <RevealItem key={`${exp.company}-${exp.date}`} as="li" className={`border-t ${i === 0 ? "border-foreground" : "border-border"} ${i === experiences.length - 1 ? "border-b" : ""}`}>
-              <motion.div initial="rest" whileHover="hover" whileFocus="hover" className="relative flex flex-wrap gap-x-8 gap-y-2 py-6 pl-4">
-                <motion.span
+              <m.div initial="rest" whileHover="hover" whileFocus="hover" className="relative flex flex-wrap gap-x-8 gap-y-2 py-6 pl-4">
+                <m.span
                   aria-hidden="true"
                   variants={bar}
                   style={{ transformOrigin: "left" }}
@@ -34,7 +34,7 @@ export default function Experience() {
                     ))}
                   </ul>
                 </div>
-              </motion.div>
+              </m.div>
             </RevealItem>
           ))}
         </Reveal>

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useId, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 
 const RAYS = [0, 45, 90, 135, 180, 225, 270, 315];
@@ -29,10 +29,10 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <mask id={maskId}>
           <rect width="24" height="24" fill="white" />
-          <motion.circle r="7" fill="black" initial={false} animate={{ cx: isDarkMode ? 17 : 30, cy: isDarkMode ? 7 : 0 }} transition={spring} />
+          <m.circle r="7" fill="black" initial={false} animate={{ cx: isDarkMode ? 17 : 30, cy: isDarkMode ? 7 : 0 }} transition={spring} />
         </mask>
-        <motion.circle cx="12" cy="12" fill="currentColor" mask={`url(#${maskId})`} initial={false} animate={{ r: isDarkMode ? 8.5 : 5 }} transition={spring} />
-        <motion.g
+        <m.circle cx="12" cy="12" fill="currentColor" mask={`url(#${maskId})`} initial={false} animate={{ r: isDarkMode ? 8.5 : 5 }} transition={spring} />
+        <m.g
           stroke="currentColor"
           strokeWidth="1.8"
           strokeLinecap="round"
@@ -44,7 +44,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
           {RAYS.map((deg) => (
             <line key={deg} x1="12" y1="2.2" x2="12" y2="4.4" transform={`rotate(${deg} 12 12)`} />
           ))}
-        </motion.g>
+        </m.g>
       </svg>
     </button>
   );

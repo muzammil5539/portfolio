@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { m, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Magnetic from "@/components/ui/Magnetic";
 import { heroMetrics, site, stackStrip } from "@/data/site";
 
@@ -14,8 +14,8 @@ export default function Hero() {
 
   return (
     <section id="about" aria-labelledby="hero-title" className="relative overflow-hidden bg-background pt-28 md:pt-36">
-      <motion.div aria-hidden="true" style={{ y: driftA }} className="pointer-events-none absolute -right-24 top-20 h-72 w-72 rounded-full bg-accent-primary/15 blur-3xl" />
-      <motion.div aria-hidden="true" style={{ y: driftB }} className="pointer-events-none absolute -left-24 top-1/2 h-64 w-64 rounded-full bg-accent-secondary/10 blur-3xl" />
+      <m.div aria-hidden="true" style={{ y: driftA }} className="pointer-events-none absolute -right-24 top-20 h-72 w-72 rounded-full bg-accent-primary/15 blur-3xl" />
+      <m.div aria-hidden="true" style={{ y: driftB }} className="pointer-events-none absolute -left-24 top-1/2 h-64 w-64 rounded-full bg-accent-secondary/10 blur-3xl" />
 
       <div className="relative mx-auto flex max-w-6xl flex-wrap items-stretch gap-12 px-6 pb-20">
         <div className="flex min-w-0 flex-[1_1_520px] flex-col justify-center gap-7">
@@ -47,7 +47,7 @@ export default function Hero() {
         <aside aria-label="Production snapshot" className="flex min-w-0 flex-[1_1_360px] flex-col justify-between gap-7 rounded-3xl bg-panel p-8 text-panel-fg sm:p-9">
           <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.1em] text-panel-muted">
             <span className="flex items-center gap-3 whitespace-nowrap">
-              <Image src={site.photo} alt={`Portrait of ${site.name}`} width={40} height={40} priority className="h-10 w-10 rounded-full object-cover" />
+              <Image src="/portfolio-avatar.jpg" alt={`Portrait of ${site.name}`} width={40} height={40} priority className="h-10 w-10 rounded-full object-cover" />
               Production snapshot
             </span>
             <span className="whitespace-nowrap text-accent-on-panel">CareCloud</span>

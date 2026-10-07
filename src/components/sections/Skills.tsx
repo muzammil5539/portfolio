@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Reveal, RevealItem } from "@/components/ui/Reveal";
 import { skillGroups } from "@/data/skills";
@@ -19,18 +19,18 @@ export default function Skills() {
           {skillGroups.map((group) => (
             <RevealItem key={group.title} className="min-w-0 rounded-[20px] border border-border bg-surface p-6">
               <h3 className="font-display text-xl font-semibold text-foreground">{group.title}</h3>
-              <motion.ul className="mt-4 flex flex-wrap gap-2" variants={{ show: { transition: { staggerChildren: 0.04, delayChildren: 0.1 } } }}>
+              <m.ul className="mt-4 flex flex-wrap gap-2" variants={{ show: { transition: { staggerChildren: 0.04, delayChildren: 0.1 } } }}>
                 {group.skills.map((skill) => (
-                  <motion.li
+                  <m.li
                     key={skill}
                     variants={chipItem}
                     whileHover={{ y: -2, transition: { type: "spring", stiffness: 400, damping: 18 } }}
                     className="rounded-full bg-surface-hover px-3 py-1 text-[13px] text-text-secondary transition-shadow hover:text-foreground hover:shadow-[0_0_16px_-2px_var(--accent-primary)]"
                   >
                     {skill}
-                  </motion.li>
+                  </m.li>
                 ))}
-              </motion.ul>
+              </m.ul>
             </RevealItem>
           ))}
         </Reveal>

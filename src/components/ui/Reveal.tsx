@@ -1,5 +1,5 @@
 "use client";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { m, useReducedMotion, type Variants } from "framer-motion";
 
 const container: Variants = {
   hidden: {},
@@ -16,7 +16,7 @@ type Tag = "div" | "ul" | "ol" | "section" | "nav";
 /** Reveals its `RevealItem` children one after another when scrolled into view (once). */
 export function Reveal({ children, className, as = "div" }: { children: React.ReactNode; className?: string; as?: Tag }) {
   const reduce = useReducedMotion();
-  const Component = motion[as];
+  const Component = m[as];
   return (
     <Component
       className={className}
@@ -31,7 +31,7 @@ export function Reveal({ children, className, as = "div" }: { children: React.Re
 }
 
 export function RevealItem({ children, className, as = "div" }: { children: React.ReactNode; className?: string; as?: "div" | "li" | "article" }) {
-  const Component = motion[as];
+  const Component = m[as];
   return (
     <Component className={className} variants={item}>
       {children}

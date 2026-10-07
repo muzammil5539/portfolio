@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Check, Palette as PaletteIcon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { buildTokens, palettes } from "@/data/themes";
@@ -79,7 +79,7 @@ export default function ThemePicker() {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             role="dialog"
             aria-label="Color theme"
             onKeyDown={onKeyDown}
@@ -126,7 +126,7 @@ export default function ThemePicker() {
               })}
             </div>
             <p className="mt-3 px-1 text-xs text-text-muted">Mode and palette are independent. Shareable via ?theme=</p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

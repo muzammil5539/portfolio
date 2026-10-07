@@ -141,9 +141,9 @@ module.exports = {
         'grid': '40px 40px',
       },
       fontFamily: {
-        'sans': ['Instrument Sans', 'system-ui', '-apple-system', 'sans-serif'],
-        'display': ['Bricolage Grotesque', 'Instrument Sans', 'system-ui', 'sans-serif'],
-        'mono': ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        'sans': ['var(--font-sans)', 'system-ui', '-apple-system', 'sans-serif'],
+        'display': ['var(--font-display)', 'var(--font-sans)', 'system-ui', 'sans-serif'],
+        'mono': ['var(--font-mono)', 'Fira Code', 'Consolas', 'monospace'],
       },
     },
   },

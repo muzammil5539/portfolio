@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import CategoryBadge from "./CategoryBadge";
 import Magnetic from "@/components/ui/Magnetic";
 import { RevealItem } from "@/components/ui/Reveal";
@@ -31,10 +31,10 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <RevealItem as="li" className={`relative ${span[size]}`}>
       <Magnetic strength={0.05} className="block h-full">
-        <motion.article initial="rest" whileHover="hover" whileFocus="hover" variants={lift} className="group relative h-full">
-          <motion.span aria-hidden="true" variants={bloom} className="pointer-events-none absolute -inset-3 -z-10 rounded-[2rem] bg-accent-primary/20 opacity-0 blur-2xl" />
+        <m.article initial="rest" whileHover="hover" whileFocus="hover" variants={lift} className="group relative h-full">
+          <m.span aria-hidden="true" variants={bloom} className="pointer-events-none absolute -inset-3 -z-10 rounded-[2rem] bg-accent-primary/20 opacity-0 blur-2xl" />
           <div className="relative flex h-full flex-col overflow-hidden rounded-[20px] border border-border bg-surface">
-            <motion.span
+            <m.span
               aria-hidden="true"
               variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
               transition={spring}
@@ -70,12 +70,12 @@ export default function ProjectCard({ project }: { project: Project }) {
                   ))}
                 </ul>
               )}
-              <motion.span variants={cta} aria-hidden="true" className="mt-auto pt-2 text-sm font-medium text-accent-text [@media(hover:none)]:!opacity-100">
+              <m.span variants={cta} aria-hidden="true" className="mt-auto pt-2 text-sm font-medium text-accent-text [@media(hover:none)]:!opacity-100">
                 Open case study →
-              </motion.span>
+              </m.span>
             </div>
           </div>
-        </motion.article>
+        </m.article>
       </Magnetic>
     </RevealItem>
   );

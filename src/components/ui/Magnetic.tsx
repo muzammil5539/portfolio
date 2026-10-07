@@ -1,6 +1,6 @@
 "use client";
 import { useRef } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { m, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
 interface MagneticProps {
   children: React.ReactNode;
@@ -31,8 +31,8 @@ export default function Magnetic({ children, strength = 0.3, className = "inline
   };
 
   return (
-    <motion.div ref={ref} className={className} style={{ x: sx, y: sy }} onPointerMove={onMove} onPointerLeave={reset}>
+    <m.div ref={ref} className={className} style={{ x: sx, y: sy }} onPointerMove={onMove} onPointerLeave={reset}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }

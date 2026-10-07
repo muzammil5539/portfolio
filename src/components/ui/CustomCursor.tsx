@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { m, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
 const INTERACTIVE = "[data-cursor], a, button, [role='button'], input, textarea, select, summary";
 
@@ -66,18 +66,18 @@ export default function CustomCursor() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[100] mix-blend-difference">
-      <motion.div className="absolute left-0 top-0" style={{ x: ringX, y: ringY, opacity: visible ? 1 : 0 }}>
-        <motion.div
+      <m.div className="absolute left-0 top-0" style={{ x: ringX, y: ringY, opacity: visible ? 1 : 0 }}>
+        <m.div
           className="flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white text-xs font-semibold text-black"
           animate={{ width: size, height: size, scale: pressed ? 0.88 : 1, backgroundColor: target?.label ? "#ffffff" : "rgba(255,255,255,0)" }}
           transition={spring}
         >
           {target?.label}
-        </motion.div>
-      </motion.div>
-      <motion.div className="absolute left-0 top-0" style={{ x, y, opacity: visible && !target?.label ? 1 : 0 }}>
+        </m.div>
+      </m.div>
+      <m.div className="absolute left-0 top-0" style={{ x, y, opacity: visible && !target?.label ? 1 : 0 }}>
         <div className="h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
-      </motion.div>
+      </m.div>
     </div>
   );
 }
