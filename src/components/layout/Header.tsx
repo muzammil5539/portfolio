@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import ThemePicker from "@/components/ui/ThemePicker";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import Magnetic from "@/components/ui/Magnetic";
-import { site } from "@/data/site";
+import ResumeDownload from "@/components/ui/ResumeDownload";
 
 const navItems = [
   { label: "Work", hash: "#projects" },
@@ -41,13 +41,9 @@ export default function Header() {
             <ThemeToggle />
           </div>
           <Magnetic strength={0.25}>
-            <a
-              href={site.links.resume}
-              download
-              className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85"
-            >
+            <ResumeDownload className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85">
               Résumé
-            </a>
+            </ResumeDownload>
           </Magnetic>
         </nav>
 
@@ -72,13 +68,9 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          <a
-            href={site.links.resume}
-            download
-            className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-foreground text-sm font-medium text-background"
-          >
+          <ResumeDownload className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-foreground text-sm font-medium text-background">
             Download résumé
-          </a>
+          </ResumeDownload>
         </nav>
       )}
     </header>

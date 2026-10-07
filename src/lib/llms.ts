@@ -1,3 +1,4 @@
+import { resumeRoles } from "@/data/resumes";
 import { categories, projects } from "@/data/projects";
 import { experiences } from "@/data/experience";
 import { education, honors } from "@/data/education";
@@ -18,7 +19,7 @@ export function llmsTxt(): string {
     "",
     "## About",
     `- [Home](${url("/")}): overview, results, experience, skills and FAQ`,
-    `- [Résumé (PDF)](${url(encodeURI(site.links.resume))})`,
+    ...resumeRoles.map((r) => `- [Résumé, ${r.label} (PDF)](${url(r.file)})`),
     `- [LinkedIn](${site.links.linkedin})`,
     `- [GitHub](${site.links.github})`,
     "",
