@@ -32,7 +32,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
               href={`#${h.id}`}
               className={`-ml-px block border-l-2 py-1.5 pr-2 transition-colors ${h.level === 3 ? "pl-8" : "pl-4"} ${
                 active === h.id
-                  ? "border-accent-blue font-semibold text-foreground"
+                  ? "border-accent-text font-semibold text-foreground"
                   : "border-transparent text-text-muted hover:text-foreground"
               }`}
             >

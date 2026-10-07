@@ -1,9 +1,9 @@
 "use client";
 import { useForm, ValidationError } from "@formspree/react";
-import { links } from "@/data/education";
+import { site } from "@/data/site";
 
 const field =
-  "w-full rounded-xl border border-panel-line bg-panel-chip px-4 py-3 text-panel-fg placeholder:text-panel-muted focus:border-ai-cyan focus:outline-none focus:ring-1 focus:ring-ai-cyan";
+  "w-full rounded-xl border border-panel-line bg-panel-chip px-4 py-3 text-panel-fg placeholder:text-panel-muted focus:border-accent-on-panel focus:outline-none focus:ring-1 focus:ring-accent-on-panel";
 
 export default function Contact() {
   const [state, handleSubmit] = useForm("mldbdoaj");
@@ -13,23 +13,23 @@ export default function Contact() {
       <div className="mx-auto flex max-w-6xl flex-wrap gap-x-16 gap-y-12 px-6 pb-14 pt-20 md:pt-24">
         <div className="flex min-w-0 flex-[1_1_380px] flex-col gap-8">
           <div>
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.1em] text-panel-muted">06 — Contact</p>
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.1em] text-panel-muted">07 — Contact</p>
             <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-6xl">
               Have a hard problem? Let&apos;s talk.
             </h2>
           </div>
           <ul className="flex flex-col gap-2.5 text-lg">
-            <li><a href={`mailto:${links.email}`} className="text-ai-cyan hover:underline">{links.email}</a></li>
-            <li><a href={links.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-ai-cyan">linkedin.com/in/mnk539</a></li>
-            <li><a href={links.github} target="_blank" rel="noopener noreferrer" className="hover:text-ai-cyan">github.com/muzammil5539</a></li>
-            <li className="text-panel-muted">{links.phone}</li>
+            <li><a href={`mailto:${site.email}`} className="text-accent-on-panel hover:underline">{site.email}</a></li>
+            <li><a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent-on-panel">linkedin.com/in/mnk539</a></li>
+            <li><a href={site.links.github} target="_blank" rel="noopener noreferrer" className="hover:text-accent-on-panel">github.com/muzammil5539</a></li>
+            <li className="text-panel-muted">{site.phone}</li>
           </ul>
         </div>
 
         <div className="min-w-0 flex-[1_1_420px]">
           {state.succeeded ? (
             <div role="status" className="rounded-2xl border border-panel-line bg-panel-chip p-8">
-              <h3 className="font-display text-2xl font-semibold text-ai-cyan">Message sent</h3>
+              <h3 className="font-display text-2xl font-semibold text-accent-on-panel">Message sent</h3>
               <p className="mt-2 text-panel-fg/80">Thanks for reaching out. I&apos;ll get back to you shortly.</p>
             </div>
           ) : (
@@ -57,7 +57,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={state.submitting}
-                className="inline-flex min-h-12 items-center justify-center self-start rounded-full bg-ai-cyan px-8 font-semibold text-on-accent transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex min-h-12 items-center justify-center self-start rounded-full bg-accent-primary px-8 font-semibold text-on-accent transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {state.submitting ? "Sending…" : "Send message"}
               </button>

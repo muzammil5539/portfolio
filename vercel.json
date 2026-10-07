@@ -1,0 +1,12 @@
+{
+  "headers": [
+    {
+      "source": "/:path*/(opengraph|twitter)-image",
+      "headers": [{ "key": "Content-Type", "value": "image/png" }]
+    },
+    {
+      "source": "/(opengraph|twitter)-image",
+      "headers": [{ "key": "Content-Type", "value": "image/png" }]
+    }
+  ]
+}

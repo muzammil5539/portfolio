@@ -2,9 +2,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Moon, Sun, X } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
-import { links } from "@/data/education";
+import { Menu, X } from "lucide-react";
+import ThemePicker from "@/components/ui/ThemePicker";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import Magnetic from "@/components/ui/Magnetic";
+import { site } from "@/data/site";
 
 const navItems = [
   { label: "Work", hash: "#projects" },
@@ -15,7 +17,6 @@ const navItems = [
 ];
 
 export default function Header() {
-  const { isDarkMode, toggleTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const isHome = usePathname() === "/";
 
@@ -23,42 +24,36 @@ export default function Header() {
   const linkClass = "inline-flex min-h-11 items-center text-[15px] text-text-secondary transition-colors hover:text-foreground";
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-2.5">
         <Link href="/" className="font-mono text-[15px] font-medium tracking-wide text-foreground">
-          MNK<span className="text-accent-blue">/</span>portfolio
+          MNK<span className="text-accent-text">/</span>portfolio
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => (
             <Link key={item.label} href={hrefFor(item)} className={linkClass}>
               {item.label}
             </Link>
           ))}
-          <button
-            onClick={toggleTheme}
-            aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-surface-hover hover:text-foreground"
-          >
-            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-          <a
-            href={links.resume}
-            download
-            className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85"
-          >
-            Résumé
-          </a>
+          <div className="flex items-center">
+            <ThemePicker />
+            <ThemeToggle />
+          </div>
+          <Magnetic strength={0.25}>
+            <a
+              href={site.links.resume}
+              download
+              className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85"
+            >
+              Résumé
+            </a>
+          </Magnetic>
         </nav>
 
-        <div className="flex items-center gap-1 md:hidden">
-          <button
-            onClick={toggleTheme}
-            aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-text-secondary"
-          >
-            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
+        <div className="flex items-center md:hidden">
+          <ThemePicker />
+          <ThemeToggle />
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -78,7 +73,7 @@ export default function Header() {
             </Link>
           ))}
           <a
-            href={links.resume}
+            href={site.links.resume}
             download
             className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-foreground text-sm font-medium text-background"
           >

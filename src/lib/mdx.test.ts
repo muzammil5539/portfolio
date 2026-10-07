@@ -4,11 +4,13 @@ import { stripLeadingTitle, normalizeFrontmatter, extractHeadings, estimateReadT
 describe('blog frontmatter', () => {
   it('accepts description or excerpt, ISO-normalises dates and ignores hand-written readTime', () => {
     const body = 'word '.repeat(400);
-    const a = normalizeFrontmatter({ title: 'A', description: 'd', date: '2026-06-26', tags: ['AI'], readTime: '15 min read' }, body);
-    const b = normalizeFrontmatter({ title: 'B', excerpt: 'e', date: 'August 2025' }, body);
+    const a = normalizeFrontmatter({ title: 'A', excerpt: 'd', date: '2026-06-26', tags: ['AI'], readTime: '15 min read' }, body);
+    const b = normalizeFrontmatter({ title: 'B', description: 'e', date: 'August 2025' }, body);
     expect(a).toMatchObject({ excerpt: 'd', date: '2026-06-26', readTime: '2 min read', tags: ['ai'] });
     expect(b.excerpt).toBe('e');
     expect(b.date).toBe('2025-08-01');
+    expect(a.draft).toBe(false);
+    expect(normalizeFrontmatter({ title: 'C', draft: true, cover: '/blog/c.png' }, body)).toMatchObject({ draft: true, cover: '/blog/c.png' });
   });
   it('estimates at least one minute', () => expect(estimateReadTime('hi')).toBe('1 min read'));
 });

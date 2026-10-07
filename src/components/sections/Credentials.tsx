@@ -1,13 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { certificates } from "@/data/certificates";
 import { education, honors } from "@/data/education";
 
 export default function Certifications() {
   return (
-    <section id="certifications" className="bg-background py-20 md:py-28">
+    <section id="certifications" aria-labelledby="credentials-title" className="bg-background py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeader index="05" label="Education & credentials" title="Education, honors and certifications" />
+        <SectionHeader index="05" label="Education & credentials" id="credentials-title" title="Education, honors and certifications" />
         <div className="flex flex-wrap gap-x-16 gap-y-12">
           <div className="min-w-0 flex-[1_1_320px]">
             <h3 className="font-display text-2xl font-semibold text-foreground">{education.degree}</h3>
@@ -18,7 +18,7 @@ export default function Certifications() {
             <p className="mt-4 text-text-secondary">{education.summary}</p>
             <ul className="mt-5 flex flex-wrap gap-2">
               {honors.map((honor) => (
-                <li key={honor} className="rounded-full bg-ai-cyan px-3.5 py-1 text-sm font-medium text-on-accent">
+                <li key={honor} className="rounded-full bg-accent-primary px-3.5 py-1 text-sm font-medium text-on-accent">
                   {honor}
                 </li>
               ))}

@@ -9,11 +9,3 @@ export const education = {
 };
 
 export const honors = ["1st Place, COMPPEC 2025", "Departmental Silver Medal"];
-
-export const links = {
-  email: "mnk.7muzammil86@gmail.com",
-  phone: "+92 304 6395539",
-  linkedin: "https://linkedin.com/in/mnk539",
-  github: "https://github.com/muzammil5539",
-  resume: "/Resume - Muzammil Nawaz Khan CV.pdf",
-};

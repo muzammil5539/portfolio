@@ -10,7 +10,7 @@
 <text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="130" y="198">Visitor</tspan></text>
 <rect x="300" y="150" width="200" height="92" rx="14" fill="#22302a" stroke="#c6f36b" stroke-opacity="0.5"/>
 <text x="314" y="174" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#c6f36b">02</text>
-<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="400" y="189">Next.js</tspan><tspan x="400" y="207">storefront</tspan></text>
+<text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="400" y="198">Online storefront</tspan></text>
 <rect x="570" y="150" width="200" height="92" rx="14" fill="#22302a" stroke="#c6f36b" stroke-opacity="0.5"/>
 <text x="584" y="174" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#c6f36b">03</text>
 <text font-family="system-ui,Segoe UI,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="600" fill="#f2f2e9" text-anchor="middle"><tspan x="670" y="198">Product pages</tspan></text>

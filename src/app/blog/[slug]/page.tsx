@@ -1,17 +1,17 @@
 import { extractHeadings, getBlogPost, getBlogPosts } from "@/lib/mdx";
-import ReadingProgress from "@/components/ReadingProgress";
-import TableOfContents from "@/components/TableOfContents";
+import ReadingProgress from "@/components/blog/ReadingProgress";
+import TableOfContents from "@/components/blog/TableOfContents";
+import JsonLd from "@/components/ui/JsonLd";
+import { blogPostingSchema, breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { mdxOptions } from "@/lib/mdx-plugins";
 import { formatBlogDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { MDXComponents } from "@/components/MDXComponents";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import "katex/dist/katex.min.css";
 export async function generateStaticParams() {
   const posts = getBlogPosts();
@@ -29,8 +29,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
   return {
-    title: `${post.title} | AI & Engineering Blog`,
-    description: post.excerpt,
+    ...pageMetadata({
+      title: post.title,
+      description: post.excerpt,
+      path: `/blog/${post.slug}`,
+      type: "article",
+      publishedTime: post.date,
+      tags: post.tags,
+    }),
+    ...(post.cover ? { openGraph: { images: [post.cover] } } : {}),
   };
 }
 
@@ -52,7 +59,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <>
       <ReadingProgress />
       <Header />
-      <div className="min-h-screen bg-background pt-32 pb-20">
+      <main className="min-h-screen bg-background pt-32 pb-20">
         <div className="mx-auto max-w-6xl px-6">
           <Link
             href="/blog"
@@ -93,12 +100,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <MDXRemote
                 source={post.content}
                 components={MDXComponents}
-                options={{
-                  mdxOptions: {
-                    remarkPlugins: [remarkGfm, remarkMath],
-                    rehypePlugins: [rehypeKatex],
-                  },
-                }}
+                options={{ mdxOptions }}
               />
             </article>
           </div>
@@ -120,8 +122,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </nav>
           )}
         </div>
-      </div>
+      </main>
       <Footer />
+      <JsonLd
+        data={[
+          blogPostingSchema(post),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        ]}
+      />
     </>
   );
 }

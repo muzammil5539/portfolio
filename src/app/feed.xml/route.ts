@@ -1,8 +1,9 @@
 import { getBlogPosts } from "@/lib/mdx";
+import { site } from "@/data/site";
 
 export const dynamic = "force-static";
 
-const baseUrl = "https://muzammil5539.vercel.app";
+const baseUrl = site.url;
 const escapeXml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 

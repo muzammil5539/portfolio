@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { formatBlogDate } from "@/lib/utils";
@@ -19,6 +19,12 @@ const chip = (active: boolean) =>
 export default function BlogList({ posts }: BlogListProps) {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+
+  // Supports the WebSite SearchAction: /blog?q=term pre-fills the search box.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("q");
+    if (q) setQuery(q);
+  }, []);
 
   // Only tags shared by 2+ posts make useful filters; the rest stay searchable.
   const tags = useMemo(() => {
@@ -71,7 +77,7 @@ export default function BlogList({ posts }: BlogListProps) {
           className="group mb-12 grid gap-8 rounded-3xl bg-ai-navy-light p-8 md:grid-cols-[1.6fr_1fr] md:p-10"
         >
           <div className="flex flex-col gap-4">
-            <span className="font-mono text-xs uppercase tracking-[0.1em] text-accent-blue">
+            <span className="font-mono text-xs uppercase tracking-[0.1em] text-accent-text">
               Latest · {formatBlogDate(featured.date)} · {featured.readTime}
             </span>
             <h2 className="text-3xl font-semibold leading-tight tracking-tight text-foreground md:text-4xl">{featured.title}</h2>
@@ -98,7 +104,7 @@ export default function BlogList({ posts }: BlogListProps) {
               {blog.readTime}
             </div>
             <div>
-              <h3 className="mb-2 text-2xl font-semibold leading-snug text-foreground transition-colors group-hover:text-accent-blue">{blog.title}</h3>
+              <h3 className="mb-2 text-2xl font-semibold leading-snug text-foreground transition-colors group-hover:text-accent-text">{blog.title}</h3>
               <p className="mb-3 text-text-secondary">{blog.excerpt}</p>
               <span className="font-mono text-xs text-text-muted">{blog.tags.join(" · ")}</span>
             </div>

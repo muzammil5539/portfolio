@@ -6,64 +6,46 @@
 @tailwind utilities;
 @plugin "@tailwindcss/typography";
 
-/* Shared visual tokens. The portfolio uses one quiet accent so the work stays primary. */
+/*
+ * Palette tokens (--background, --surface, --text-*, --accent-*, --border, --ring, --shadow, --panel*, --cat-*)
+ * are generated per palette x mode from src/data/themes.ts and injected by the root layout.
+ * Below are the legacy names the components still use, aliased onto those tokens.
+ */
 :root {
-  --background: #f5f4ef;
-  --background-secondary: #e9e8e1;
-  --foreground: #18211f;
-  --foreground-muted: #66716c;
-  --accent-cyan: #c6f36b;
-  --accent-cyan-glow: rgba(198, 243, 107, 0.28);
-  --accent-blue: #25483d;
-  --accent-purple: #7f8f67;
-  --accent-green: #6f9d54;
-  --surface: #fffefa;
-  --surface-elevated: #f8f7f1;
-  --surface-hover: #eeeee6;
-  --border: rgba(24, 33, 31, 0.14);
-  --border-glow: rgba(37, 72, 61, 0.35);
-  --glow-cyan: 0 12px 30px rgba(37, 72, 61, 0.12);
-  --glow-purple: 0 12px 30px rgba(37, 72, 61, 0.1);
-  --glow-green: 0 12px 30px rgba(37, 72, 61, 0.1);
-  --text-primary: #18211f;
-  --text-secondary: #40504a;
-  --text-muted: #66716c;
-  --on-accent: #18211f;
-  --panel: #17211e;
-  --panel-fg: #f2f2e9;
-  --panel-muted: #abb6ae;
-  --panel-chip: #2a3932;
-  --panel-line: rgba(242, 242, 233, 0.16);
+  --foreground: var(--text-primary);
+  --foreground-muted: var(--text-muted);
+  --background-secondary: var(--surface-elevated);
+  --accent-cyan: var(--accent-primary);
+  --accent-cyan-glow: color-mix(in srgb, var(--accent-primary) 28%, transparent);
+  --accent-blue: var(--accent-text);
+  --accent-purple: var(--accent-secondary-text);
+  --accent-green: var(--accent-secondary-text);
+  --border-glow: color-mix(in srgb, var(--accent-primary) 45%, transparent);
+  --glow-cyan: 0 12px 30px var(--shadow);
+  --glow-purple: 0 12px 30px var(--shadow);
+  --glow-green: 0 12px 30px var(--shadow);
 }
 
-/* Dark Theme */
-.dark {
-  --background: #17211e;
-  --background-secondary: #202c27;
-  --foreground: #f2f2e9;
-  --foreground-muted: #abb6ae;
-  --accent-cyan: #c6f36b;
-  --accent-cyan-glow: rgba(198, 243, 107, 0.2);
-  --accent-blue: #d7e6c0;
-  --accent-purple: #a3b68d;
-  --accent-green: #9fc67b;
-  --surface: #22302a;
-  --surface-elevated: #2a3932;
-  --surface-hover: #33443b;
-  --border: rgba(242, 242, 233, 0.14);
-  --border-glow: rgba(198, 243, 107, 0.35);
-  --glow-cyan: 0 14px 36px rgba(0, 0, 0, 0.2);
-  --glow-purple: 0 14px 36px rgba(0, 0, 0, 0.2);
-  --glow-green: 0 14px 36px rgba(0, 0, 0, 0.2);
-  --text-primary: #f2f2e9;
-  --text-secondary: #d1d9d0;
-  --text-muted: #abb6ae;
-  --on-accent: #18211f;
-  --panel: #22302a;
-  --panel-fg: #f2f2e9;
-  --panel-muted: #abb6ae;
-  --panel-chip: #33443b;
-  --panel-line: rgba(242, 242, 233, 0.16);
+/* Colour change on theme/palette toggle only (class is added for ~200ms); initial load stays instant. */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, fill 180ms ease, stroke 180ms ease !important;
+}
+
+/* Custom cursor: native cursor is hidden only once the cursor component confirms a fine pointer. */
+html.has-custom-cursor,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor [role="button"],
+html.has-custom-cursor [data-cursor] {
+  cursor: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
 }
 
 @theme inline {
@@ -149,7 +131,7 @@ body {
 
 /* Gradient backgrounds */
 .gradient-bg-primary {
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+  background: var(--gradient);
 }
 
 .gradient-bg-hero {
@@ -173,7 +155,7 @@ body {
 
 /* Gradient text for headings */
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+  background: var(--gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -376,4 +358,35 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--surface-hover);
+}
+/* Gradient hairline border (theme-aware); fades in on card hover. */
+.gradient-border-ring {
+  padding: 1px;
+  background: var(--gradient);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Shiki (rehype-pretty-code) dual theme: follow the site's light/dark mode, not the OS. */
+[data-rehype-pretty-code-figure] code,
+[data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-light);
+}
+.dark [data-rehype-pretty-code-figure] code,
+.dark [data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-dark);
+}
+figure[data-rehype-pretty-code-figure] {
+  margin: 1.5rem 0;
+}
+figure[data-rehype-pretty-code-figure] pre {
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
 }

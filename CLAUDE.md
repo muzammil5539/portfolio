@@ -19,23 +19,28 @@ There is no vitest config file; it runs on Vitest defaults directly against `.te
 
 ## Architecture
 
-This is a single-page Next.js 15 (App Router) portfolio, statically exported (`next.config.ts`: `output: "export"`, `images.unoptimized: true`). It deploys to both Vercel and Azure Static Web Apps (`.github/workflows/azure-static-web-apps-*.yml`), so **any change must remain compatible with `next export`** — no server-only APIs, no Image Optimization, no dynamic route handlers.
+Next.js 15 (App Router) portfolio, statically exported (`next.config.ts`: `output: "export"`, `images.unoptimized: true`). It deploys to both Vercel and Azure Static Web Apps (`.github/workflows/azure-static-web-apps-*.yml`), so **any change must remain compatible with `next export`**: no server-only APIs, no Image Optimization, every dynamic route needs `generateStaticParams`.
 
-**Home page** (`src/app/page.tsx`) is a straight-line composition of section components rendered in order: `Header → Hero → Projects → Experience → Skills → Certifications → Contact → Footer`. There's no routing between sections — it's one scrolling page with anchor-style navigation. New sections get added here and to `Header.tsx`'s nav links together.
+**Layout of `src/`**
+- `app/` routes: `/` (home), `/projects`, `/projects/[slug]`, `/blog`, `/blog/[slug]`, plus generated `robots`, `sitemap`, `feed.xml`, `llms.txt`, `llms-full.txt`, and `opengraph-image` / `twitter-image` routes (site, project, post).
+- `components/sections/` one isolated component per home-page section (Hero, Projects, Experience, Skills, LatestPosts, Credentials, Faq, Contact). `components/layout/` Header/Footer. `components/ui/` shared primitives (Reveal, Magnetic, CustomCursor, ThemeToggle, ThemePicker, SectionHeader, JsonLd). `components/projects/`, `components/blog/` feature components.
+- `data/` all content, separate from layout: `projects.ts`, `experience.ts`, `skills.ts`, `education.ts`, `certificates.ts`, `site.ts` (identity, contact, FAQ copy used by SEO and llms.txt), `themes.ts` (palettes).
+- `lib/` `mdx.ts` (blog loading, frontmatter schema), `mdx-plugins.ts` (Shiki, KaTeX, Mermaid), `seo.ts` (metadata + JSON-LD), `llms.ts`, `og.tsx`, `color.ts`.
 
-**Content model**: structured portfolio content (projects, certificates) lives as typed arrays in `src/data/*.ts` (e.g. `src/data/projects.ts`, `src/data/certificates.ts`), imported directly by the section components (`Projects.tsx`, `Certifications.tsx`). This is the pattern to follow for any new listing-style content — don't hardcode arrays inside components.
+**Editing content (no layout code touched)**
+- New project: add one entry to `src/data/projects.ts` (slug = `id`, `size` sets the bento tile, `category` sets the colour), add its steps to `scripts/generate-workflows.mjs`, run `node scripts/generate-workflows.mjs`.
+- New experience / skill / certificate: edit the matching file in `src/data/`.
+- New blog post: add `content/blog/<slug>.mdx` with frontmatter `title`, `date` (ISO), `excerpt`, `tags`, optional `cover`, `draft`. Reading time is computed; drafts are hidden in production builds. The index, RSS, sitemap, OG image and JSON-LD all pick it up.
 
-**Blog is separate from the data model**: posts are MDX/MD files in `content/blog/*.mdx`, parsed by `src/lib/mdx.ts` using `gray-matter` for frontmatter (`title`, `excerpt`, `date`, `readTime`, `tags`) and raw body content. `src/app/blog/page.tsx` lists posts via `getBlogPosts()`; `src/app/blog/[slug]/page.tsx` renders one via `getBlogPost()` + `generateStaticParams` (required for static export — every slug must be enumerable at build time). MDX rendering goes through `next-mdx-remote` and `src/components/MDXComponents.tsx`/`src/components/mdx/`, with `remark-math`/`rehype-katex` for math and `Mermaid.tsx` for diagrams.
+**Theming has two independent axes.** Mode (light/dark/system) is `next-themes` (class on `<html>`, no flash). Palette is `data-palette` on `<html>` (persisted in localStorage, shareable as `?theme=ember`, applied before paint by an inline script in `layout.tsx`). Palettes are defined once in `src/data/themes.ts` as a few seed colours; every other token (text-secondary/muted, accent-text, on-accent, panel, category colours, ring, shadow) is derived and contrast-checked. `layout.tsx` injects the generated CSS variables, and `themes.test.ts` fails if any palette x mode drops below WCAG AA. Style with the Tailwind tokens (`bg-background`, `text-foreground`, `text-text-secondary`, `text-accent-text`, `bg-accent-primary text-on-accent`, `bg-panel text-panel-fg`, `text-cat-ml`...). Never hard-code colours. `useTheme()` (client) returns `isDarkMode`, `toggleTheme`, `palette`, `setPalette`.
 
-**Theming**: `src/context/ThemeContext.tsx` is a client-only context (`ThemeProvider` wraps everything in `layout.tsx`) that toggles a `dark` class on `<html>` and persists the choice to `localStorage`. Colors are CSS variables defined in `globals.css` and mapped to Tailwind tokens in `tailwind.config.js` (`background`, `foreground`, `surface`, `accent-*`, etc., plus a set of legacy `ai-*`/`neon-*` aliases kept for backward compatibility) — style with those tokens rather than raw hex values, and extend `globals.css`/`tailwind.config.js` together if a new token is needed. Any component reading `useTheme()`, using browser APIs, or handling form state must stay a client component (`"use client"`); components that only read static data/content should stay server components.
+**Motion** uses Framer Motion springs, respects `prefers-reduced-motion`, and the custom cursor is disabled for touch and reduced motion. Components using hooks, browser APIs or Framer Motion must be client components (`"use client"`); keep content-only components server-rendered.
 
-**Utilities**: `src/lib/utils.ts` exports `cn()` (clsx + tailwind-merge) — use it for conditional/merged className logic instead of manual string concatenation.
+**Blog** posts are MDX in `content/blog/`, parsed by `src/lib/mdx.ts` (gray-matter) and rendered with `next-mdx-remote`, `remark-gfm`/`remark-math`, `rehype-pretty-code` (Shiki) and `rehype-katex`; ```mermaid fences become live diagrams.
 
-**Contact form** uses `@formspree/react` (`Contact.tsx`) — no custom backend.
+**SEO / LLM SEO**: per-page metadata via `pageMetadata()`, JSON-LD via `<JsonLd>` (Person, WebSite, BreadcrumbList, BlogPosting, FAQPage), AI crawlers allowed in `robots.ts`, `llms.txt` and `llms-full.txt` generated from the data files.
 
-**Assets**: served from `/public` and referenced by literal path (`/projects/...`, `/certificates/...`). Filenames include spaces and mixed case (e.g. `public/Resume - Muzammil Nawaz Khan CV.pdf`) — preserve them exactly, since a rename breaks any hardcoded reference in `src/data/*` or metadata.
-
-**Path alias**: `@/*` → `src/*` (`tsconfig.json`).
+**Utilities**: `src/lib/utils.ts` exports `cn()` (clsx + tailwind-merge). **Contact form** uses `@formspree/react`. **Assets** are served from `/public` by literal path; preserve names with spaces and mixed case exactly (e.g. `public/Resume - Muzammil Nawaz Khan CV.pdf`). **Path alias** `@/*` -> `src/*` (vitest has no alias config, so modules under test import relatively).
 
 ## Notes
 
