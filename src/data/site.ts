@@ -13,7 +13,7 @@ export const site = {
   links: {
     linkedin: "https://linkedin.com/in/mnk539",
     github: "https://github.com/muzammil5539",
-    resume: "/Resume - Muzammil Nawaz Khan CV.pdf",
+    resume: "/resumes/Muzammil-Nawaz-Khan-AI-Engineer.pdf", // default; the site offers one per role, see resumes.ts
   },
   photo: "/portfolio.jpg",
   knowsAbout: [
