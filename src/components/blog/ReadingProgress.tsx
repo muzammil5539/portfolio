@@ -1,26 +1,19 @@
 "use client";
-import { useEffect, useState } from "react";
+import { motion, useScroll } from "framer-motion";
 
 export default function ReadingProgress() {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const update = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0);
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, []);
+  // ⚡ Bolt Optimization: Replace scroll event listener and React state updates with Framer Motion's useScroll.
+  // This delegates the scroll animation directly to the compositor via CSS transform (scaleX),
+  // bypassing the React render cycle and preventing constant re-renders and layout thrashing.
+  // Impact: Removes all main-thread React work during scrolling.
+  const { scrollYProgress } = useScroll();
 
   return (
     <div className="fixed inset-x-0 top-0 z-[60] h-1 bg-border" aria-hidden="true">
-      <div className="h-full bg-accent-text transition-[width] duration-100" style={{ width: `${progress}%` }} />
+      <motion.div
+        className="origin-left h-full bg-accent-text"
+        style={{ scaleX: scrollYProgress }}
+      />
     </div>
   );
 }
