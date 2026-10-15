@@ -1,0 +1,3 @@
+## 2023-10-15 - React Scroll State Thrashing
+**Learning:** Attaching a generic window.addEventListener("scroll") that continuously sets React state inside a component forces the entire component tree to re-render constantly during scrolling. This is a severe anti-pattern that leads to layout thrashing and high main-thread blocking.
+**Action:** Always prefer off-threading scroll logic or bypassing the React render cycle entirely by directly manipulating CSS/DOM or using tools like framer-motion's `useScroll` which efficiently binds motion values directly to compositor properties (e.g. scaleX) without triggering React updates.
