@@ -1,0 +1,3 @@
+## 2024-05-10 - Scroll Event Listeners Causing Layout Thrashing
+**Learning:** Found a performance bottleneck in `ReadingProgress.tsx`. Using `window.addEventListener("scroll")` with `useState` inside causes React to re-render constantly during scrolling, creating layout thrashing and hurting Time to Interactive (TTI) and overall page scroll performance.
+**Action:** Replace `useEffect` and `useState` bound to `scroll` events with `framer-motion`'s `useScroll` hook combined with a CSS transform (e.g., `scaleX`) on `m.div` to bypass the React render cycle entirely and delegate animations to the compositor.
