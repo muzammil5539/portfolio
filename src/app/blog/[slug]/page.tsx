@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <TableOfContents headings={headings} />
             </aside>
 
-            <article className="prose prose-lg dark:prose-invert min-w-0 max-w-3xl flex-1 prose-headings:text-foreground prose-p:text-text-secondary prose-strong:text-foreground prose-li:text-text-secondary prose-a:text-accent-blue hover:prose-a:opacity-80 prose-img:rounded-xl prose-blockquote:border-accent-blue prose-blockquote:text-text-secondary prose-code:text-accent-blue prose-pre:bg-surface prose-hr:border-border">
+            <article className="prose prose-lg min-w-0 max-w-3xl flex-1 hover:prose-a:opacity-80 prose-img:rounded-xl">
               <MDXRemote
                 source={post.content}
                 components={MDXComponents}
