@@ -24,8 +24,7 @@ export default function Skills() {
                   <m.li
                     key={skill}
                     variants={chipItem}
-                    whileHover={{ y: -2, transition: { type: "spring", stiffness: 400, damping: 18 } }}
-                    className="rounded-full bg-surface-hover px-3 py-1 text-[13px] text-text-secondary transition-shadow hover:text-foreground hover:shadow-[0_0_16px_-2px_var(--accent-primary)]"
+                    className="rounded-full bg-surface-hover px-3 py-1 text-[13px] text-text-secondary"
                   >
                     {skill}
                   </m.li>

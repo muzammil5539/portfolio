@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import ThemePicker from "@/components/ui/ThemePicker";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import Magnetic from "@/components/ui/Magnetic";
 import ResumeDownload from "@/components/ui/ResumeDownload";
 
 const navItems = [
@@ -40,11 +39,9 @@ export default function Header() {
             <ThemePicker />
             <ThemeToggle />
           </div>
-          <Magnetic strength={0.25}>
-            <ResumeDownload className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85">
-              Résumé
-            </ResumeDownload>
-          </Magnetic>
+          <ResumeDownload className="inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85">
+            Résumé
+          </ResumeDownload>
         </nav>
 
         <div className="flex items-center md:hidden">
