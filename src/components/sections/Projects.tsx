@@ -18,7 +18,7 @@ export default function Projects() {
             title="Projects with real constraints"
             intro="Production healthcare systems, from-scratch RAG, agents and vision. Each one has a case study."
           />
-          <Link href="/projects" data-cursor="View" className="mb-12 border-b border-foreground pb-0.5 font-medium text-foreground hover:text-accent-text md:mb-16">
+          <Link href="/projects" className="mb-12 border-b border-foreground pb-0.5 font-medium text-foreground hover:text-accent-text md:mb-16">
             All {projects.length} projects →
           </Link>
         </div>

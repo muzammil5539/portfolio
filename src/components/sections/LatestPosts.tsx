@@ -13,14 +13,14 @@ export default function LatestPosts() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeader id="writing-title" index="04" label="Writing" title="Notes on LLMs and agents" />
-          <Link href="/blog" data-cursor="View" className="mb-12 border-b border-foreground pb-0.5 font-medium text-foreground hover:text-accent-text md:mb-16">
+          <Link href="/blog" className="mb-12 border-b border-foreground pb-0.5 font-medium text-foreground hover:text-accent-text md:mb-16">
             All posts →
           </Link>
         </div>
         <Reveal as="div" className="grid gap-6 md:grid-cols-3">
           {posts.map((post) => (
             <RevealItem key={post.slug} as="article">
-              <Link href={`/blog/${post.slug}`} data-cursor="Read" className="group flex h-full flex-col gap-3 border-t-2 border-foreground pt-5">
+              <Link href={`/blog/${post.slug}`} className="group flex h-full flex-col gap-3 border-t-2 border-foreground pt-5">
                 <time dateTime={post.date} className="font-mono text-xs uppercase tracking-[0.08em] text-text-muted">
                   {formatBlogDate(post.date)} · {post.readTime}
                 </time>

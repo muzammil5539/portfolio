@@ -34,15 +34,6 @@ html.theme-transition *::after {
   transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, fill 180ms ease, stroke 180ms ease !important;
 }
 
-/* Custom cursor: native cursor is hidden only once the cursor component confirms a fine pointer. */
-html.has-custom-cursor,
-html.has-custom-cursor a,
-html.has-custom-cursor button,
-html.has-custom-cursor [role="button"],
-html.has-custom-cursor [data-cursor] {
-  cursor: none;
-}
-
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
@@ -297,9 +288,13 @@ body {
   animation: float 4s ease-in-out infinite;
 }
 
+/*
+ * Colour changes ease for 200ms. Never put transform/opacity here: Framer Motion drives those every frame,
+ * and a CSS transition on top eases the movement a second time, which feels laggy.
+ */
 @layer base {
   * {
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-property: background-color, border-color, color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 200ms;
   }
@@ -357,15 +352,6 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--surface-hover);
 }
-/* Gradient hairline border (theme-aware); fades in on card hover. */
-.gradient-border-ring {
-  padding: 1px;
-  background: var(--gradient);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }

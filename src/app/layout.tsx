@@ -8,7 +8,6 @@ import { paletteInitScript } from "@/lib/palette-script";
 import { defaultPaletteId, palettes, themesCss } from "@/data/themes";
 import { site } from "@/data/site";
 import { personSchema, websiteSchema } from "@/lib/seo";
-import CustomCursor from "@/components/ui/CustomCursor";
 import MotionProvider from "@/components/ui/MotionProvider";
 import JsonLd from "@/components/ui/JsonLd";
 
@@ -71,7 +70,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <MotionProvider>
             {children}
-            <CustomCursor />
           </MotionProvider>
         </ThemeProvider>
         <Analytics />

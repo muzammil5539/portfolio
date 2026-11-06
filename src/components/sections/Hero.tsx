@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { m, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import Magnetic from "@/components/ui/Magnetic";
 import { heroMetrics, site, stackStrip } from "@/data/site";
 
 export default function Hero() {
@@ -31,16 +30,12 @@ export default function Hero() {
             agents, and segment 3D MRI scans.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Magnetic>
-              <Link href="#projects" className="inline-flex min-h-12 items-center rounded-full bg-accent-primary px-6 font-semibold text-on-accent shadow-[0_8px_30px_-8px_var(--accent-primary)] transition-shadow hover:shadow-[0_12px_40px_-6px_var(--accent-primary)]">
-                See selected work
-              </Link>
-            </Magnetic>
-            <Magnetic>
-              <Link href="#contact" className="inline-flex min-h-12 items-center rounded-full border border-foreground px-6 font-medium text-foreground transition-colors hover:bg-surface-hover">
-                Start a conversation
-              </Link>
-            </Magnetic>
+            <Link href="#projects" className="inline-flex min-h-12 items-center rounded-full bg-accent-primary px-6 font-semibold text-on-accent shadow-[0_8px_30px_-8px_var(--accent-primary)] transition-shadow hover:shadow-[0_12px_40px_-6px_var(--accent-primary)]">
+              See selected work
+            </Link>
+            <Link href="#contact" className="inline-flex min-h-12 items-center rounded-full border border-foreground px-6 font-medium text-foreground transition-colors hover:bg-surface-hover">
+              Start a conversation
+            </Link>
           </div>
         </div>
 
