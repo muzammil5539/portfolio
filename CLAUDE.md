@@ -28,7 +28,7 @@ Next.js 15 (App Router) portfolio, statically exported (`next.config.ts`: `outpu
 - `lib/` `mdx.ts` (blog loading, frontmatter schema), `mdx-plugins.ts` (Shiki, KaTeX, Mermaid), `seo.ts` (metadata + JSON-LD), `llms.ts`, `og.tsx`, `color.ts`.
 
 **Editing content (no layout code touched)**
-- New project: add one entry to `src/data/projects.ts` (slug = `id`, `size` sets the bento tile, `category` sets the colour), add its steps to `scripts/generate-workflows.mjs`, run `node scripts/generate-workflows.mjs`.
+- New project: add one entry to `src/data/projects.ts` (slug = `id`, `size` sets the bento tile, `category` sets the colour) and its ordered steps to `src/data/workflows.ts`. The diagram is drawn inline by `components/projects/WorkflowDiagram.tsx` from the palette's `panel` tokens, so it follows every palette and mode (`projects.test.ts` fails if a project has no steps). `node --experimental-strip-types scripts/generate-workflows.mjs` still writes static SVG copies to `public/projects/workflows/`, but the site no longer loads them.
 - New experience / skill / certificate: edit the matching file in `src/data/`.
 - Résumés: five role-specific PDFs in `public/resumes/` (the header's Résumé button opens a role picker, `components/ui/ResumeDownload.tsx`). Content lives in `src/data/resume-content.ts` (one pool of facts, per-role selections); role list and file names in `src/data/resumes.ts`. After editing either, run `npm run resumes` (needs Chromium; set `CHROME_PATH` if not auto-found) and commit the regenerated PDFs. `site.links.resume` points at the AI Engineer PDF.
 - New blog post: add `content/blog/<slug>.mdx` with frontmatter `title`, `date` (ISO), `excerpt`, `tags`, optional `cover`, `draft`. Reading time is computed; drafts are hidden in production builds. The index, RSS, sitemap, OG image and JSON-LD all pick it up.
@@ -40,6 +40,10 @@ Next.js 15 (App Router) portfolio, statically exported (`next.config.ts`: `outpu
 **Blog** posts are MDX in `content/blog/`, parsed by `src/lib/mdx.ts` (gray-matter) and rendered with `next-mdx-remote`, `remark-gfm`/`remark-math`, `rehype-pretty-code` (Shiki) and `rehype-katex`; ```mermaid fences become live diagrams.
 
 **SEO / LLM SEO**: per-page metadata via `pageMetadata()`, JSON-LD via `<JsonLd>` (Person, WebSite, BreadcrumbList, BlogPosting, FAQPage), AI crawlers allowed in `robots.ts`, `llms.txt` and `llms-full.txt` generated from the data files.
+
+**Colour rule for new UI**: anything that carries colour (callouts, diagrams, charts, prose) must read the tokens above, never fixed Tailwind hues or hex. A literal colour is the one thing `themes.test.ts` cannot see, and it is how the old lime-green diagrams survived the palette rewrite. Blog prose maps Tailwind Typography's `--tw-prose-*` variables to the tokens in `globals.css`; Mermaid reads the live CSS variables at render time.
+
+**Architecture**: `docs/architecture.md` has the layer graph, route map, blog and theme pipelines. `npm run architecture` regenerates its module-graph block from real imports (no cycles today).
 
 **Utilities**: `src/lib/utils.ts` exports `cn()` (clsx + tailwind-merge). **Contact form** uses `@formspree/react`. **Assets** are served from `/public` by literal path; preserve names with spaces and mixed case exactly (e.g. `public/Resume - Muzammil Nawaz Khan CV.pdf`). **Path alias** `@/*` -> `src/*` (vitest has no alias config, so modules under test import relatively).
 

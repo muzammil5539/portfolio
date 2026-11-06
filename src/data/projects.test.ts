@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { categories, projects } from "./projects";
+import { workflows } from "./workflows";
 
 describe("projects data", () => {
   it("has unique, URL-safe slugs", () => {
@@ -17,5 +18,10 @@ describe("projects data", () => {
       expect(p.results.length, p.id).toBeGreaterThan(0);
       expect(p.workflow, p.id).toBe(`/projects/workflows/${p.id}.svg`);
     }
+  });
+
+  it("has a workflow diagram definition for every project and none orphaned", () => {
+    for (const p of projects) expect(workflows[p.id]?.length, p.id).toBeGreaterThan(1);
+    for (const id of Object.keys(workflows)) expect(projects.some((p) => p.id === id), id).toBe(true);
   });
 });

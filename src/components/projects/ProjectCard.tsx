@@ -1,8 +1,8 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { m, type Variants } from "framer-motion";
 import CategoryBadge from "./CategoryBadge";
+import WorkflowDiagram from "./WorkflowDiagram";
 import Magnetic from "@/components/ui/Magnetic";
 import { RevealItem } from "@/components/ui/Reveal";
 import { type Project } from "@/data/projects";
@@ -42,14 +42,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             />
             {size !== "sm" && (
               <div className={`relative overflow-hidden ${size === "lg" ? "aspect-[8/5]" : "aspect-[16/7]"}`}>
-                <Image
-                  src={project.workflow}
-                  alt={`${project.title} workflow diagram`}
-                  width={800}
-                  height={500}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
+                <WorkflowDiagram id={project.id} title={project.title} className="h-full w-full" />
               </div>
             )}
             <div className={`flex flex-1 flex-col gap-3 ${size === "sm" ? "p-5" : "p-6"}`}>

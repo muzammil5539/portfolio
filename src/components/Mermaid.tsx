@@ -4,32 +4,21 @@ import mermaid from "mermaid";
 import { Maximize2, Minimize2 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 
-// Mirrors the site's CSS variable palette (globals.css) so diagrams match the
-// active theme instead of mermaid's default dark/purple look.
-function mermaidThemeVariables(dark: boolean) {
-  return dark
-    ? {
-        background: "#22302a",
-        primaryColor: "#2a3932",
-        primaryTextColor: "#f2f2e9",
-        primaryBorderColor: "#c6f36b",
-        lineColor: "#abb6ae",
-        secondaryColor: "#33443b",
-        tertiaryColor: "#202c27",
-        textColor: "#f2f2e9",
-        fontFamily: "Inter, sans-serif",
-      }
-    : {
-        background: "#fffefa",
-        primaryColor: "#f8f7f1",
-        primaryTextColor: "#18211f",
-        primaryBorderColor: "#25483d",
-        lineColor: "#66716c",
-        secondaryColor: "#eeeee6",
-        tertiaryColor: "#e9e8e1",
-        textColor: "#18211f",
-        fontFamily: "Inter, sans-serif",
-      };
+// Diagrams read the active palette's CSS variables (src/data/themes.ts), so they match every palette and mode.
+function mermaidThemeVariables() {
+  const css = getComputedStyle(document.documentElement);
+  const v = (name: string) => css.getPropertyValue(`--${name}`).trim();
+  return {
+    background: v("surface"),
+    primaryColor: v("surface-elevated"),
+    primaryTextColor: v("text-primary"),
+    primaryBorderColor: v("accent-text"),
+    lineColor: v("text-muted"),
+    secondaryColor: v("surface-hover"),
+    tertiaryColor: v("surface"),
+    textColor: v("text-primary"),
+    fontFamily: "var(--font-sans), system-ui, sans-serif",
+  };
 }
 
 interface MermaidProps {
@@ -38,7 +27,8 @@ interface MermaidProps {
 
 // This component handles ONLY the Mermaid rendering and never updates its DOM via React after the first mount.
 // This prevents React and Mermaid from fighting over the same elements.
-const MermaidRenderer = React.memo(({ chart, isDarkMode }: { chart: string; isDarkMode: boolean }) => {
+// `themeKey` changes with mode or palette and forces a re-render in the new colours.
+const MermaidRenderer = React.memo(({ chart, themeKey }: { chart: string; themeKey: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const id = `mermaid-${Math.random().toString(36).slice(2, 11)}`;
 
@@ -48,7 +38,7 @@ const MermaidRenderer = React.memo(({ chart, isDarkMode }: { chart: string; isDa
         startOnLoad: false,
         theme: "base",
         securityLevel: "loose",
-        themeVariables: mermaidThemeVariables(isDarkMode),
+        themeVariables: mermaidThemeVariables(),
       });
 
       // Create a dedicated node for mermaid
@@ -67,29 +57,25 @@ const MermaidRenderer = React.memo(({ chart, isDarkMode }: { chart: string; isDa
           svgElement.style.maxWidth = 'none';
           svgElement.style.overflow = 'visible';
           
-          // Manually expand the viewBox to ensure outer strokes are never clipped!
-          const viewBox = svgElement.getAttribute('viewBox');
-          if (viewBox) {
-            const [x = 0, y = 0, w = 0, h = 0] = viewBox.split(' ').map(Number);
-            // Expand the box by 20px on all sides
-            svgElement.setAttribute('viewBox', `${x - 20} ${y - 20} ${w + 40} ${h + 40}`);
-            // Mermaid's own width/height attrs are frequently way smaller than the
-            // viewBox (a scale mismatch that shrinks every node/label). Derive the
-            // rendered size from the viewBox itself so 1 SVG unit = 1 px.
-            svgElement.setAttribute('width', String(w + 40));
-            svgElement.setAttribute('height', String(h + 40));
-          }
+          // Size the viewBox from what was actually drawn. Mermaid's own viewBox can disagree with its content
+          // (it measures labels before layout), which left blank space above and clipped the right edge.
+          // 1 SVG unit = 1 px, plus padding so outer strokes are never clipped.
+          const pad = 20;
+          const box = svgElement.getBBox();
+          svgElement.setAttribute('viewBox', `${box.x - pad} ${box.y - pad} ${box.width + 2 * pad} ${box.height + 2 * pad}`);
+          svgElement.setAttribute('width', String(box.width + 2 * pad));
+          svgElement.setAttribute('height', String(box.height + 2 * pad));
         }
       }).catch(() => {});
     }
-  }, [chart, id, isDarkMode]);
+  }, [chart, id, themeKey]);
 
   return <div ref={containerRef} className="flex justify-center p-8" />;
 });
 MermaidRenderer.displayName = 'MermaidRenderer';
 
 export default function Mermaid({ chart }: MermaidProps) {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode, palette } = useTheme();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [scale, setScale] = useState(1);
 
@@ -129,7 +115,7 @@ export default function Mermaid({ chart }: MermaidProps) {
             style={isFullscreen ? { zoom: scale } as React.CSSProperties : {}}
           >
             {/* The isolated renderer ensures React state changes (like zooming/fullscreen) NEVER destroy the SVG */}
-            <MermaidRenderer chart={chart} isDarkMode={isDarkMode} />
+            <MermaidRenderer chart={chart} themeKey={`${palette}-${isDarkMode}`} />
           </div>
         </div>
       </div>

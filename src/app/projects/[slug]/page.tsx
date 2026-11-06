@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
@@ -6,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CategoryBadge from "@/components/projects/CategoryBadge";
 import ProjectGallery from "@/components/projects/ProjectGallery";
+import WorkflowDiagram from "@/components/projects/WorkflowDiagram";
 import JsonLd from "@/components/ui/JsonLd";
 import { getAdjacentProjects, getProject, projects } from "@/data/projects";
 import { absoluteUrl, breadcrumbSchema, pageMetadata } from "@/lib/seo";
@@ -95,7 +95,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </section>
 
             <figure>
-              <Image src={project.workflow} alt={`${project.title} workflow: ${project.approach.length} stages from input to result`} width={800} height={500} className="h-auto w-full rounded-2xl border border-border" priority />
+              <WorkflowDiagram id={project.id} title={project.title} className="h-auto w-full rounded-2xl border border-border" />
               <figcaption className="mt-2 font-mono text-xs text-text-muted">Workflow</figcaption>
             </figure>
 
