@@ -1,0 +1,3 @@
+## 2025-02-18 - Replacing React scroll event listeners with Framer Motion useScroll
+**Learning:** Using `window.addEventListener("scroll")` combined with React's `useState` causes the component to re-render on almost every scroll tick. This is particularly harmful for progress bars animating the `width` CSS property, as it forces expensive layout recalculations.
+**Action:** When scroll-bound animations are needed, utilize `framer-motion`'s `useScroll` hook. Pass the resulting `MotionValue` (`scrollYProgress`) directly into an `m.div` style prop with a CSS transform (`scaleX` and an `origin-left` class). This offloads the animation to the compositor, bypassing the React render cycle entirely.
